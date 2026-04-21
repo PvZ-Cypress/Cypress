@@ -44,7 +44,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v6
         with:
-          name: linux-${{ matrix.arch }}-build
+          name: windows-launcher
           path: |
             bin/
             build/
