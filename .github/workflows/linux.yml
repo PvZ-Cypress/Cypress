@@ -1,0 +1,49 @@
+name: Build on Linux
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build on Ubuntu (${{ matrix.arch }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        arch: [x64, arm64]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+
+      - name: Install .NET 8 SDK manually
+        run: |
+          set -x
+          curl -sSL https://dot.net/v1/dotnet-install.sh -o dotnet-install.sh
+          chmod +x dotnet-install.sh
+          ./dotnet-install.sh --channel 8.0
+          echo "DOTNET_ROOT=$HOME/.dotnet" >> $GITHUB_ENV
+          echo "$HOME/.dotnet" >> $GITHUB_PATH
+          echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
+
+      - name: Restore dependencies
+        run: |
+          set -x
+          dotnet restore
+
+      - name: Build project
+        run: |
+          set -x
+          dotnet build --configuration Release --no-restore
+
+      - name: Publish for Linux ${{ matrix.arch }} (self-contained)
+        run: |
+          set -x
+          dotnet publish CypressLauncher.csproj -c Release -f net8.0-windows -o build /p:LangVersion=latest
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v6
+        with:
+          name: linux-${{ matrix.arch }}-build
+          path: |
+            publish
