@@ -40,11 +40,16 @@ jobs:
         run: |
           set -x
           dotnet publish CypressLauncher.csproj -c Release -f net8.0-windows -o build /p:LangVersion=latest
+          dotnet publish CypressLauncher.csproj \
+            -c Release \
+            -f net8.0-windows \
+            -r win-x64 \
+            --self-contained false \
+            -o build
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v6
         with:
           name: windows-launcher
           path: |
-            bin/
             build/
