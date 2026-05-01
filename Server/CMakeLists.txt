@@ -52,6 +52,24 @@ FetchContent_MakeAvailable(
   monocypher
 )
 
+# old eastl trips on modern msvc char8_t here, so strip that broken strlen fast path
+file(READ "${eastl_SOURCE_DIR}/include/EASTL/string.h" EASTL_STRING_H)
+string(REGEX REPLACE
+  "#ifdef _MSC_VER // VC\\+\\+ can implement an instrinsic here\\.[\r\n]+[ \t]*return strlen\\(p\\);[\r\n]+[ \t]*#else[\r\n]+([ \t]*const char8_t\\* pCurrent = p;[\r\n]+[ \t]*while\\(\\*pCurrent\\)[\r\n]+[ \t]*\\+\\+pCurrent;[\r\n]+[ \t]*return \\(size_t\\)\\(pCurrent - p\\);)[\r\n]+[ \t]*#endif"
+  "\\1"
+  EASTL_STRING_H
+  "${EASTL_STRING_H}"
+)
+if(NOT EASTL_STRING_H MATCHES "inline size_t CharStrlen\\(const char\\* p\\)")
+  string(REGEX REPLACE
+    "inline size_t CharStrlen\\(const char8_t\\* p\\)"
+    "inline size_t CharStrlen(const char* p)\\n    {\\n        return strlen(p);\\n    }\\n\\n    inline size_t CharStrlen(const char8_t* p)"
+    EASTL_STRING_H
+    "${EASTL_STRING_H}"
+  )
+endif()
+file(WRITE "${eastl_SOURCE_DIR}/include/EASTL/string.h" "${EASTL_STRING_H}")
+
 # Options for variants
 option(CYPRESS_GW1 "Build GW1 version" OFF)
 option(CYPRESS_GW2 "Build GW2 version" OFF)
@@ -74,13 +92,13 @@ add_library(cypress SHARED ${SOURCES})
 # Explicitly compile monocypher
 target_sources(cypress PRIVATE
     ${monocypher_SOURCE_DIR}/src/monocypher.c
-    ${EASTL_SOURCE_DIR}/source/assert.cpp
-    ${EASTL_SOURCE_DIR}/source/string.cpp
+    ${eastl_SOURCE_DIR}/source/assert.cpp
+    ${eastl_SOURCE_DIR}/source/string.cpp
 )
 
 set_source_files_properties(
-    ${EASTL_SOURCE_DIR}/source/assert.cpp
-    ${EASTL_SOURCE_DIR}/source/string.cpp
+    ${eastl_SOURCE_DIR}/source/assert.cpp
+    ${eastl_SOURCE_DIR}/source/string.cpp
     PROPERTIES SKIP_PRECOMPILE_HEADERS ON
 )
 
@@ -90,8 +108,8 @@ target_include_directories(cypress PRIVATE
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/Source
     ${monocypher_SOURCE_DIR}/src
-    ${EASTL_SOURCE_DIR}/include
-    ${EABase_SOURCE_DIR}/include/Common
+    ${eastl_SOURCE_DIR}/include
+    ${eabase_SOURCE_DIR}/include/Common
 )
 
 # Precompiled headers
