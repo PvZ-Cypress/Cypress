@@ -11,7 +11,7 @@ start GW2.Main_Win64_Retail.exe ^
 #-Server.ServerPassword uncommentifyouwantapassword ^
 -server ^
 -enableServerLog ^
-#-dataPath "D:\Origin Games\Garden Warfare 2 Server\ModData\Default" ^
+#-dataPath "ModData\Default" ^
 #-usePlaylist ^
 #-playlistFilename playtest_lov.json ^
 -allowMultipleInstances ^
@@ -22,7 +22,7 @@ start GW2.Main_Win64_Retail.exe ^
 -GameMode.ModeTeamId 1 ^
 #-GameMode.FarewellTaco true ^
 -runMultipleInstances ^
--listen 192.168.1.91:25200 ^
+-listen 0.0.0.0:25200 ^
 -name "GW2 Debug Server" ^
 -platform Win32 ^
 -console ^
@@ -31,10 +31,9 @@ start GW2.Main_Win64_Retail.exe ^
 -Game.EnableServerLog true ^
 -Network.ServerPort 25200 ^
 -Network.ClientPort 25100 ^
--Network.ServerAddress 192.168.1.91 ^
+-Network.ServerAddress 0.0.0.0 ^
 -GameMode.SkipIntroHubNIS true ^
 -Online.Backend Backend_Local ^
 -Online.PeerBackend Backend_Local ^
 -PVZServer.MapSequencerEnabled false ^
 -Network.MaxClientCount 48
-

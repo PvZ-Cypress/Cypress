@@ -96,6 +96,7 @@ Server/
     MinHook/                # runtime function hooking
     fb/                     # reverse-engineered Frostbite engine types
 Launcher/
+  Assets/                   # Assets (images,fonts) used in the launcher
   CypressLauncher/          # C# backend (Photino.NET, .NET 8)
   wwwroot/                  # Frontend (HTML/CSS/JS)
   Server/                   # C++ server DLL injected into the game

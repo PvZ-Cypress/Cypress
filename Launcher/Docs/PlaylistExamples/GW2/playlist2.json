@@ -1,0 +1,24 @@
+{
+  "RoundsPerSetup": 1,
+  "IsMixed": false,
+  "PlaylistRotation": [
+    {
+      "LevelName": "Levels/Level_Coop_Egypt/Level_Coop_Egypt",
+      "GameMode": "TeamVanquishLarge0",
+      "TOD": "Day",
+      "Loadscreen_GamemodeName": "Hello!",
+      "Loadscreen_LevelName": "In this mode,",
+      "Loadscreen_LevelDescription": "Simply Explode and Time Bomb Madness are turned on!",
+      "SettingsToApply": "GameMode.CrazyOption6 true|GameMode.CrazyOptions9 true|GameMode.HealingAuras false"
+    },
+    {
+      "LevelName": "Levels/Level_Rush_Snow/Level_Rush_Snow",
+      "GameMode": "GnGLarge0",
+      "TOD": "Day",
+      "Loadscreen_GamemodeName": "Peekaboo! Hi again!",
+      "Loadscreen_LevelName": "In this mode,",
+      "Loadscreen_LevelDescription": "Simply Explode has been deactivated, initiating Healing Auras instead!",
+      "SettingsToApply": "GameMode.CrazyOption6 false|GameMode.GameMode.HealingAuras true"
+    }
+  ]
+}
