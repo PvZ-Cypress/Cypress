@@ -90,8 +90,8 @@ jobs:
         shell: pwsh
         run: |
           $stage = "publish/CypressLauncher"
-          Copy-Item "Launcher/courgette.exe" $stage -ErrorAction SilentlyContinue
-          Copy-Item "Launcher/patches" $stage -Recurse
+          Copy-Item "Launcher/tools" $stage -Recurse -Force
+          Copy-Item "Launcher/patches" $stage -Recurse -Force
           if (Test-Path "Launcher/Docs") {
             Copy-Item "Launcher/Docs" "$stage/README" -Recurse
           }
