@@ -33,7 +33,7 @@ On the machine that will host the dedicated server, execute the following comman
 mkdir -p $HOME/Games
 mkdir -p $HOME/.local/share/maxima/wine/proton
 git clone https://github.com/PvZ-Cypress/Cypress
-cd PvZ-Cypress/Container
+cd Cypress/Container
 vim auth.toml   # Paste the contents from your main machine
 vim tmux.conf   # Optional (uncomment from Containerfile if used)
 podman build --no-cache -t cypress:latest .

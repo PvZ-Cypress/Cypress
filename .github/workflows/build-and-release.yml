@@ -91,8 +91,7 @@ jobs:
         run: |
           $stage = "publish/CypressLauncher"
           Copy-Item "Launcher/courgette.exe" $stage -ErrorAction SilentlyContinue
-          Copy-Item "Launcher/GW2.patch" $stage
-          Copy-Item "Launcher/BFN.Patch" $stage
+          Copy-Item "Launcher/patches" $stage -Recurse
           if (Test-Path "Launcher/Docs") {
             Copy-Item "Launcher/Docs" "$stage/README" -Recurse
           }
