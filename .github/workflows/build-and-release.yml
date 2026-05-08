@@ -92,9 +92,6 @@ jobs:
           $stage = "publish/CypressLauncher"
           Copy-Item "Launcher/tools" $stage -Recurse -Force
           Copy-Item "Launcher/patches" $stage -Recurse -Force
-          if (Test-Path "Launcher/Docs") {
-            Copy-Item "Launcher/Docs" "$stage/README" -Recurse
-          }
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v7

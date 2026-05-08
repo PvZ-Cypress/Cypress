@@ -110,11 +110,11 @@ set -eux; \
       | tr -d "\r" \
     )"; \
     curl -Lo /opt/games/Cypress.zip \
-      "https://github.com/PVZ-Cypress/Cypress/releases/download/v${ver}/Cypress-v${ver}.zip"; \
+      "https://github.com/PVZ-Cypress/Cypress/releases/download/v${ver}/Cypress-${ver}.zip"; \
     unzip /opt/games/Cypress.zip -d /opt/games; \
     rm -f /opt/games/Cypress.zip;
 '
-umu-run /opt/games/CypressLauncher.exe patch gw2 /opt/games/gw2/
+wlheadless-run -c cage -- umu-run /opt/games/CypressLauncher.exe patch gw2 /opt/games/gw2/
 ```
 
 ### Server Configuration

@@ -155,4 +155,7 @@ COPY --chown=maxima:maxima auth.toml /home/maxima/.local/share/maxima/auth.toml
 # regedit
 COPY --chown=maxima:maxima regs/*.reg /home/maxima/
 
+# Install dotnetdesktop8
+wlheadless-run -c cage -- umu-run winetricks -q dotnetdesktop8
+
 WORKDIR /opt/games
