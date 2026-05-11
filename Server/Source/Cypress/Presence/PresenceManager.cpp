@@ -8,6 +8,8 @@
 #include <Cypress/Presence/GW1PresenceManager.h>
 #elif CYPRESS_GW2
 #include <Cypress/Presence/GW2PresenceManager.h>
+#elif CYPRESS_BFN
+#include <Cypress/Presence/BFNPresenceManager.h>
 #endif
 #include <External/EA_GW/EASTL/include/EASTL/hash_map.h>
 
@@ -17,10 +19,6 @@ namespace Cypress
 
     void PresenceManager::Create()
     {
-#ifdef CYPRESS_BFN
-        CYPRESS_LOGMESSAGE( LogLevel::Warning, "Presence has not been implemented for this game yet" );
-        return;
-#endif
         if (g_presenceManager)
             return;
 
@@ -31,6 +29,8 @@ namespace Cypress
         g_presenceManager = new GW1PresenceManager();
 #elif CYPRESS_GW2
         g_presenceManager = new GW2PresenceManager();
+#elif CYPRESS_BFN
+		g_presenceManager = new BFNPresenceManager();
 #endif
 
         if (g_presenceManager)

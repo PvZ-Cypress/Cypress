@@ -17,6 +17,7 @@
 
 #if(HAS_DEDICATED_SERVER)
 
+#ifndef CYPRESS_BFN
 DECLARE_HOOK(
 	fb_Server_start,
 	__fastcall,
@@ -26,6 +27,18 @@ DECLARE_HOOK(
 	fb::ServerSpawnInfo* info,
 	Kyber::ServerSpawnOverrides* spawnOverrides
 );
+#else
+DECLARE_HOOK(
+	fb_Server_start,
+	__fastcall,
+	__int64,
+
+	void* thisPtr,
+	fb::ServerSpawnInfo* info,
+	Kyber::ServerSpawnOverrides* spawnOverrides,
+	Kyber::SocketManager* socketManager
+);
+#endif
 
 DECLARE_HOOK(
 	fb_Server_update,

@@ -124,6 +124,7 @@ static bool IsNameValid(const std::string& name, std::string& reason)
 }
 
 #if(HAS_DEDICATED_SERVER)
+#ifndef CYPRESS_BFN
 DEFINE_HOOK(
 	fb_Server_start,
 	__fastcall,
@@ -146,7 +147,35 @@ DEFINE_HOOK(
 			g_program->GetServer()->StartSideChannel();
 	}
 
-#ifdef CYPRESS_BFN
+#endif
+	return Orig_fb_Server_start(thisPtr, info, spawnOverrides);
+}
+
+#else
+
+DEFINE_HOOK(
+	fb_Server_start,
+	__fastcall,
+	__int64,
+
+	void* thisPtr,
+	fb::ServerSpawnInfo* info,
+	Kyber::ServerSpawnOverrides* spawnOverrides,
+	Kyber::SocketManager* socketManager
+)
+{
+#if(HAS_DEDICATED_SERVER)
+	if (!g_program->GetInitialized())
+	{
+		bool wsaInit = g_program->InitWSA();
+		CYPRESS_ASSERT(wsaInit, "WSA failed to initialize!");
+		g_program->SetInitialized(true);
+
+		// Start side-channel TCP listener for server
+		if (g_program->IsServer())
+			g_program->GetServer()->StartSideChannel();
+	}
+
 	static bool startedBfnMetadataThread = false;
 	if (g_program->IsServer() && !startedBfnMetadataThread)
 	{
@@ -162,11 +191,11 @@ DEFINE_HOOK(
 			}
 		}).detach();
 	}
-#endif
 
 #endif
-	return Orig_fb_Server_start(thisPtr, info, spawnOverrides);
+	return Orig_fb_Server_start(thisPtr, info, spawnOverrides, socketManager);
 }
+#endif
 
 #ifdef CYPRESS_BFN
 DEFINE_HOOK(

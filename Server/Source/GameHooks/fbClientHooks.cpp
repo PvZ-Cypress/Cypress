@@ -23,6 +23,11 @@ DEFINE_HOOK(
 	client->SetFbClientInstance(thisPtr);
 	client->SetClientState(state);
 
+	if (state == fb::ClientState_Startup)
+	{
+		Cypress::PresenceManager::Create();
+	}
+
 	if (state == fb::ClientState_ConnectToServer)
 	{
 		client->SetJoiningServer(true);
@@ -30,11 +35,6 @@ DEFINE_HOOK(
 	if (prevState == fb::ClientState_ConnectToServer)
 	{
 		client->SetJoiningServer(false);
-	}
-
-	if (state == fb::ClientState_Ingame && !client->AddedPrimaryUser())
-	{
-		client->AddPrimaryUser();
 	}
 
 	Orig_fb_Client_enterState(thisPtr, state, prevState);

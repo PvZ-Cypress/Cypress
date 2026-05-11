@@ -54,9 +54,9 @@ void Cypress::BFNModule::InitMemPatches()
 	uint8_t calcResScalePatch[]{ 0x0F, 0x57, 0xC0, 0xC3 };
 	MemPatch(0x1415801F0, calcResScalePatch, 4);
 
-	//CustomizationManager & PVZSaveValueEntity can't proceed on offline
-	uint8_t userIsGuestPatch[]{ 0xB0, 0x01, 0xC3 };
-	MemPatch(0x1415704D0, userIsGuestPatch, 3);
+	// set as online
+	uint8_t retTrue[]{0xB0, 0x01, 0xC3};
+	MemPatch(0x1415E55B0, retTrue, 3);
 
 	uint8_t interactionsFix[]{ 0xE9, 0xBA, 0x00 };
 	MemPatch(0x1417288A9, interactionsFix, 3);
@@ -66,8 +66,6 @@ void Cypress::BFNModule::InitMemPatches()
 	MemSet(0x1404603BE, 0x90, 6); //unlock all commands
 #endif
 
-	MemSet(0x1417BDA4A, 0x90, 6); //show xp tickers
-	
 	uint8_t uiIsPersistentLocalPlayer[]{ 0xC6, 0x44, 0x24, 0x21, 01 };
 	MemPatch(0x14178B4CD, uiIsPersistentLocalPlayer, 5);
 }

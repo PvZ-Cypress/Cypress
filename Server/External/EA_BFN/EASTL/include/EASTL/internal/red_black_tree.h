@@ -273,8 +273,10 @@ namespace eastl
 		using rb_base_compare_ebo<Compare>::get_compare;
 
 	public:
-		rb_base() {}
-		rb_base(const Compare& compare) : rb_base_compare_ebo<Compare>(compare) {}
+		Compare mCompare;
+
+		rb_base() : mCompare() {}
+		rb_base(const Compare& compare) : rb_base_compare_ebo<Compare>(compare), mCompare(compare) {}
 	};
 
 
@@ -293,8 +295,10 @@ namespace eastl
 		using rb_base_compare_ebo<Compare>::get_compare;
 
 	public:
-		rb_base() {}
-		rb_base(const Compare& compare) : rb_base_compare_ebo<Compare>(compare) {}
+		Compare mCompare;
+
+		rb_base() : mCompare() {}
+		rb_base(const Compare& compare) : rb_base_compare_ebo<Compare>(compare), mCompare(compare) {}
 	};
 
 
@@ -310,8 +314,10 @@ namespace eastl
 		using rb_base_compare_ebo<Compare>::get_compare;
 
 	public:
-		rb_base() {}
-		rb_base(const Compare& compare) : rb_base_compare_ebo<Compare>(compare) {}
+		Compare mCompare;
+
+		rb_base() : mCompare() {}
+		rb_base(const Compare& compare) : rb_base_compare_ebo<Compare>(compare), mCompare(compare) {}
 	};
 
 
@@ -327,8 +333,10 @@ namespace eastl
 		using rb_base_compare_ebo<Compare>::get_compare;
 
 	public:
-		rb_base() {}
-		rb_base(const Compare& compare) : rb_base_compare_ebo<Compare>(compare) {}
+		Compare mCompare;
+
+		rb_base() : mCompare() {}
+		rb_base(const Compare& compare) : rb_base_compare_ebo<Compare>(compare), mCompare(compare) {}
 	};
 
 
