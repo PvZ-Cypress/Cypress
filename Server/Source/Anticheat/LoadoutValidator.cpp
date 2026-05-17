@@ -283,6 +283,8 @@ void LoadoutValidator::init()
         {"Gameplay/Kits/Zombie_ZombossCat",     "Gameplay/Weapons/ZombossCat/",  "Endless0",     "MpZombie_ZombossCat"},
         {"Gameplay/Kits/Plant_Junkasaurus_CvD", "Gameplay/Weapons/Junkasaurus/", "CatsVsDinos0", "MpPlant_Junkasaurus_CvD"},
         {"Gameplay/Kits/Zombie_ZombossCat_CvD", "Gameplay/Weapons/ZombossCat/",  "CatsVsDinos0", "MpZombie_ZombossCat_CvD"},
+        {"Gameplay/Kits/Plant_LaserGoat_Green", "Gameplay/Weapons/LaserGoat/",  "TeamVanquishGoats0", "MpPlant_LaserGoat_Green"},
+        {"Gameplay/Kits/Zombie_LaserGoat_Purple", "Gameplay/Weapons/LaserGoat/",  "TeamVanquishGoats0", "MpZombie_LaserGoat_Purple"},
     };
 
     for (const auto& sk : specialKitDefs)
