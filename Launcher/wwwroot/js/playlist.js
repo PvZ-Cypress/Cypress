@@ -46,45 +46,45 @@ function addPlaylistEntry() {
     let spSection = '';
     if (game === 'BFN') {
         let spOpts = data.startPoints.map(s => '<option value="' + s.id + '">' + s.name + '</option>').join('');
-        spSection = '<div class="pl-field"><label class="field-label">Start Point</label><select class="select-input select-input-sm" data-pl="startpoint">' + spOpts + '</select></div>';
+        spSection = '<div class="pl-field"><label class="field-label">' + t('mapmode.start_point_label') + '</label><select class="select-input select-input-sm" data-pl="startpoint">' + spOpts + '</select></div>';
     }
 
     const chevron = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>';
 
-    div.innerHTML = '<div class="pl-entry-header"><span class="pl-entry-num">#' + (idx + 1) + '</span><button class="btn btn-sm btn-danger" onclick="removePlaylistEntry(' + idx + ')">Remove</button></div>'
+    div.innerHTML = '<div class="pl-entry-header"><span class="pl-entry-num">#' + (idx + 1) + '</span><button class="btn btn-sm btn-danger" onclick="removePlaylistEntry(' + idx + ')">' + t('playlist.entry_remove') + '</button></div>'
         + '<div class="pl-entry-fields">'
-        + '<div class="pl-field"><label class="field-label">Level</label>'
+        + '<div class="pl-field"><label class="field-label">' + t('mapmode.level_label') + '</label>'
         + '<div class="smart-picker" data-picker-id="' + levelId + '">'
         + '<button type="button" class="smart-picker-trigger" id="' + levelId + 'Trigger" onclick="togglePicker(\'' + levelId + '\')">'
-        + '<span id="' + levelId + 'TriggerText">Select level</span>' + chevron + '</button>'
+        + '<span id="' + levelId + 'TriggerText">' + t('mapmode.select_level') + '</span>' + chevron + '</button>'
         + '<div class="smart-picker-panel" id="' + levelId + 'Panel">'
-        + '<input type="text" id="' + levelId + 'Search" class="text-input picker-search" placeholder="Filter levels..." oninput="filterPickerOptions(\'' + levelId + '\')">'
+        + '<input type="text" id="' + levelId + 'Search" class="text-input picker-search" placeholder="' + t('mapmode.filter_levels') + '" oninput="filterPickerOptions(\'' + levelId + '\')">'
         + '<div class="smart-picker-options" id="' + levelId + 'Options"></div></div></div>'
         + '<select id="' + levelId + '" class="select-input ui-hidden" data-pl="level">' + levelOpts + '</select></div>'
-        + '<div class="pl-field"><label class="field-label">Game Mode</label>'
+        + '<div class="pl-field"><label class="field-label">' + t('mapmode.mode_label') + '</label>'
         + '<div class="smart-picker" data-picker-id="' + modeId + '">'
         + '<button type="button" class="smart-picker-trigger" id="' + modeId + 'Trigger" onclick="togglePicker(\'' + modeId + '\')">'
-        + '<span id="' + modeId + 'TriggerText">Select game mode</span>' + chevron + '</button>'
+        + '<span id="' + modeId + 'TriggerText">' + t('mapmode.select_mode') + '</span>' + chevron + '</button>'
         + '<div class="smart-picker-panel" id="' + modeId + 'Panel">'
-        + '<input type="text" id="' + modeId + 'Search" class="text-input picker-search" placeholder="Filter modes..." oninput="filterPickerOptions(\'' + modeId + '\')">'
+        + '<input type="text" id="' + modeId + 'Search" class="text-input picker-search" placeholder="' + t('mapmode.filter_modes') + '" oninput="filterPickerOptions(\'' + modeId + '\')">'
         + '<div class="smart-picker-options" id="' + modeId + 'Options"></div></div></div>'
         + '<select id="' + modeId + '" class="select-input ui-hidden" data-pl="mode">' + modeOpts + '</select></div>'
         + spSection
-        + '<div class="pl-field"><label class="field-label">TOD</label>'
+        + '<div class="pl-field"><label class="field-label">' + t('playlist.entry_tod_label') + '</label>'
         + '<div class="segmented-control" data-select-target="' + todId + '">'
-        + '<button type="button" class="segmented-btn active" data-value="" onclick="plSetTod(\'' + todId + '\',\'\',this)">Default</button>'
+        + '<button type="button" class="segmented-btn active" data-value="" onclick="plSetTod(\'' + todId + '\',\'\',this)">' + t('playlist.entry_tod_default') + '</button>'
         + '<button type="button" class="segmented-btn" data-value="Day" onclick="plSetTod(\'' + todId + '\',\'Day\',this)" title="Day"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>'
         + '<button type="button" class="segmented-btn" data-value="Night" onclick="plSetTod(\'' + todId + '\',\'Night\',this)" title="Night"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>'
         + '</div>'
         + '<select id="' + todId + '" class="select-input ui-hidden" data-pl="tod"><option value="">Default</option><option value="Day">Day</option><option value="Night">Night</option></select></div>'
-        + '<div class="pl-field full-width pl-mods-toggle"><button class="btn btn-sm btn-secondary" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display===\'none\'?\'\':\'none\'">Game Modifiers</button>'
+        + '<div class="pl-field full-width pl-mods-toggle"><button class="btn btn-sm btn-secondary" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display===\'none\'?\'\':\'none\'">' + t('playlist.entry_game_modifiers_btn') + '</button>'
         + '<div class="pl-mods-container" id="' + modContainerId + '" style="display:none;"></div></div>'
-        + '<div class="pl-field full-width pl-loadscreen-toggle"><button class="btn btn-sm btn-secondary" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display===\'none\'?\'\':\'none\'">Loadscreen Overrides</button>'
+        + '<div class="pl-field full-width pl-loadscreen-toggle"><button class="btn btn-sm btn-secondary" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display===\'none\'?\'\':\'none\'">' + t('playlist.entry_loadscreen_overrides_btn') + '</button>'
         + '<div class="pl-loadscreen-fields" style="display:none;">'
-        + '<div class="pl-field"><label class="field-label">Mode Name Override</label><input type="text" class="text-input text-input-sm" data-pl="ls_mode" placeholder="e.g. ID_MODENAME_TVM"></div>'
-        + '<div class="pl-field"><label class="field-label">Level Name Override</label><input type="text" class="text-input text-input-sm" data-pl="ls_level" placeholder="e.g. ID_LEVEL_TC_TVM"></div>'
-        + '<div class="pl-field"><label class="field-label">Description Override</label><input type="text" class="text-input text-input-sm" data-pl="ls_desc" placeholder="Optional"></div>'
-        + '<div class="pl-field"><label class="field-label">UI Asset Path Override</label><input type="text" class="text-input text-input-sm" data-pl="ls_asset" placeholder="e.g. _pvz/UI/Assets/LoadScreen_CP_Sasquatch"></div>'
+        + '<div class="pl-field"><label class="field-label">' + t('playlist.mode_name_override') + '</label><input type="text" class="text-input text-input-sm" data-pl="ls_mode" placeholder="' + t('playlist.entry_mode_name_placeholder') + '"></div>'
+        + '<div class="pl-field"><label class="field-label">' + t('playlist.level_name_override') + '</label><input type="text" class="text-input text-input-sm" data-pl="ls_level" placeholder="' + t('playlist.entry_level_name_placeholder') + '"></div>'
+        + '<div class="pl-field"><label class="field-label">' + t('playlist.desc_override') + '</label><input type="text" class="text-input text-input-sm" data-pl="ls_desc" placeholder="' + t('playlist.entry_desc_placeholder') + '"></div>'
+        + '<div class="pl-field"><label class="field-label">' + t('playlist.asset_override') + '</label><input type="text" class="text-input text-input-sm" data-pl="ls_asset" placeholder="' + t('playlist.entry_asset_placeholder') + '"></div>'
         + '</div></div>'
         + '</div>';
 
@@ -209,7 +209,7 @@ function generatePlaylistJSON() {
 
 function copyPlaylistJSON() {
     const text = document.getElementById('plOutput').value;
-    if (text) { navigator.clipboard.writeText(text); showStatus('Copied to clipboard!', 'success'); }
+    if (text) { navigator.clipboard.writeText(text); showStatus(t('playlist.copied'), 'success'); }
 }
 
 // save/load/delete playlist files
@@ -222,7 +222,7 @@ function populatePlaylistFileSelect(files) {
     var sel = document.getElementById('plFileSelect');
     if (!sel) return;
     var prev = sel.value;
-    sel.innerHTML = '<option value="">-- new playlist --</option>';
+    sel.innerHTML = '<option value="">' + t('playlist.new_playlist') + '</option>';
     (files || []).forEach(function(f) {
         var opt = document.createElement('option');
         opt.value = f;
@@ -236,12 +236,12 @@ async function promptSavePlaylist() {
     generatePlaylistJSON();
     var content = document.getElementById('plOutput').value;
     if (!content || !content.trim()) {
-        showStatus('Generate a playlist first', 'warning');
+        showStatus(t('playlist.generate_first'), 'warning');
         return;
     }
     var sel = document.getElementById('plFileSelect');
     var existing = sel ? sel.value : '';
-    var name = await cypressPrompt('Save Playlist', 'Filename:', existing || 'MyPlaylist.json');
+    var name = await cypressPrompt(t('playlist.save_prompt_title'), t('playlist.save_filename_label'), existing || 'MyPlaylist.json');
     if (!name) return;
     send('savePlaylist', { name: name, content: content });
 }
@@ -260,42 +260,42 @@ async function deleteSelectedPlaylist() {
     var sel = document.getElementById('plFileSelect');
     var name = sel ? sel.value : '';
     if (!name) return;
-    if (!await cypressConfirm('Delete Playlist', 'Delete ' + name + '?')) return;
+    if (!await cypressConfirm(t('playlist.delete_confirm_title'), t('playlist.delete_confirm_body', {name: name}))) return;
     send('deletePlaylist', { name: name });
 }
 
 function onPlaylistSaved(data) {
     if (data.ok) {
-        showStatus('Saved ' + (data.name || ''), 'success');
+        showStatus(t('playlist.saved', {name: data.name || ''}), 'success');
         var sel = document.getElementById('plFileSelect');
         if (sel && data.name) sel.value = data.name;
     } else {
-        showStatus('Save failed: ' + (data.error || ''), 'error');
+        showStatus(t('playlist.save_failed', {error: data.error || ''}), 'error');
     }
 }
 
 function onPlaylistLoaded(data) {
     if (!data.ok) {
-        showStatus('Load failed: ' + (data.error || ''), 'error');
+        showStatus(t('playlist.load_failed', {error: data.error || ''}), 'error');
         return;
     }
     try {
         var obj = JSON.parse(data.content);
         importPlaylistJSON(obj);
         document.getElementById('plOutput').value = JSON.stringify(obj, null, 2);
-        showStatus('Loaded ' + (data.name || ''), 'success');
+        showStatus(t('playlist.loaded', {name: data.name || ''}), 'success');
     } catch (e) {
-        showStatus('Invalid playlist JSON', 'error');
+        showStatus(t('playlist.invalid_json'), 'error');
     }
 }
 
 function onPlaylistDeleted(data) {
     if (data.ok) {
-        showStatus('Deleted ' + (data.name || ''), 'success');
+        showStatus(t('playlist.deleted', {name: data.name || ''}), 'success');
         var sel = document.getElementById('plFileSelect');
         if (sel) sel.value = '';
     } else {
-        showStatus('Delete failed: ' + (data.error || ''), 'error');
+        showStatus(t('playlist.delete_failed', {error: data.error || ''}), 'error');
     }
 }
 

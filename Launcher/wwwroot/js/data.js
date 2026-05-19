@@ -269,22 +269,22 @@ const AI_SET_BG_CACHE = {};
 
 // gw2 class name -> icon file key (under assets/)
 const GW2_CLASS_ICON = {
-    'Imp Class':             'CharacterIcons/GW2/ClassIcons/class_zombie_imp',
-    'Super Brainz Class':    'CharacterIcons/GW2/ClassIcons/class_zombie_superhero',
-    'Captain Deadbeard Class': 'CharacterIcons/GW2/ClassIcons/class_zombie_pirate',
-    'Foot Soldier Class':    'CharacterIcons/GW2/ClassIcons/class_zombie_soldier',
-    'Engineer Class':        'CharacterIcons/GW2/ClassIcons/class_zombie_engineer',
-    'Scientist Class':       'CharacterIcons/GW2/ClassIcons/class_zombie_scientist',
-    'All-Star Class':        'CharacterIcons/GW2/ClassIcons/class_zombie_all_star',
-    'Hover Goat-3000':       'CharacterIcons/GW2/ClassIcons/class_zombie_hovergoat',
-    'Citron Class':          'CharacterIcons/GW2/ClassIcons/class_plant_citron',
-    'Rose Class':            'CharacterIcons/GW2/ClassIcons/class_plant_rose',
-    'Kernel Corn Class':     'CharacterIcons/GW2/ClassIcons/class_plant_corn',
-    'Peashooter Class':      'CharacterIcons/GW2/ClassIcons/class_plant_peashooter',
-    'Chomper Class':         'CharacterIcons/GW2/ClassIcons/class_plant_chomper',
-    'Sunflower Class':       'CharacterIcons/GW2/ClassIcons/class_plant_sunflower',
-    'Cactus Class':          'CharacterIcons/GW2/ClassIcons/class_plant_cactus',
-    'Torchwood':             'CharacterIcons/GW2/ClassIcons/class_plant_torchwood',
+    'Imp Class':             'CharacterIcons/GW2/PartyHUD/class_zombie_imp',
+    'Super Brainz Class':    'CharacterIcons/GW2/PartyHUD/class_zombie_superhero',
+    'Captain Deadbeard Class': 'CharacterIcons/GW2/PartyHUD/class_zombie_pirate',
+    'Foot Soldier Class':    'CharacterIcons/GW2/PartyHUD/class_zombie_soldier',
+    'Engineer Class':        'CharacterIcons/GW2/PartyHUD/class_zombie_engineer',
+    'Scientist Class':       'CharacterIcons/GW2/PartyHUD/class_zombie_scientist',
+    'All-Star Class':        'CharacterIcons/GW2/PartyHUD/class_zombie_all_star',
+    'Hover Goat-3000':       'CharacterIcons/GW2/PartyHUD/class_zombie_hovergoat',
+    'Citron Class':          'CharacterIcons/GW2/PartyHUD/class_plant_citron',
+    'Rose Class':            'CharacterIcons/GW2/PartyHUD/class_plant_rose',
+    'Kernel Corn Class':     'CharacterIcons/GW2/PartyHUD/class_plant_corn',
+    'Peashooter Class':      'CharacterIcons/GW2/PartyHUD/class_plant_peashooter',
+    'Chomper Class':         'CharacterIcons/GW2/PartyHUD/class_plant_chomper',
+    'Sunflower Class':       'CharacterIcons/GW2/PartyHUD/class_plant_sunflower',
+    'Cactus Class':          'CharacterIcons/GW2/PartyHUD/class_plant_cactus',
+    'Torchwood':             'CharacterIcons/GW2/PartyHUD/class_plant_torchwood',
 };
 
 // gw2 variant id (string) -> icon file key (under assets/)

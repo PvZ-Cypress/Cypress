@@ -39,7 +39,7 @@ function onModLoginResult(data) {
         document.getElementById('modAuthSection').style.display = 'none';
         document.getElementById('modPanel').style.display = '';
         document.getElementById('modUsernameDisplay').textContent = modUsername;
-        document.getElementById('modAuthStatus').textContent = 'Logged in as ' + modUsername;
+        document.getElementById('modAuthStatus').textContent = t('moderator.logged_in_as', { name: modUsername });
         document.getElementById('modLoginError').style.display = 'none';
         // refresh mod tabs on any selected client instance (global mod override)
         if (typeof refreshModTabVisibility === 'function') refreshModTabVisibility();
@@ -47,7 +47,7 @@ function onModLoginResult(data) {
         send('modGetGlobalBans', {});
     } else {
         var err = document.getElementById('modLoginError');
-        err.textContent = data.error || 'Login failed';
+        err.textContent = data.error || t('moderator.login_failed');
         err.style.display = '';
     }
 }
@@ -57,7 +57,7 @@ function onModLogoutResult() {
     modUsername = '';
     document.getElementById('modAuthSection').style.display = '';
     document.getElementById('modPanel').style.display = 'none';
-    document.getElementById('modAuthStatus').textContent = 'Not logged in';
+    document.getElementById('modAuthStatus').textContent = t('moderator.not_logged_in');
     // refresh mod tabs (might lose access if not local mod)
     if (typeof refreshModTabVisibility === 'function') refreshModTabVisibility();
 }
@@ -98,10 +98,10 @@ function onModGlobalBansList(data) {
     var container = document.getElementById('modGlobalBansList');
     var bans = data.bans || [];
     if (!bans.length) {
-        container.innerHTML = '<p class="text-muted">No global bans</p>';
+        container.innerHTML = '<p class="text-muted">' + t('moderator.no_bans') + '</p>';
         return;
     }
-    var html = '<table class="mod-table"><thead><tr><th>EA PID</th><th>HWID</th><th>Reason</th><th>Banned By</th><th>Date</th><th></th></tr></thead><tbody>';
+    var html = '<table class="mod-table"><thead><tr><th>' + t('moderator.table_ea_pid') + '</th><th>' + t('moderator.table_hwid') + '</th><th>' + t('moderator.table_reason') + '</th><th>' + t('moderator.table_banned_by') + '</th><th>' + t('moderator.table_date') + '</th><th></th></tr></thead><tbody>';
     for (var i = 0; i < bans.length; i++) {
         var b = bans[i];
         var date = new Date(b.created_at * 1000).toLocaleDateString();
@@ -113,7 +113,7 @@ function onModGlobalBansList(data) {
         html += '<td>' + escapeHtml(b.reason || '-') + '</td>';
         html += '<td>' + escapeHtml(b.banned_by) + '</td>';
         html += '<td>' + escapeHtml(date) + '</td>';
-        html += '<td><button class="btn btn-sm btn-danger" onclick="modRemoveGlobalBan(' + b.id + ')">Unban</button></td>';
+        html += '<td><button class="btn btn-sm btn-danger" onclick="modRemoveGlobalBan(' + b.id + ')">' + t('moderator.unban') + '</button></td>';
         html += '</tr>';
     }
     html += '</tbody></table>';
@@ -148,10 +148,10 @@ function onModBannedServersList(data) {
     var container = document.getElementById('modBannedServersList');
     var servers = data.servers || [];
     if (!servers.length) {
-        container.innerHTML = '<p class="text-muted">No banned servers</p>';
+        container.innerHTML = '<p class="text-muted">' + t('moderator.no_banned_servers') + '</p>';
         return;
     }
-    var html = '<table class="mod-table"><thead><tr><th>IP</th><th>Reason</th><th>Banned By</th><th>Date</th><th></th></tr></thead><tbody>';
+    var html = '<table class="mod-table"><thead><tr><th>' + t('moderator.table_ip') + '</th><th>' + t('moderator.table_reason') + '</th><th>' + t('moderator.table_banned_by') + '</th><th>' + t('moderator.table_date') + '</th><th></th></tr></thead><tbody>';
     for (var i = 0; i < servers.length; i++) {
         var s = servers[i];
         var date = new Date(s.created_at * 1000).toLocaleDateString();
@@ -160,7 +160,7 @@ function onModBannedServersList(data) {
         html += '<td>' + escapeHtml(s.reason || '-') + '</td>';
         html += '<td>' + escapeHtml(s.banned_by) + '</td>';
         html += '<td>' + escapeHtml(date) + '</td>';
-        html += '<td><button class="btn btn-sm btn-danger" onclick="modUnbanServer(\'' + escapeAttr(s.ip) + '\')">Unban</button></td>';
+        html += '<td><button class="btn btn-sm btn-danger" onclick="modUnbanServer(\'' + escapeAttr(s.ip) + '\')">' + t('moderator.unban') + '</button></td>';
         html += '</tr>';
     }
     html += '</tbody></table>';

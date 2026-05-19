@@ -52,12 +52,12 @@ function syncRelayUi(prefix) {
         if (mode === 'Relay') {
             serverAddressGroup.style.display = 'none';
             serverIP.placeholder = '';
-            serverIPHint.textContent = 'The launcher will use the relay host automatically.';
+            serverIPHint.textContent = t('relay.status_auto_relay');
         } else {
             serverAddressGroup.style.display = '';
-            document.getElementById('joinServerAddressLabel').textContent = 'Server Address';
-            serverIP.placeholder = 'LAN, public, or VPN address';
-            serverIPHint.textContent = 'Use the host\'s LAN IP, public IP, or VPN address.';
+            document.getElementById('joinServerAddressLabel').textContent = t('join.server_address_label');
+            serverIP.placeholder = t('relay.join_address_placeholder');
+            serverIPHint.textContent = t('relay.join_address_hint');
         }
     }
 
@@ -67,14 +67,14 @@ function syncRelayUi(prefix) {
         const deviceIPHint = document.getElementById('deviceIPHint');
         const relayHint = document.getElementById('hostRelayHint');
         if (mode === 'Relay') {
-            deviceIPLabel.textContent = 'Bind Address';
-            deviceIP.placeholder = 'Auto-detected local IPv4';
-            deviceIPHint.textContent = 'Usually correct as-is. The relay handles public reachability.';
-            if (relayHint) relayHint.textContent = 'Your relay hostname, for example relay-udp.yourdomain.com:25200.';
+            deviceIPLabel.textContent = t('host.bind_address_label');
+            deviceIP.placeholder = t('relay.auto_detected_placeholder');
+            deviceIPHint.textContent = t('relay.bind_address_relay_hint');
+            if (relayHint) relayHint.textContent = t('relay.preset_custom_hint');
         } else {
-            deviceIPLabel.textContent = 'Bind Address';
-            deviceIP.placeholder = 'Auto-detected local IPv4';
-            deviceIPHint.textContent = 'Auto-detected for you. Change it only if you want to bind to a different adapter, including a VPN.';
+            deviceIPLabel.textContent = t('host.bind_address_label');
+            deviceIP.placeholder = t('relay.auto_detected_placeholder');
+            deviceIPHint.textContent = t('relay.bind_address_direct_hint');
         }
 
         updateDetectedDeviceIpNote();
@@ -90,7 +90,7 @@ function updateDetectedDeviceIpNote() {
         return;
     }
     note.style.display = '';
-    note.textContent = 'Detected on this PC: ' + detectedDeviceIP;
+    note.textContent = t('relay.detected_on_pc', { ip: detectedDeviceIP });
 }
 
 // host relay region selector
@@ -119,6 +119,8 @@ function onRelayRegionChanged(region) {
         document.getElementById('hostRelayMode').value = 'Relay';
         document.getElementById('hostRelayAddress').value = RELAY_SERVERS[region] || '';
     }
+
+    syncRelayUi('host');
 }
 
 // join relay region selector
@@ -167,16 +169,16 @@ function parseRelayLink(prefix) {
         if (addr) document.getElementById('joinRelayAddress').value = addr;
         if (key) document.getElementById('joinRelayKey').value = key;
         codeInput.value = '';
-        showStatus('Parsed legacy join link.', 'info');
+        showStatus(t('relay.parsed_legacy_link'), 'info');
     } catch (e) {
-        showStatus('Could not parse relay link.', 'error');
+        showStatus(t('relay.parse_error'), 'error');
     }
 }
 
 function resolveRelayCode() {
     const codeInput = document.getElementById('joinRelayCode');
     const code = (codeInput ? codeInput.value : '').trim().toUpperCase();
-    if (!code) { showStatus('Enter a relay code first.', 'error'); return; }
+    if (!code) { showStatus(t('relay.enter_code_first'), 'error'); return; }
     if (code.startsWith('CYPRESS://') || code.startsWith('HTTP')) {
         codeInput.value = code;
         parseRelayLink('join');
@@ -206,7 +208,7 @@ function onRelayResolved(data) {
     }
     document.getElementById('joinRelayAddress').value = data.relayAddress || '';
     document.getElementById('joinRelayKey').value = data.relayKey || '';
-    if (hintEl) hintEl.textContent = 'Code verified!';
+    if (hintEl) hintEl.textContent = t('relay.code_verified');
     if (infoEl) {
         infoEl.style.display = '';
         infoEl.innerHTML = '<strong>' + escapeHtml(data.serverName || 'Server') + '</strong> <span class="text-muted">(' + escapeHtml(data.game || '?') + ')</span>';
@@ -217,7 +219,7 @@ function copyRelayCode() {
     const code = document.getElementById('hostRelayCodeValue');
     if (!code) return;
     navigator.clipboard.writeText(code.value).then(function() {
-        showStatus('Join link copied!', 'success');
+        showStatus(t('relay.join_link_copied'), 'success');
     });
 }
 
@@ -238,7 +240,7 @@ function requestRelayLeaseAndStart() {
         relayServerName: serverName,
         game: getGame()
     });
-    showStatus('Getting relay lease...', 'info');
+    showStatus(t('relay.getting_lease'), 'info');
 }
 
 function requestRelayLease() {

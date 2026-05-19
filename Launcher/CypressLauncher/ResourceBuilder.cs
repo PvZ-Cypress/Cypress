@@ -33,6 +33,7 @@ internal static class ResourceBuilder
 
 	private static readonly string[] s_jsOrder =
 	{
+		"wwwroot.js.i18n.js",
 		"wwwroot.js.data.js",
 		"wwwroot.js.auth.js",
 		"wwwroot.js.core.js",
@@ -62,13 +63,13 @@ internal static class ResourceBuilder
 		string css = ConcatEmbeddedResources(assembly, s_cssOrder);
 		string js = ConcatEmbeddedResources(assembly, s_jsOrder);
 
-		html = html.Replace("{{LOGO_BASE64}}", GetAssetBase64("cypressicons", "png", "Burbank-CypressIcon.png", 256, square: true));
-		html = html.Replace("{{GW1_ICON_BASE64}}", GetGameIconBase64("gw1_icon.png", 120));
-		html = html.Replace("{{GW2_ICON_BASE64}}", GetGameIconBase64("gw2_icon.png", 120));
-		html = html.Replace("{{BFN_ICON_BASE64}}", GetGameIconBase64("bfn_icon.png", 120));
-		html = html.Replace("{{GW1_BG_BASE64}}", GetGameBgBase64("gw1_bg.png", 960));
-		html = html.Replace("{{GW2_BG_BASE64}}", GetGameBgBase64("gw2_bg.png", 960));
-		html = html.Replace("{{BFN_BG_BASE64}}", GetGameBgBase64("bfn_bg.png", 960));
+		html = html.Replace("{{LOGO_BASE64}}", GetLogoBase64(256));
+		html = html.Replace("{{GW1_ICON_BASE64}}", GetGameIconBase64("gw1_icon", 120));
+		html = html.Replace("{{GW2_ICON_BASE64}}", GetGameIconBase64("gw2_icon", 120));
+		html = html.Replace("{{BFN_ICON_BASE64}}", GetGameIconBase64("bfn_icon", 120));
+		html = html.Replace("{{GW1_BG_BASE64}}", GetGameBgBase64("gw1_bg", 960));
+		html = html.Replace("{{GW2_BG_BASE64}}", GetGameBgBase64("gw2_bg", 960));
+		html = html.Replace("{{BFN_BG_BASE64}}", GetGameBgBase64("bfn_bg", 960));
 
 		string fontFace = GetBurbankFontFace();
 		css = fontFace + css;
@@ -79,27 +80,40 @@ internal static class ResourceBuilder
 		return html;
 	}
 
-	private static string GetAssetBase64(string folder, string subfolder, string filename, int size, bool square)
+	private static string GetLogoBase64(int size)
 	{
-		string path = Path.Combine(AppContext.BaseDirectory, "assets", folder, subfolder, filename);
-		return square ? ImageHelper.ResizeToSquarePngBase64(path, size) : string.Empty;
+		string dir = Path.Combine(AppContext.BaseDirectory, "assets", "cypressicons");
+		foreach (string ext in new[] { "webp", "png" })
+		{
+			string path = Path.Combine(dir, ext, $"Burbank-CypressIcon.{ext}");
+			if (File.Exists(path))
+				return ImageHelper.ResizeToSquarePngBase64(path, size);
+		}
+		return string.Empty;
 	}
 
-	private static string GetGameIconBase64(string filename, int maxHeight)
+	private static string GetGameIconBase64(string baseName, int maxHeight)
 	{
-		string path = Path.Combine(AppContext.BaseDirectory, "assets", "gameicons", filename);
-		return ImageHelper.ResizeByHeightToPngBase64(path, maxHeight);
+		string dir = Path.Combine(AppContext.BaseDirectory, "assets", "gameicons");
+		foreach (string ext in new[] { "webp", "png" })
+		{
+			string path = Path.Combine(dir, $"{baseName}.{ext}");
+			if (File.Exists(path))
+				return ImageHelper.ResizeByHeightToPngBase64(path, maxHeight);
+		}
+		return string.Empty;
 	}
 
-	private static string GetGameBgBase64(string filename, int maxWidth)
+	private static string GetGameBgBase64(string baseName, int maxWidth)
 	{
-		string jpgFile = Path.ChangeExtension(filename, ".jpg");
-		string path = Path.Combine(AppContext.BaseDirectory, "assets", "gamebgs", jpgFile);
-		if (File.Exists(path))
-			return Convert.ToBase64String(File.ReadAllBytes(path));
-		// fallback: original png with resize
-		path = Path.Combine(AppContext.BaseDirectory, "assets", "gamebgs", filename);
-		return ImageHelper.ResizeByWidthToJpegBase64(path, maxWidth, 90);
+		string dir = Path.Combine(AppContext.BaseDirectory, "assets", "gamebgs");
+		foreach (string ext in new[] { "webp", "jpg", "png" })
+		{
+			string path = Path.Combine(dir, $"{baseName}.{ext}");
+			if (File.Exists(path))
+				return ImageHelper.ResizeByWidthToJpegBase64(path, maxWidth, 90);
+		}
+		return string.Empty;
 	}
 
 	private static string GetBurbankFontFace()

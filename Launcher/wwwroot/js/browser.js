@@ -220,7 +220,7 @@ function renderBrowserList(servers) {
     for (var i = 0; i < servers.length; i++) {
         var s = servers[i];
         var key = s.address + ':' + (s.port || 14638);
-        var motd = s.motd || 'A Cypress Server';
+        var motd = s.motd || t('browser.default_server_name');
         var liveCount = browserPlayerCache[key];
         var players = liveCount !== undefined ? liveCount : s.players;
         var safePlayerCount = (players !== undefined && players !== null && isFinite(+players)) ? Math.floor(+players) : '?';
@@ -247,7 +247,7 @@ function renderBrowserList(servers) {
         html += '<span class="game-pill game-pill-' + gameClass + '">' + (iconSrc ? '<img src="' + iconSrc + '" class="game-pill-icon" alt="" draggable="false">' : escapeHtml(s.game || 'GW2')) + '</span> ';
         html += '<span class="browser-entry-motd motd-rendered">' + (typeof renderMotd === 'function' ? renderMotd(motd) : escapeHtml(motd)) + '</span>';
         if (s.hasPassword) {
-            html += ' <span class="browser-lock-badge"><svg class="browser-lock-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Locked</span>';
+            html += ' <span class="browser-lock-badge"><svg class="browser-lock-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> ' + t('browser.locked_badge') + '</span>';
         }
         if (s.vpnType) {
             html += ' <span class="browser-vpn-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> ' + escapeHtml(s.vpnType) + '</span>';
@@ -288,19 +288,19 @@ function renderBrowserList(servers) {
                 send('getModeBg', { key: disp.modeBgKey });
             }
         }
-        if (s.modded) metaTags.push('<span class="browser-tag-pill browser-tag-modded">Modded</span>');
+        if (s.modded) metaTags.push('<span class="browser-tag-pill browser-tag-modded">' + t('browser.modded_tag') + '</span>');
         if (metaTags.length) html += ' &middot; ' + metaTags.join(' ');
         html += '</div>';
         if (s.modded && s.modpackUrl) {
-            html += '<a class="server-entry-modpack" href="#" data-url="' + escapeAttr(s.modpackUrl) + '" onclick="event.stopPropagation(); openModpackLink(this.dataset.url); return false;" title="Download modpack">';
+            html += '<a class="server-entry-modpack" href="#" data-url="' + escapeAttr(s.modpackUrl) + '" onclick="event.stopPropagation(); openModpackLink(this.dataset.url); return false;" title="' + escapeHtml(t('server_entry.download_modpack')) + '">';
             html += '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
-            html += ' Modpack';
+            html += ' ' + t('browser.modpack_link');
             html += '</a>';
         }
         html += '</div>';
         html += '<div class="browser-entry-players">';
         html += '<span class="browser-player-count">' + playerText + '</span>';
-        html += '<span class="browser-player-label">players</span>';
+        html += '<span class="browser-player-label">' + t('browser.players_label') + '</span>';
         var names = browserPlayerNames[key] || (s.playerNames && s.playerNames.length ? s.playerNames : null);
         html += '<div class="browser-player-tooltip">';
         if (names && names.length) {
@@ -308,7 +308,7 @@ function renderBrowserList(servers) {
                 html += '<div class="browser-player-tooltip-name">' + escapeHtml(names[n]) + '</div>';
             }
         } else {
-            html += '<div class="browser-player-tooltip-name browser-player-tooltip-muted">' + playerText + ' connected</div>';
+            html += '<div class="browser-player-tooltip-name browser-player-tooltip-muted">' + t('browser.players_connected', { count: playerText }) + '</div>';
         }
         html += '</div>';
         html += '</div>';
@@ -327,14 +327,14 @@ function renderBrowserList(servers) {
         html += '</div>';
         if (modLoggedIn) {
             var isPinned = s.pinned;
-            html += '<button class="browser-pin-btn' + (isPinned ? ' pinned' : '') + '" onclick="event.stopPropagation(); browserTogglePin(\'' + escapeJs(key) + '\')" title="' + (isPinned ? 'Unpin server' : 'Pin server') + '">';
+            html += '<button class="browser-pin-btn' + (isPinned ? ' pinned' : '') + '" onclick="event.stopPropagation(); browserTogglePin(\'' + escapeJs(key) + '\')" title="' + (isPinned ? t('browser.unpin_title') : t('browser.pin_title')) + '">';
             html += '<svg width="14" height="14" viewBox="0 0 24 24" fill="' + (isPinned ? 'currentColor' : 'none') + '" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.09 6.26L21 9.27l-5 3.9L17.18 20 12 16.77 6.82 20 8 13.17l-5-3.9 6.91-1.01z"/></svg>';
             html += '</button>';
-            html += '<button class="browser-ban-btn" onclick="event.stopPropagation(); browserBanServer(\'' + escapeJs(key) + '\')" title="Ban this server">';
+            html += '<button class="browser-ban-btn" onclick="event.stopPropagation(); browserBanServer(\'' + escapeJs(key) + '\')" title="' + t('browser.ban_title') + '">';
             html += '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>';
             html += '</button>';
         } else if (s.pinned) {
-            html += '<span class="browser-pin-badge" title="Pinned by moderator">';
+            html += '<span class="browser-pin-badge" title="' + t('browser.pinned_by_mod') + '">';
             html += '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5"><path d="M12 2l2.09 6.26L21 9.27l-5 3.9L17.18 20 12 16.77 6.82 20 8 13.17l-5-3.9 6.91-1.01z"/></svg>';
             html += '</span>';
         }
@@ -401,11 +401,11 @@ function onBrowserEntryClick(address) {
         var codeField = document.getElementById('joinRelayCode');
         if (codeField) codeField.value = server.relayCode || '';
         var hintEl = document.getElementById('joinRelayCodeHint');
-        if (hintEl) hintEl.textContent = 'Auto-filled from server browser.';
+        if (hintEl) hintEl.textContent = t('browser.autofilled_relay');
         var infoEl = document.getElementById('joinRelayResolved');
         if (infoEl) {
             infoEl.style.display = '';
-            infoEl.innerHTML = '<strong>' + escapeHtml(server.motd || 'Server') + '</strong> <span class="text-muted">(' + escapeHtml(server.game || '?') + ' via relay)</span>';
+            infoEl.innerHTML = '<strong>' + escapeHtml(server.motd || 'Server') + '</strong> <span class="text-muted">(' + escapeHtml(server.game || '?') + ' ' + t('browser.via_relay') + ')</span>';
         }
     } else {
         // direct server
@@ -525,7 +525,7 @@ function confirmVpnJoin() {
 async function browserBanServer(key) {
     var server = findBrowserServer(key);
     var label = server ? (server.motd || key) : key;
-    var reason = await cypressPrompt('Ban Server', 'Ban server "' + label + '"?\nEnter reason (or leave blank):');
+    var reason = await cypressPrompt(t('browser.ban_prompt_title'), t('browser.ban_prompt_body', {name: label}));
     if (reason === null) return;
     send('modBanServerByKey', { key: key, reason: reason });
 }
@@ -544,7 +544,7 @@ function onModPinServerResult(data) {
     if (data.ok) {
         refreshBrowser();
     } else {
-        cypressAlert('Pin Failed', data.error || 'unknown error');
+        cypressAlert(t('browser.pin_failed'), data.error || 'unknown error');
     }
 }
 
@@ -552,7 +552,7 @@ function onModUnpinServerResult(data) {
     if (data.ok) {
         refreshBrowser();
     } else {
-        cypressAlert('Unpin Failed', data.error || 'unknown error');
+        cypressAlert(t('browser.unpin_failed'), data.error || 'unknown error');
     }
 }
 
@@ -560,7 +560,7 @@ function onModBanServerByKeyResult(data) {
     if (data.ok) {
         refreshBrowser();
     } else {
-        cypressAlert('Ban Failed', data.error || 'unknown error');
+        cypressAlert(t('browser.ban_failed'), data.error || 'unknown error');
     }
 }
 
@@ -591,7 +591,7 @@ function updateBrowserEntryPlayers(key) {
                     tipHtml += '<div class="browser-player-tooltip-name">' + escapeHtml(names[n]) + '</div>';
                 }
             } else {
-                tipHtml = '<div class="browser-player-tooltip-name browser-player-tooltip-muted">' + playerText + ' connected</div>';
+                tipHtml = '<div class="browser-player-tooltip-name browser-player-tooltip-muted">' + t('browser.players_connected', { count: playerText }) + '</div>';
             }
             tooltip.innerHTML = tipHtml;
         }

@@ -21,8 +21,8 @@ function onUpdateCheckResult(data) {
                 '<span class="update-versions">' + escapeHtml(u.currentVersion) + ' &rarr; ' + escapeHtml(u.latestVersion) + '</span>' +
             '</div>' +
             '<div class="update-banner-actions">' +
-                '<button class="btn btn-sm btn-primary update-btn" onclick="startUpdate(\'' + u.channel + '\')">Update</button>' +
-                '<button class="btn btn-sm btn-secondary update-dismiss-btn" onclick="dismissUpdate(\'' + u.channel + '\')">Later</button>' +
+                '<button class="btn btn-sm btn-primary update-btn" onclick="startUpdate(\'' + u.channel + '\')">' + t('updates.update_btn') + '</button>' +
+                '<button class="btn btn-sm btn-secondary update-dismiss-btn" onclick="dismissUpdate(\'' + u.channel + '\')">' + t('updates.later') + '</button>' +
             '</div>' +
             '<div class="update-progress" id="updateProgress_' + u.channel + '" style="display:none;">' +
                 '<div class="update-progress-bar" id="updateProgressBar_' + u.channel + '"></div>' +
@@ -36,7 +36,7 @@ function startUpdate(channel) {
     if (!u) return;
 
     var btn = document.querySelector('#updateBanner_' + channel + ' .update-btn');
-    if (btn) { btn.disabled = true; btn.textContent = 'Downloading...'; }
+    if (btn) { btn.disabled = true; btn.textContent = t('updates.downloading'); }
 
     var dismiss = document.querySelector('#updateBanner_' + channel + ' .update-dismiss-btn');
     if (dismiss) dismiss.style.display = 'none';
@@ -57,9 +57,9 @@ function onUpdateComplete(data) {
     if (!banner) return;
 
     if (data.channel === 'launcher') {
-        banner.innerHTML = '<div class="update-banner-text">Restarting...</div>';
+        banner.innerHTML = '<div class="update-banner-text">' + t('updates.restarting') + '</div>';
     } else {
-        banner.innerHTML = '<div class="update-banner-text"><strong>' + escapeHtml(pendingUpdates[data.channel]?.name || data.channel) + '</strong> updated to ' + escapeHtml(data.version) + '</div>';
+        banner.innerHTML = '<div class="update-banner-text"><strong>' + escapeHtml(pendingUpdates[data.channel]?.name || data.channel) + '</strong> ' + t('updates.updated_to', { version: escapeHtml(data.version) }) + '</div>';
         setTimeout(function () { banner.remove(); }, 5000);
     }
     delete pendingUpdates[data.channel];
@@ -68,11 +68,11 @@ function onUpdateComplete(data) {
 function onUpdateError(data) {
     var banner = document.getElementById('updateBanner_' + data.channel);
     if (banner) {
-        var retry = pendingUpdates[data.channel] ? '<button class="btn btn-sm btn-primary" onclick="startUpdate(\'' + data.channel + '\')">Retry</button>' : '';
+        var retry = pendingUpdates[data.channel] ? '<button class="btn btn-sm btn-primary" onclick="startUpdate(\'' + data.channel + '\')">' + t('updates.retry') + '</button>' : '';
         banner.innerHTML =
-            '<div class="update-banner-text update-error">Update failed: ' + escapeHtml(data.error) + '</div>' +
+            '<div class="update-banner-text update-error">' + t('updates.failed', { error: escapeHtml(data.error) }) + '</div>' +
             retry +
-            '<button class="btn btn-sm btn-secondary" onclick="dismissUpdate(\'' + data.channel + '\')">Dismiss</button>';
+            '<button class="btn btn-sm btn-secondary" onclick="dismissUpdate(\'' + data.channel + '\')">' + t('updates.dismiss') + '</button>';
     }
 }
 

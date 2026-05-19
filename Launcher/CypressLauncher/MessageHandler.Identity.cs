@@ -124,9 +124,9 @@ public partial class MessageHandler
 	private void OnRegisterIdentity(JObject msg)
 	{
 		string username = ((string?)msg["username"] ?? "").Trim();
-		if (string.IsNullOrEmpty(username) || username.Length < 3 || username.Length > 16)
+		if (string.IsNullOrEmpty(username) || username.Length < 3 || username.Length > 32)
 		{
-			Send(new JObject { ["type"] = "registerResult", ["ok"] = false, ["error"] = "Username must be 3-16 characters" });
+			Send(new JObject { ["type"] = "registerResult", ["ok"] = false, ["error"] = "Username must be 3-32 characters" });
 			return;
 		}
 

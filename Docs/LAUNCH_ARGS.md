@@ -59,8 +59,6 @@ Here you can find launch arguments with their examples/defaults.
 
 `CYPRESS_HIDE_LAUNCHER_UI` Hides errors message windows.
 
-`CYPRESS_XDELTA3` path to xdelta binary.
-
 `CYPRESS_ALLOW_GLOBAL_MODS` Allows moderators of the master server to monitor your server.
 
 `CYPRESS_PROXY_KEY`

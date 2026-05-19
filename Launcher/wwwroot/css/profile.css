@@ -133,6 +133,53 @@
     white-space: nowrap;
 }
 
+.game-library-list {
+    display: flex;
+    gap: 8px;
+}
+.game-library-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    padding: 12px 8px 10px;
+    border-radius: var(--radius);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    transition: border-color var(--transition), background var(--transition), opacity var(--transition);
+}
+.game-library-card.owned {
+    border-color: rgba(var(--accent-rgb), 0.28);
+    background: rgba(var(--accent-rgb), 0.05);
+}
+.game-library-card.not-owned {
+    opacity: 0.38;
+}
+.game-library-card img {
+    height: 34px;
+    width: auto;
+    object-fit: contain;
+}
+.game-library-card-name {
+    font-size: 10.5px;
+    color: var(--text-secondary);
+    text-align: center;
+    line-height: 1.3;
+}
+.game-library-badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    color: var(--accent);
+    text-transform: uppercase;
+}
+.game-library-empty {
+    font-size: 12px;
+    color: var(--text-muted);
+    padding: 8px 0;
+}
+
 /* collapsed sidebar hides profile text */
 .sidebar.collapsed .profile-greeting {
     display: none;

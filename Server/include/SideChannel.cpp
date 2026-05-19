@@ -568,6 +568,10 @@ namespace Cypress
 	// called after hwid auth + identity verification (or directly if identity not enforced)
 	void SideChannelServer::FinalizeAuth(SideChannelPeer& peer, bool claimMod)
 	{
+		// check persisted moderator list now that accountId is populated
+		if (!peer.isModerator && !peer.accountId.empty())
+			peer.isModerator = IsModerator(peer.accountId);
+
 		// mod challenge: only if global mods are allowed on this server
 		if (peer.authenticated && !peer.isModerator && claimMod && m_allowGlobalMods)
 		{
@@ -755,7 +759,6 @@ namespace Cypress
 				peer.challengeNonce.clear();
 
 				peer.authenticated = !peer.name.empty() && !peer.hwid.empty();
-				peer.isModerator = !peer.accountId.empty() && IsModerator(peer.accountId);
 
 				// verify identity jwt, required when master pubkey is loaded and server opts in
 				std::string jwt = msg.value("jwt", "");

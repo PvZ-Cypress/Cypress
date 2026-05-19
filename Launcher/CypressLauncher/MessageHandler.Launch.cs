@@ -72,8 +72,10 @@ public partial class MessageHandler
 		bool failed = false;
 		if (GameRequiresPatchedExe(Path.Combine(m_gameDirectory, exeName), ref failed) && !failed)
 		{
-			if (!PatchManager.EnsurePatched(m_selectedGame, m_gameDirectory, exeName, GetServerDLLPath(), SendStatus))
+			string patchedExeName = s_gameToPatchedExecutableName[m_selectedGame];
+			if (!PatchManager.EnsurePatched(m_selectedGame, m_gameDirectory, exeName, patchedExeName, SendStatus))
 				return;
+			exeName = patchedExeName;
 		}
 		if (failed) return;
 
@@ -121,7 +123,6 @@ public partial class MessageHandler
 		m_identityKey ??= LoadOrCreateIdentityKey();
 		Environment.SetEnvironmentVariable("CYPRESS_IDENTITY_JWT", m_identityJwt);
 		Environment.SetEnvironmentVariable("CYPRESS_IDENTITY_KEY", GetIdentityPrivateKeyHex());
-		try { File.AppendAllText(Path.Combine(Path.GetTempPath(), "cypress_jwt_debug.txt"), $"{DateTime.Now:HH:mm:ss} CLIENT launch jwt={(m_identityJwt != null ? "present(" + m_identityJwt.Length + ")" : "NULL")}\n"); } catch {}
 		if (!CopyServerDLL()) return;
 
 		LaunchGame(exeName, launchArgs);
@@ -201,8 +202,10 @@ public partial class MessageHandler
 		bool failed = false;
 		if (GameRequiresPatchedExe(Path.Combine(m_gameDirectory, exeName), ref failed) && !failed)
 		{
-			if (!PatchManager.EnsurePatched(m_selectedGame, m_gameDirectory, exeName, GetServerDLLPath(), SendStatus))
+			string patchedExeName = s_gameToPatchedExecutableName[m_selectedGame];
+			if (!PatchManager.EnsurePatched(m_selectedGame, m_gameDirectory, exeName, patchedExeName, SendStatus))
 				return;
+			exeName = patchedExeName;
 		}
 		if (failed) return;
 
@@ -269,7 +272,6 @@ public partial class MessageHandler
 		m_identityKey ??= LoadOrCreateIdentityKey();
 		Environment.SetEnvironmentVariable("CYPRESS_IDENTITY_JWT", m_identityJwt);
 		Environment.SetEnvironmentVariable("CYPRESS_IDENTITY_KEY", GetIdentityPrivateKeyHex());
-		try { File.AppendAllText(Path.Combine(Path.GetTempPath(), "cypress_jwt_debug.txt"), $"{DateTime.Now:HH:mm:ss} SERVER launch jwt={(m_identityJwt != null ? "present(" + m_identityJwt.Length + ")" : "NULL")}\n"); } catch {}
 		if (!CopyServerDLL()) return;
 
 		LaunchGame(exeName, launchArgs, isServer: true, level: level, msg: msg);
@@ -277,17 +279,55 @@ public partial class MessageHandler
 
 	private bool CopyServerDLL()
 	{
+		string srcPath = GetServerDLLPath();
+		string destPath = Path.Combine(m_gameDirectory, s_destDLLName);
+
+		if (PatchManager.SameFileContentsSafe(srcPath, destPath))
+			return true;
+
 		try
 		{
-			File.Copy(GetServerDLLPath(), Path.Combine(m_gameDirectory, s_destDLLName), overwrite: true);
+			File.Copy(srcPath, destPath, overwrite: true);
 			return true;
 		}
-		catch (IOException) when (File.Exists(Path.Combine(m_gameDirectory, s_destDLLName)))
+		catch (IOException) when (File.Exists(destPath))
 		{
-			if (PatchManager.SameFileContentsSafe(GetServerDLLPath(), Path.Combine(m_gameDirectory, s_destDLLName)))
-				return true; // already right, probably just loaded
-
 			SendStatus("failed to update dinput8.dll because the game is still using an older one.", "error");
+			return false;
+		}
+		catch (UnauthorizedAccessException)
+		{
+			return TryCopyDllElevated(srcPath, destPath);
+		}
+		catch (Exception ex)
+		{
+			SendStatus("Failed to copy DLL: " + ex.Message, "error");
+			return false;
+		}
+	}
+
+	private bool TryCopyDllElevated(string src, string dest)
+	{
+		if (PatchManager.IsWine())
+		{
+			SendStatus("Failed to copy DLL: access denied. Try moving the game outside of Program Files.", "error");
+			return false;
+		}
+		try
+		{
+			SendStatus("Copying DLL requires administrator permission. Please approve the prompt.", "info");
+			var startInfo = new ProcessStartInfo
+			{
+				FileName = "cmd.exe",
+				Arguments = $"/c copy /y \"{src}\" \"{dest}\"",
+				Verb = "runas",
+				UseShellExecute = true,
+				WindowStyle = ProcessWindowStyle.Hidden
+			};
+			var process = System.Diagnostics.Process.Start(startInfo);
+			process?.WaitForExit();
+			if (process?.ExitCode == 0) return true;
+			SendStatus("Failed to copy DLL (elevated, code: " + process?.ExitCode.ToString("X") + ")", "error");
 			return false;
 		}
 		catch (Exception ex)
@@ -463,8 +503,13 @@ public partial class MessageHandler
 			startInfo.Environment["CYPRESS_BANLIST_PATH"] = GetUnifiedBanlistPath();
 		}
 
+#if WINDOWS
+		SetGpuPreferenceHighPerformance(startInfo.FileName);
+#endif
 		var process = new Process { StartInfo = startInfo };
 		string game = m_selectedGame.ToString();
+		PVZGame capturedGame = m_selectedGame;
+		string capturedGameDir = m_gameDirectory;
 
 		try
 		{
@@ -529,17 +574,20 @@ public partial class MessageHandler
 
 				if (isServer) StopHeartbeat(pid);
 
-				bool hasOtherInstances;
-				lock (m_instanceLock) { hasOtherInstances = m_instances.Count > 0; }
+				bool isLastForThisGame;
+				lock (m_instanceLock)
+				{
+					isLastForThisGame = !m_instances.Values.Any(i => i.Game == game);
+				}
 
 				Environment.SetEnvironmentVariable("EARtPLaunchCode", null);
 
 				string contentId = "0";
-				if (m_selectedGame == PVZGame.GW1)
+				if (capturedGame == PVZGame.GW1)
 					contentId = "1011216";
-				else if (m_selectedGame == PVZGame.GW2)
+				else if (capturedGame == PVZGame.GW2)
 					contentId = "1026482";
-				else if (m_selectedGame == PVZGame.BFN)
+				else if (capturedGame == PVZGame.BFN)
 					contentId = "1036445";
 
 				Environment.SetEnvironmentVariable("ContentId", contentId);
@@ -548,9 +596,14 @@ public partial class MessageHandler
 				Environment.SetEnvironmentVariable("CYPRESS_IDENTITY_JWT", null);
 				Environment.SetEnvironmentVariable("CYPRESS_IDENTITY_KEY", null);
 				ClearProxyEnvironment();
-				if (m_selectedGame < PVZGame.BFN)
+				if (capturedGame < PVZGame.BFN)
 				{
-					try { File.Delete(Path.Combine(m_gameDirectory, "CryptBase.dll")); } catch { }
+					try { File.Delete(Path.Combine(capturedGameDir, "CryptBase.dll")); } catch { }
+				}
+
+				if (isLastForThisGame)
+				{
+					try { File.Delete(Path.Combine(capturedGameDir, s_destDLLName)); } catch { }
 				}
 
 				try
@@ -682,10 +735,24 @@ public partial class MessageHandler
 					if (!string.IsNullOrEmpty(hbRelayCode)) heartbeatData["relayCode"] = hbRelayCode;
 				}
 
-bool listedInBrowser = !emancipated && (bool)(msg?["listedInBrowser"] ?? true);
+		bool listedInBrowser = !emancipated && (bool)(msg?["listedInBrowser"] ?? true);
 				if (listedInBrowser)
 					StartHeartbeat(heartbeatData, launchedPid);
 			});
 		}
 	}
+
+#if WINDOWS
+	[System.Runtime.Versioning.SupportedOSPlatform("windows")]
+	private static void SetGpuPreferenceHighPerformance(string exePath)
+	{
+		try
+		{
+			using var key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(
+				@"SOFTWARE\Microsoft\DirectX\UserGpuPreferences", writable: true);
+			key?.SetValue(exePath, "GpuPreference=2;", Microsoft.Win32.RegistryValueKind.String);
+		}
+		catch { }
+	}
+#endif
 }

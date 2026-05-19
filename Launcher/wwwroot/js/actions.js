@@ -1,6 +1,6 @@
 function setGameDir(path) {
     const d = document.getElementById('gameDirDisplay');
-    d.textContent = path || 'No directory set';
+    d.textContent = path || t('sidebar.no_dir');
     d.title = path || '';
 }
 function selectGameDirectory() { send('selectGameDir', {}); }
@@ -18,7 +18,7 @@ function updateModStatusPill() {
     if (!pill || !label) return;
     var modsOn = document.getElementById('useModsCheckbox').checked;
     pill.classList.toggle('mods-on', modsOn);
-    label.textContent = modsOn ? 'Mods Enabled' : 'Vanilla';
+    label.textContent = modsOn ? t('sidebar.mods_enabled') : t('sidebar.vanilla');
 }
 
 function togglePlaylist() {
@@ -46,10 +46,8 @@ function joinServer() {
     parseRelayLink('join');
     const joinMode = document.getElementById('joinRelayMode').value;
     const serverIPVal = joinMode === 'Relay' ? '' : document.getElementById('serverIP').value;
-    // include gamePort from cache if we have it, so the launcher can pass the right port
     var cachedStatus = typeof serverStatusCache !== 'undefined' ? serverStatusCache[serverIPVal] : null;
     var gamePort = cachedStatus && cachedStatus.gamePort ? cachedStatus.gamePort : 0;
-    // also check gamePort stashed from browser click (cache key includes side channel port, IP field doesn't)
     if (!gamePort && typeof window._selectedBrowserGamePort !== 'undefined' && window._selectedBrowserGamePort)
         gamePort = window._selectedBrowserGamePort;
     send('join', {

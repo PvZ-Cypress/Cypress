@@ -18,7 +18,7 @@ function getChangedSettingsList() {
         }
         if (!name) name = key;
         if (el.type === 'checkbox') {
-            if (el.checked) changes.push({ name: name, value: 'Enabled' });
+            if (el.checked) changes.push({ name: name, value: t('settings.enabled') });
         } else if (el.type === 'range') {
             const def = el.getAttribute('data-default');
             if (def !== null && el.value !== def) {
@@ -39,18 +39,18 @@ function getChangedSettingsList() {
     const costumeInput = document.getElementById('gw2CostumeIds');
     if (costumeInput && costumeInput.value) {
         const count = costumeInput.value.split(';').filter(Boolean).length;
-        changes.push({ name: 'Character Restrictions', value: count + ' variants' });
+        changes.push({ name: t('settings.char_restrictions'), value: count + ' variants' });
     }
     const killOut = document.getElementById('bfnKillOutput');
     if (killOut && killOut.textContent !== 'None' && killOut.textContent !== '') {
         const killed = document.querySelectorAll('.bfn-class-btn[data-section="kill"]:not(.active)');
-        changes.push({ name: 'Class Kill Switches', value: killed.length + ' disabled' });
+        changes.push({ name: t('settings.class_kill_switches'), value: killed.length + ' disabled' });
     }
     const pm = document.getElementById('bfnPlantMask');
     const zm = document.getElementById('bfnZombieMask');
     if ((pm && parseInt(pm.textContent) > 0) || (zm && parseInt(zm.textContent) > 0)) {
         const disabled = document.querySelectorAll('.bfn-class-btn[data-section="ai"]:not(.active)');
-        changes.push({ name: 'AI Spawn Restrictions', value: disabled.length + ' disabled' });
+        changes.push({ name: t('settings.ai_spawn_restrictions'), value: disabled.length + ' disabled' });
     }
     return changes;
 }
@@ -107,9 +107,9 @@ function updateChangedSettingsIndicator() {
     const listEl = document.getElementById('changedSettingsList');
     if (listEl) {
         if (changes.length === 0) {
-            listEl.innerHTML = '<span class="changed-settings-label">Default settings</span>';
+            listEl.innerHTML = '<span class="changed-settings-label">' + escapeHtml(t('settings.default_settings')) + '</span>';
         } else {
-            let html = '<span class="changed-settings-label">' + changes.length + ' setting' + (changes.length === 1 ? '' : 's') + ' changed</span>';
+            let html = '<span class="changed-settings-label">' + escapeHtml(changes.length === 1 ? t('settings.n_setting_changed', { n: 1 }) : t('settings.n_settings_changed', { n: changes.length })) + '</span>';
             changes.forEach(c => {
                 html += '<span class="changed-setting-pill">' + c.name + ' <span class="pill-value">' + c.value + '</span></span>';
             });

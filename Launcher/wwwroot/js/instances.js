@@ -4,10 +4,10 @@ var _pamCallback = null;
 function openPlayerActionModal(action, playerNameHtml, callback) {
     _pamCallback = callback;
     var isBan = action === 'ban';
-    document.getElementById('pamTitle').textContent = isBan ? 'Ban Player' : 'Kick Player';
+    document.getElementById('pamTitle').textContent = isBan ? t('instances.ban_player') : t('instances.kick_player');
     document.getElementById('pamPlayerName').textContent = playerNameHtml;
     var confirm = document.getElementById('pamConfirm');
-    confirm.textContent = isBan ? 'Ban' : 'Kick';
+    confirm.textContent = isBan ? t('instances.ban') : t('instances.kick');
     confirm.className = 'btn btn-sm ' + (isBan ? 'btn-danger' : 'btn-primary');
     document.getElementById('pamReason').value = '';
     document.getElementById('playerActionModal').style.display = 'flex';
@@ -119,11 +119,11 @@ function getInstanceBgSrc(inst) {
 
 function getInstanceDisplayName(pid) {
     const inst = instances[pid];
-    if (!inst) return 'Unknown';
+    if (!inst) return t('common.unknown');
     const label = instanceLabels[pid];
     if (label) return label;
     if (!inst.isServer && inst.username) return inst.username;
-    return getGameLabel(inst.game) + ' ' + (inst.isServer ? 'Server' : 'Client');
+    return getGameLabel(inst.game) + ' ' + (inst.isServer ? t('instances.type_server') : t('instances.type_client'));
 }
 
 // called from core.js receiveMessage
@@ -551,12 +551,9 @@ function selectInstance(pid) {
     document.getElementById('instanceList').style.display = 'none';
     document.getElementById('instanceDetail').style.display = 'flex';
 
-    const gameIcon = GAME_ICONS[inst.game] || GAME_ICONS.GW2;
     const displayName = getInstanceDisplayName(pid);
     const titleEl = document.getElementById('instanceDetailTitle');
-    titleEl.innerHTML =
-        '<span class="game-pill game-pill-' + inst.game.toLowerCase() + '">' + gameIcon + ' ' + getGameLabel(inst.game) + '</span> ' +
-        escapeHtml(displayName) + ' <span class="text-muted">(PID ' + pid + ')</span>';
+    titleEl.innerHTML = escapeHtml(displayName) + ' <span class="text-muted">(PID ' + pid + ')</span>';
 
     document.getElementById('instanceRenameBtn').style.display = '';
 
@@ -611,7 +608,7 @@ function renameInstance() {
     input.type = 'text';
     input.className = 'text-input instance-rename-input';
     input.value = current;
-    input.placeholder = getGameLabel(inst.game) + ' ' + (inst.isServer ? 'Server' : 'Client');
+    input.placeholder = getGameLabel(inst.game) + ' ' + (inst.isServer ? t('instances.type_server') : t('instances.type_client'));
     input.maxLength = 40;
 
     function commit() {
@@ -662,13 +659,13 @@ function updateDetailStatus() {
     if (!inst) return;
 
     if (inst.exited) {
-        el.textContent = 'Exited (0x' + (inst.exitCode >>> 0).toString(16).toUpperCase() + ')';
+        el.textContent = t('instances.exited') + ' (0x' + (inst.exitCode >>> 0).toString(16).toUpperCase() + ')';
     } else if (inst.status) {
         // show a compact version of status
         const lines = inst.status.split('\n').filter(l => l.trim());
         el.textContent = lines.join(' | ').replace(/\t+/g, '  ');
     } else {
-        el.textContent = 'Running';
+        el.textContent = t('instances.running');
     }
 }
 
@@ -1025,11 +1022,11 @@ function createPlayerCard(inst, id, player) {
     if (hasAccount) {
         const safeName = escapeHtml(player.name).replace(/'/g, "\\'");
         if (isMod) {
-            modBtn = '<button class="icon-btn icon-btn-small icon-btn-warning" onclick="demotePlayer(\'' + safeName + '\')" title="Remove Moderator">' +
+            modBtn = '<button class="icon-btn icon-btn-small icon-btn-warning" onclick="demotePlayer(\'' + safeName + '\')" title="' + escapeHtml(t('instances.btn_remove_mod')) + '">' +
                 '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>' +
             '</button>';
         } else {
-            modBtn = '<button class="icon-btn icon-btn-small" onclick="promotePlayer(\'' + safeName + '\')" title="Make Moderator">' +
+            modBtn = '<button class="icon-btn icon-btn-small" onclick="promotePlayer(\'' + safeName + '\')" title="' + escapeHtml(t('instances.btn_make_mod')) + '">' +
                 '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>' +
             '</button>';
         }
@@ -1045,7 +1042,7 @@ function createPlayerCard(inst, id, player) {
     let copyHwidBtn = '';
     if (typeof modLoggedIn !== 'undefined' && modLoggedIn && inst.knownComponents && inst.knownComponents[player.name] && inst.knownComponents[player.name].size) {
         const comps = JSON.stringify(Array.from(inst.knownComponents[player.name]));
-        copyHwidBtn = '<button class="icon-btn icon-btn-small" onclick="navigator.clipboard.writeText(\'' + escapeAttr(comps) + '\')" title="Copy HWID Components">' +
+        copyHwidBtn = '<button class="icon-btn icon-btn-small" onclick="navigator.clipboard.writeText(\'' + escapeAttr(comps) + '\')" title="' + escapeHtml(t('instances.btn_copy_hwid')) + '">' +
             '<svg fill="currentColor" width="12" height="12" viewBox="0 0 293 293" xmlns="http://www.w3.org/2000/svg"><path d="M271.5,25c0-13.807-11.193-25-25-25h-200c-13.807,0-25,11.193-25,25v243c0,13.807,11.193,25,25,25h200c13.807,0,25-11.193,25-25V25z M53.011,20.816c8.951,0,16.208,7.257,16.208,16.208s-7.257,16.208-16.208,16.208c-8.952,0-16.208-7.257-16.208-16.208S44.059,20.816,53.011,20.816z M53.011,278.496c-8.952,0-16.208-7.257-16.208-16.208c0-8.951,7.257-16.208,16.208-16.208c8.951,0,16.208,7.257,16.208,16.208C69.219,271.239,61.963,278.496,53.011,278.496z M163.624,193.807l3.574-30.99c0.266-2.298-0.328-4.393-1.672-5.899c-2.088-2.344-5.626-2.813-8.777-1.035l-49.005,27.652c-22.588-13.885-37.656-38.818-37.656-67.276c0-43.587,35.334-78.922,78.922-78.922s78.922,35.335,78.922,78.922C227.931,154.85,200.225,186.951,163.624,193.807z M240.655,278.496c-8.952,0-16.208-7.257-16.208-16.208c0-8.951,7.257-16.208,16.208-16.208s16.208,7.257,16.208,16.208C256.864,271.239,249.607,278.496,240.655,278.496z M240.655,53.232c-8.952,0-16.208-7.257-16.208-16.208s7.257-16.208,16.208-16.208s16.208,7.257,16.208,16.208S249.607,53.232,240.655,53.232z"/><circle cx="149.01" cy="116.258" r="28.452"/></svg>' +
         '</button>';
     }
@@ -1053,7 +1050,7 @@ function createPlayerCard(inst, id, player) {
     let freecamBtn = '';
     if (inst.isServer && supportsFreecam(inst.game)) {
         const safeName = escapeHtml(player.name).replace(/'/g, "\\'");
-        freecamBtn = '<button class="icon-btn icon-btn-small icon-btn-primary" onclick="srvFreecamPlayer(\'' + safeName + '\')" title="Toggle Freecam">' +
+        freecamBtn = '<button class="icon-btn icon-btn-small icon-btn-primary" onclick="srvFreecamPlayer(\'' + safeName + '\')" title="' + escapeHtml(t('instances.btn_freecam')) + '">' +
             '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' +
         '</button>';
     }
@@ -1079,14 +1076,14 @@ function createPlayerCard(inst, id, player) {
             copyHwidBtn +
             modBtn +
             freecamBtn +
-            '<button class="icon-btn icon-btn-small" onclick="kickPlayer(' + id + ')" title="Kick">' +
+            '<button class="icon-btn icon-btn-small" onclick="kickPlayer(' + id + ')" title="' + escapeHtml(t('instances.kick')) + '">' +
                 '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>' +
             '</button>' +
-            '<button class="icon-btn icon-btn-small icon-btn-danger" onclick="banPlayer(' + id + ')" title="Ban">' +
+            '<button class="icon-btn icon-btn-small icon-btn-danger" onclick="banPlayer(' + id + ')" title="' + escapeHtml(t('instances.ban')) + '">' +
                 '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>' +
             '</button>' +
             (hasAccount && typeof modLoggedIn !== 'undefined' && modLoggedIn ?
-            '<button class="icon-btn icon-btn-small icon-btn-danger" onclick="globalBanPlayer(\'' + escapeJs(player.name) + '\')" title="Global Ban (GCBDB)" style="background:var(--danger,#e53935);color:#fff;">' +
+            '<button class="icon-btn icon-btn-small icon-btn-danger" onclick="globalBanPlayer(\'' + escapeJs(player.name) + '\')" title="' + escapeHtml(t('instances.global_ban')) + '" style="background:var(--danger,#e53935);color:#fff;">' +
                 '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>' +
             '</button>' : '') +
         '</div>';
@@ -1272,12 +1269,12 @@ function onLocalBansResult(data) {
             '<div class="player-card-info">' +
                 '<div class="player-card-name" title="' + escapeHtml(allNames) + '">' + escapeHtml(primaryName) + (names.length > 1 ? ' <span style="color:var(--text-muted);font-weight:400;font-size:11px;">+' + (names.length - 1) + ' alias</span>' : '') + '</div>' +
                 '<div class="player-card-meta">' +
-                    (reason ? escapeHtml(reason) : '<span style="opacity:0.4">no reason</span>') +
-                    (hasHw ? ' &nbsp;·&nbsp; <span title="' + escapeHtml(hwid) + '">' + escapeHtml(hwid.substring(0, 8)) + '…</span>' : ' &nbsp;·&nbsp; <span style="opacity:0.4">no hw</span>') +
+                    (reason ? escapeHtml(reason) : '<span style="opacity:0.4">' + escapeHtml(t('instances.no_reason')) + '</span>') +
+                    (hasHw ? ' &nbsp;·&nbsp; <span title="' + escapeHtml(hwid) + '">' + escapeHtml(hwid.substring(0, 8)) + '…</span>' : ' &nbsp;·&nbsp; <span style="opacity:0.4">' + escapeHtml(t('instances.no_hw')) + '</span>') +
                 '</div>' +
             '</div>' +
             '<div class="player-card-actions">' +
-                '<button class="icon-btn icon-btn-small icon-btn-danger" data-unban="' + escapeHtml(primaryName) + '" title="Unban">' +
+                '<button class="icon-btn icon-btn-small icon-btn-danger" data-unban="' + escapeHtml(primaryName) + '" title="' + escapeHtml(t('instances.btn_unban')) + '">' +
                 '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg></button>' +
             '</div>';
         card.querySelector('[data-unban]').addEventListener('click', function() {
@@ -1702,7 +1699,7 @@ function updateModClientView(inst) {
         var copyHwidBtn = '';
         if (playerComps) {
             var compsJson = JSON.stringify(Array.from(playerComps));
-            copyHwidBtn = '<button class="icon-btn icon-btn-small" onclick="navigator.clipboard.writeText(\'' + escapeAttr(compsJson) + '\')" title="Copy HWID Components">' +
+            copyHwidBtn = '<button class="icon-btn icon-btn-small" onclick="navigator.clipboard.writeText(\'' + escapeAttr(compsJson) + '\')" title="' + escapeHtml(t('instances.btn_copy_hwid')) + '">' +
                 '<svg fill="currentColor" width="12" height="12" viewBox="0 0 293 293" xmlns="http://www.w3.org/2000/svg"><path d="M271.5,25c0-13.807-11.193-25-25-25h-200c-13.807,0-25,11.193-25,25v243c0,13.807,11.193,25,25,25h200c13.807,0,25-11.193,25-25V25z M53.011,20.816c8.951,0,16.208,7.257,16.208,16.208s-7.257,16.208-16.208,16.208c-8.952,0-16.208-7.257-16.208-16.208S44.059,20.816,53.011,20.816z M53.011,278.496c-8.952,0-16.208-7.257-16.208-16.208c0-8.951,7.257-16.208,16.208-16.208c8.951,0,16.208,7.257,16.208,16.208C69.219,271.239,61.963,278.496,53.011,278.496z M163.624,193.807l3.574-30.99c0.266-2.298-0.328-4.393-1.672-5.899c-2.088-2.344-5.626-2.813-8.777-1.035l-49.005,27.652c-22.588-13.885-37.656-38.818-37.656-67.276c0-43.587,35.334-78.922,78.922-78.922s78.922,35.335,78.922,78.922C227.931,154.85,200.225,186.951,163.624,193.807z M240.655,278.496c-8.952,0-16.208-7.257-16.208-16.208c0-8.951,7.257-16.208,16.208-16.208s16.208,7.257,16.208,16.208C256.864,271.239,249.607,278.496,240.655,278.496z M240.655,53.232c-8.952,0-16.208-7.257-16.208-16.208s7.257-16.208,16.208-16.208s16.208,7.257,16.208,16.208S249.607,53.232,240.655,53.232z"/><circle cx="149.01" cy="116.258" r="28.452"/></svg>' +
             '</button>';
         }
@@ -1721,17 +1718,17 @@ function updateModClientView(inst) {
             '<div class="player-card-actions">' +
                 copyPidBtn +
                 copyHwidBtn +
-                (canFreecam ? '<button class="icon-btn icon-btn-small icon-btn-primary" onclick="modFreecamPlayer(\'' + safeName + '\')" title="Toggle Freecam">' +
+                (canFreecam ? '<button class="icon-btn icon-btn-small icon-btn-primary" onclick="modFreecamPlayer(\'' + safeName + '\')" title="' + escapeHtml(t('instances.btn_freecam')) + '">' +
                     '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' +
                 '</button>' : '') +
-                '<button class="icon-btn icon-btn-small" onclick="modKickPlayer(\'' + safeName + '\')" title="Kick">' +
+                '<button class="icon-btn icon-btn-small" onclick="modKickPlayer(\'' + safeName + '\')" title="' + escapeHtml(t('instances.kick')) + '">' +
                     '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>' +
                 '</button>' +
-                '<button class="icon-btn icon-btn-small icon-btn-danger" onclick="modBanPlayer(\'' + safeName + '\')" title="Ban">' +
+                '<button class="icon-btn icon-btn-small icon-btn-danger" onclick="modBanPlayer(\'' + safeName + '\')" title="' + escapeHtml(t('instances.ban')) + '">' +
                     '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>' +
                 '</button>' +
                 (typeof modLoggedIn !== 'undefined' && modLoggedIn ?
-                '<button class="icon-btn icon-btn-small icon-btn-danger" onclick="modGlobalBanPlayer(\'' + safeName + '\')" title="Global Ban (GCBDB)" style="background:var(--danger,#e53935);color:#fff;">' +
+                '<button class="icon-btn icon-btn-small icon-btn-danger" onclick="modGlobalBanPlayer(\'' + safeName + '\')" title="' + escapeHtml(t('instances.global_ban')) + '" style="background:var(--danger,#e53935);color:#fff;">' +
                     '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>' +
                 '</button>' : '') +
             '</div>';
@@ -1855,7 +1852,7 @@ function updateDetectedList() {
     }
 
     container.innerHTML = detectedInstancesList.map(function(inst, idx) {
-        const typeLabel = inst.isServer ? 'Server' : 'Client';
+        const typeLabel = inst.isServer ? t('instances.type_server') : t('instances.type_client');
         const gameLabel = { GW1: 'GW1', GW2: 'GW2', BFN: 'BFN' }[inst.game] || escapeHtml(String(inst.game || ''));
         const safeGame = { GW1: 'gw1', GW2: 'gw2', BFN: 'bfn' }[inst.game] || 'gw2';
         return '<div class="detected-instance-entry" onclick="attachDetectedInstance(' + idx + ')">' +
@@ -2114,12 +2111,12 @@ function onModBansResult(data) {
             '<div class="player-card-info">' +
                 '<div class="player-card-name" title="' + escapeHtml(allNames) + '">' + escapeHtml(primaryName) + (names.length > 1 ? ' <span style="color:var(--text-muted);font-weight:400;font-size:11px;">+' + (names.length - 1) + ' alias</span>' : '') + '</div>' +
                 '<div class="player-card-meta">' +
-                    (reason ? escapeHtml(reason) : '<span style="opacity:0.4">no reason</span>') +
-                    (hasHw ? ' &nbsp;·&nbsp; <span title="' + escapeHtml(hwid) + '">' + escapeHtml(hwid.substring(0, 8)) + '…</span>' : ' &nbsp;·&nbsp; <span style="opacity:0.4">no hw</span>') +
+                    (reason ? escapeHtml(reason) : '<span style="opacity:0.4">' + escapeHtml(t('instances.no_reason')) + '</span>') +
+                    (hasHw ? ' &nbsp;·&nbsp; <span title="' + escapeHtml(hwid) + '">' + escapeHtml(hwid.substring(0, 8)) + '…</span>' : ' &nbsp;·&nbsp; <span style="opacity:0.4">' + escapeHtml(t('instances.no_hw')) + '</span>') +
                 '</div>' +
             '</div>' +
             '<div class="player-card-actions">' +
-                '<button class="icon-btn icon-btn-small icon-btn-danger" data-unban="' + escapeHtml(primaryName) + '" title="Unban">' +
+                '<button class="icon-btn icon-btn-small icon-btn-danger" data-unban="' + escapeHtml(primaryName) + '" title="' + escapeHtml(t('instances.btn_unban')) + '">' +
                 '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg></button>' +
             '</div>';
         card.querySelector('[data-unban]').addEventListener('click', function() {

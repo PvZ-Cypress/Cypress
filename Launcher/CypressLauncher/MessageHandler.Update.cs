@@ -336,8 +336,7 @@ public partial class MessageHandler
 	private void ApplyServerUpdate(string extractDir, string version)
 	{
 		string installDir = AppContext.BaseDirectory;
-		var filesToCopy = new List<(string Source, string Dest)>();
-		var missingDlls = new List<string>();
+		int updated = 0;
 
 		foreach (string game in s_serverUpdateGames)
 		{
@@ -346,28 +345,19 @@ public partial class MessageHandler
 			if (!File.Exists(srcPath))
 			{
 				var found = Directory.GetFiles(extractDir, dllName, SearchOption.AllDirectories).FirstOrDefault();
-				if (found != null) srcPath = found;
-				else
-				{
-					missingDlls.Add(dllName);
-					continue;
-				}
+				if (found == null) continue;
+				srcPath = found;
 			}
 
-			string destPath = Path.Combine(installDir, dllName);
-			filesToCopy.Add((srcPath, destPath));
+			File.Copy(srcPath, Path.Combine(installDir, dllName), overwrite: true);
+			updated++;
 		}
 
-		if (missingDlls.Count > 0)
-			throw new InvalidDataException("Update package missing " + string.Join(", ", missingDlls));
-
-		foreach (var file in filesToCopy)
-		{
-			File.Copy(file.Source, file.Dest, true);
-		}
+		if (updated == 0)
+			throw new InvalidDataException("Update package contained no server DLLs");
 
 		SaveServerDllVersion(version);
-		SendStatus("Server DLLs updated to " + version, "info");
+		SendStatus($"Server DLLs updated to {version} ({updated}/{s_serverUpdateGames.Length})", "info");
 	}
 
 	private void ApplyLauncherUpdate(string extractDir, string version)
@@ -383,9 +373,10 @@ public partial class MessageHandler
 			extractDir = Path.GetDirectoryName(foundExe) ?? extractDir;
 		}
 
+		try { ApplyServerUpdate(extractDir, version); } catch { }
+
 		string scriptPath = Path.Combine(tempDir, "apply.ps1");
 		string logPath = Path.Combine(tempDir, "apply.log");
-		string statePath = Path.Combine(GetAppdataDir(), s_launcherSavedataFilename);
 		int pid = Environment.ProcessId;
 
 		string script = $@"
@@ -408,21 +399,6 @@ try {{
     Write-UpdateLog 'copying update files'
     $copy = Start-Process -FilePath 'robocopy.exe' -ArgumentList @($source, $dest, '/E', '/R:30', '/W:1', '/NFL', '/NDL', '/NJH', '/NJS', '/NP') -Wait -PassThru -WindowStyle Hidden
     if ($copy.ExitCode -ge 8) {{ throw ""robocopy failed with exit code $($copy.ExitCode)"" }}
-    $statePath = {PsQuote(statePath)}
-    $stateDir = Split-Path -Parent $statePath
-    New-Item -ItemType Directory -Path $stateDir -Force | Out-Null
-    if (Test-Path -LiteralPath $statePath) {{
-        $jsonText = Get-Content -LiteralPath $statePath -Raw
-        if ([string]::IsNullOrWhiteSpace($jsonText)) {{ $state = [pscustomobject]@{{}} }}
-        else {{ $state = $jsonText | ConvertFrom-Json }}
-    }} else {{
-        $state = [pscustomobject]@{{}}
-    }}
-    if (-not $state.PSObject.Properties['{s_updateSavedataKey}']) {{
-        $state | Add-Member -NotePropertyName '{s_updateSavedataKey}' -NotePropertyValue ([pscustomobject]@{{}})
-    }}
-    $state.{s_updateSavedataKey} | Add-Member -NotePropertyName 'server_dll_version' -NotePropertyValue {PsQuote(version)} -Force
-    $state | ConvertTo-Json -Depth 32 | Set-Content -LiteralPath $statePath -Encoding UTF8
     Write-UpdateLog 'starting launcher'
     Start-Process -FilePath {PsQuote(Path.Combine(installDir, "CypressLauncher.exe"))} -WorkingDirectory $dest
 }} catch {{

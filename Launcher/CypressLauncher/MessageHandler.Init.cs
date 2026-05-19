@@ -77,56 +77,61 @@ public partial class MessageHandler
 			return null;
 
 		string safePath = key.Replace('/', Path.DirectorySeparatorChar);
-		string jpgPath = Path.Combine(AppContext.BaseDirectory, "assets", folder, safePath + ".jpg");
-		if (!File.Exists(jpgPath))
-			return null;
-
-		try { return Convert.ToBase64String(File.ReadAllBytes(jpgPath)); }
-		catch { return null; }
+		string baseDir = Path.Combine(AppContext.BaseDirectory, "assets", folder, safePath);
+		foreach (string ext in new[] { ".webp", ".jpg", ".png" })
+		{
+			string path = baseDir + ext;
+			if (!File.Exists(path)) continue;
+			try { return ImageHelper.ResizeByWidthToJpegBase64(path, 4096, 85); }
+			catch { }
+		}
+		return null;
 	}
 
-	// resizes preserving aspect ratio
 	private string? GetAssetIconAspectPng(string key, int maxHeight)
 	{
 		if (string.IsNullOrEmpty(key) || key.Contains(".."))
 			return null;
 
 		string safePath = key.Replace('/', Path.DirectorySeparatorChar);
-		string iconPath = Path.Combine(AppContext.BaseDirectory, "assets", safePath + ".png");
-		if (!File.Exists(iconPath)) return null;
-		try { return ImageHelper.ResizeByHeightToPngBase64(iconPath, maxHeight); }
-		catch { return null; }
+		string baseDir = Path.Combine(AppContext.BaseDirectory, "assets", safePath);
+		foreach (string ext in new[] { ".webp", ".png" })
+		{
+			string path = baseDir + ext;
+			if (!File.Exists(path)) continue;
+			try { return ImageHelper.ResizeByHeightToPngBase64(path, maxHeight); }
+			catch { }
+		}
+		return null;
 	}
 
-	// loads from assets/<key>.tga or .png, returns square PNG (for character icons)
 	private string? GetAssetIconPng(string key, int size)
 	{
 		if (string.IsNullOrEmpty(key) || key.Contains(".."))
 			return null;
 
 		string safePath = key.Replace('/', Path.DirectorySeparatorChar);
-		string iconPath = Path.Combine(AppContext.BaseDirectory, "assets", safePath + ".png");
-		if (!File.Exists(iconPath)) return null;
-		try { return ImageHelper.ResizeToSquarePngBase64(iconPath, size); }
-		catch { return null; }
+		string baseDir = Path.Combine(AppContext.BaseDirectory, "assets", safePath);
+		foreach (string ext in new[] { ".webp", ".png" })
+		{
+			string path = baseDir + ext;
+			if (!File.Exists(path)) continue;
+			try { return ImageHelper.ResizeToSquarePngBase64(path, size); }
+			catch { }
+		}
+		return null;
 	}
 
-	// loads from assets/<key>.jpg (pre-baked) or falls back to png with resize
 	private string? GetAssetIconJpeg(string key, int maxWidth)
 	{
 		if (string.IsNullOrEmpty(key) || key.Contains(".."))
 			return null;
 
 		string safePath = key.Replace('/', Path.DirectorySeparatorChar);
-		string jpgPath = Path.Combine(AppContext.BaseDirectory, "assets", safePath + ".jpg");
-		if (File.Exists(jpgPath))
+		string baseDir = Path.Combine(AppContext.BaseDirectory, "assets", safePath);
+		foreach (string ext in new[] { ".webp", ".jpg", ".png" })
 		{
-			try { return Convert.ToBase64String(File.ReadAllBytes(jpgPath)); }
-			catch { }
-		}
-		foreach (string ext in new[] { ".png" })
-		{
-			string path = Path.Combine(AppContext.BaseDirectory, "assets", safePath + ext);
+			string path = baseDir + ext;
 			if (!File.Exists(path)) continue;
 			try { return ImageHelper.ResizeByWidthToJpegBase64(path, maxWidth, 80); }
 			catch { }
@@ -203,6 +208,57 @@ public partial class MessageHandler
 		thread.Start();
 		thread.Join();
 		return selected;
+	}
+#endif
+
+	private string? TrySilentAutoFindDir()
+	{
+#if WINDOWS
+		return WindowsSilentAutoFindDir();
+#else
+		string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+		string[] searchPaths = {
+			Path.Combine(home, ".steam", "steam", "steamapps", "common"),
+			Path.Combine(home, ".local", "share", "Steam", "steamapps", "common"),
+		};
+		string gameDirName = m_selectedGame switch
+		{
+			PVZGame.GW1 => "Plants vs Zombies Garden Warfare",
+			PVZGame.GW2 => "Plants vs. Zombies Garden Warfare 2",
+			PVZGame.BFN => "Plants vs. Zombies Battle for Neighborville",
+			_ => ""
+		};
+		foreach (string basePath in searchPaths)
+		{
+			string candidate = Path.Combine(basePath, gameDirName);
+			if (Directory.Exists(candidate) && File.Exists(Path.Combine(candidate, s_gameToExecutableName[m_selectedGame])))
+				return candidate;
+		}
+		return null;
+#endif
+	}
+
+#if WINDOWS
+	[System.Runtime.Versioning.SupportedOSPlatform("windows")]
+	private string? WindowsSilentAutoFindDir()
+	{
+		Microsoft.Win32.RegistryKey? registryKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\WOW6432Node\\PopCap")
+			?? Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\PopCap");
+		if (registryKey != null)
+		{
+			Microsoft.Win32.RegistryKey? gameKey = m_selectedGame switch
+			{
+				PVZGame.GW1 => registryKey.OpenSubKey("Plants vs Zombies Garden Warfare"),
+				PVZGame.GW2 => registryKey.OpenSubKey("Plants vs Zombies GW2"),
+				PVZGame.BFN => registryKey.OpenSubKey("PVZ Battle for Neighborville"),
+				_ => null
+			};
+			if (gameKey?.GetValue("Install Dir") is string path
+				&& Directory.Exists(path)
+				&& File.Exists(Path.Combine(path, s_gameToExecutableName[m_selectedGame])))
+				return path;
+		}
+		return null;
 	}
 #endif
 

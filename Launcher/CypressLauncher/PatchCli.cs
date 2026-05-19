@@ -35,8 +35,7 @@ internal static class PatchCli
 		}
 
 		string gameDirectory = args[2];
-		string exeName = MessageHandler.s_gameToExecutableName[game];
-		string dllPath = Path.Combine(AppContext.BaseDirectory, $"cypress_{game}.dll");
+		string sourceExeName = MessageHandler.s_gameToExecutableName[game];
 
 		void Log(string text, string level)
 		{
@@ -53,13 +52,40 @@ internal static class PatchCli
 		{
 		case "patch":
 		case "--patch":
-			return PatchManager.EnsurePatched(game, gameDirectory, exeName, dllPath, Log) ? 0 : 1;
+			if (!MessageHandler.s_gameToPatchedExecutableName.TryGetValue(game, out string? patchedExeName))
+			{
+				Console.Error.WriteLine("game does not require patching: " + game);
+				return 1;
+			}
+			return PatchManager.EnsurePatched(game, gameDirectory, sourceExeName, patchedExeName, Log) ? 0 : 1;
 		case "restore":
 		case "--restore":
-			return PatchManager.RestorePatched(game, gameDirectory, exeName, Log) ? 0 : 1;
+			if (MessageHandler.s_gameToPatchedExecutableName.TryGetValue(game, out string? pe))
+			{
+				string patchedPath = Path.Combine(gameDirectory, pe);
+				try
+				{
+					if (File.Exists(patchedPath))
+						File.Delete(patchedPath);
+					Console.WriteLine("[ ok ] deleted " + pe);
+				}
+				catch (Exception ex)
+				{
+					Console.Error.WriteLine("[error] " + ex.Message);
+					return 1;
+				}
+			}
+			else
+			{
+				Console.WriteLine("[info] game does not use a patched exe, nothing to restore");
+			}
+			return 0;
 		case "status":
 		case "--status":
-			Console.WriteLine(PatchManager.IsPatched(game, gameDirectory, exeName) ? "patched" : "unpatched");
+			if (MessageHandler.s_gameToPatchedExecutableName.TryGetValue(game, out string? pexe))
+				Console.WriteLine(File.Exists(Path.Combine(gameDirectory, pexe)) ? "patched" : "unpatched");
+			else
+				Console.WriteLine("no patch required");
 			return 0;
 		default:
 			Console.Error.WriteLine("unknown command: " + args[0]);
@@ -75,8 +101,5 @@ internal static class PatchCli
 		Console.WriteLine("  CypressLauncher patch <gw1|gw2|bfn> <game_dir>");
 		Console.WriteLine("  CypressLauncher restore <gw1|gw2|bfn> <game_dir>");
 		Console.WriteLine("  CypressLauncher status <gw1|gw2|bfn> <game_dir>");
-		Console.WriteLine();
-		Console.WriteLine("linux:");
-		Console.WriteLine("  install xdelta3 or set CYPRESS_XDELTA3 to the binary path");
 	}
 }

@@ -88,6 +88,7 @@ function cypressAlert(title, body) { return _showCypressDialog(title, body, 'ale
 function cypressConfirm(title, body) { return _showCypressDialog(title, body, 'confirm'); }
 function cypressPrompt(title, body, defaultVal) { return _showCypressDialog(title, body, 'prompt', defaultVal); }
 
+
 function send(type, data) {
     window.external.sendMessage(JSON.stringify({ type, ...data }));
 }
@@ -95,6 +96,29 @@ window.external.receiveMessage(function (msg) {
     try {
     const data = JSON.parse(msg);
     switch (data.type) {
+        case 'translations':
+            window._i18nStrings = data.strings || {};
+            (function() {
+                var meta = window._i18nStrings['_meta'];
+                document.documentElement.dir = (meta && meta.rtl) ? 'rtl' : 'ltr';
+                if (data.lang) document.documentElement.lang = data.lang;
+                if (meta && typeof meta === 'object' && meta.name && data.lang) {
+                    var sel = document.getElementById('languageSelect');
+                    if (sel) {
+                        for (var i = 0; i < sel.options.length; i++) {
+                            if (sel.options[i].value === data.lang) {
+                                sel.options[i].textContent = meta.name + ' (' + data.lang + ')';
+                                break;
+                            }
+                        }
+                    }
+                }
+            })();
+            if (typeof applyDomTranslations === 'function') applyDomTranslations();
+            break;
+        case 'translationsList':
+            if (typeof onTranslationsList === 'function') onTranslationsList(data);
+            break;
         case 'tosStatus':
             if (data.accepted) {
                 send('checkAuth', {});
@@ -297,5 +321,5 @@ function populateSelect(id, items) {
 function acceptTos() {
     document.getElementById('tosModalBackdrop').style.display = 'none';
     send('acceptTos', {});
-    send('init', {});
+    send('checkAuth', {});
 }

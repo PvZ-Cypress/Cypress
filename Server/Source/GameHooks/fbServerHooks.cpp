@@ -19,11 +19,7 @@
 #include <fb/SecureReason.h>
 #endif
 
-#ifdef CYPRESS_BFN
 static constexpr int MAX_NAME_LENGTH = 32;
-#else
-static constexpr int MAX_NAME_LENGTH = 16;
-#endif
 
 // raw byte check before we touch the name as a std::string
 static bool IsNameSafeRaw(const char* s)
@@ -84,7 +80,7 @@ static bool IsNameValid(const std::string& name, std::string& reason)
 	}
 	if (name.length() > MAX_NAME_LENGTH)
 	{
-		reason = "name too long (max 16)";
+		reason = "name too long (max 32)";
 		return false;
 	}
 

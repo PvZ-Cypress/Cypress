@@ -193,6 +193,16 @@ public partial class MessageHandler
 			m_gameDirectory = "";
 		}
 
+		if (string.IsNullOrEmpty(m_gameDirectory))
+		{
+			string? found = TrySilentAutoFindDir();
+			if (found != null)
+			{
+				m_gameDirectory = found;
+				response["gameDir"] = found;
+			}
+		}
+
 		Send(response);
 	}
 }

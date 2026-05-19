@@ -202,16 +202,16 @@ function syncGW2CostumeUi() {
         const selectedCount = ids.filter(id => selected.has(id)).length;
         const summary = document.querySelector('[data-gw2-team-summary="' + team + '"]');
         if (summary) {
-            summary.textContent = selectedCount + ' of ' + ids.length + ' enabled';
+            summary.textContent = t('modifiers.n_of_n_enabled', {n: selectedCount, total: ids.length});
         }
     });
 
     const summaryEl = document.getElementById('gw2CostumeSummary');
     if (summaryEl) {
         if (rawIds.length === 0 || effectiveIds.length === GW2_ALL_COSTUME_IDS.length) {
-            summaryEl.textContent = 'All characters are playable.';
+            summaryEl.textContent = t('modifiers.all_chars_playable');
         } else {
-            summaryEl.textContent = effectiveIds.length + ' character variants enabled.';
+            summaryEl.textContent = t('modifiers.n_char_variants', {n: effectiveIds.length});
         }
     }
 
@@ -219,25 +219,25 @@ function syncGW2CostumeUi() {
 }
 
 function buildGW2CostumeSection() {
-    let html = '<div class="mod-category-header"><div><strong>Character Restrictions</strong><span class="mod-category-desc">Restrict which characters can be used</span></div></div>';
+    let html = '<div class="mod-category-header"><div><strong>' + t('modifiers.char_restrictions_title') + '</strong><span class="mod-category-desc">' + t('modifiers.char_restrictions_desc') + '</span></div></div>';
     html += '<div class="mod-category-body">';
     html += '<div class="mod-card mod-card-section gw2-costume-shell">';
     html += '<div class="gw2-costume-toolbar">';
-    html += '<button type="button" class="preset-btn gw2-preset-btn is-clear" data-preset="" onclick="applyGW2CostumePreset(\'\')">All Characters</button>';
-    html += '<button type="button" class="preset-btn gw2-quick-btn" data-mode="plants" onclick="applyGW2CostumeTeamSelection(\'Plants\')">Plants Only</button>';
-    html += '<button type="button" class="preset-btn gw2-quick-btn" data-mode="zombies" onclick="applyGW2CostumeTeamSelection(\'Zombies\')">Zombies Only</button>';
+    html += '<button type="button" class="preset-btn gw2-preset-btn is-clear" data-preset="" onclick="applyGW2CostumePreset(\'\')">'+t('modifiers.all_characters')+'</button>';
+    html += '<button type="button" class="preset-btn gw2-quick-btn" data-mode="plants" onclick="applyGW2CostumeTeamSelection(\'Plants\')">' + t('modifiers.plants_only') + '</button>';
+    html += '<button type="button" class="preset-btn gw2-quick-btn" data-mode="zombies" onclick="applyGW2CostumeTeamSelection(\'Zombies\')">' + t('modifiers.zombies_only') + '</button>';
     html += '</div>';
-    html += '<div class="mod-card-info"><span class="mod-card-name">Weekly Presets</span></div>';
+    html += '<div class="mod-card-info"><span class="mod-card-name">' + t('modifiers.weekly_presets') + '</span></div>';
     html += '<div class="preset-grid gw2-preset-grid">';
     Object.keys(GW2_COSTUME_PRESETS).forEach(name => {
         html += '<button type="button" class="preset-btn gw2-preset-btn" data-preset="' + name + '" onclick="applyGW2CostumePreset(' + JSON.stringify(name).replace(/"/g, '&quot;') + ')">' + name + '</button>';
     });
     html += '</div>';
-    html += '<div class="gw2-costume-summary" id="gw2CostumeSummary">All characters are playable.</div>';
+    html += '<div class="gw2-costume-summary" id="gw2CostumeSummary">' + t('modifiers.all_chars_playable') + '</div>';
     html += '<div class="gw2-costume-team-grid">';
     Object.entries(GW2_COSTUME_CLASSES).forEach(([team, classes]) => {
         html += '<section class="gw2-costume-team">';
-        html += '<div class="gw2-costume-team-header"><div><strong>' + team + '</strong><span class="mod-card-desc" data-gw2-team-summary="' + team + '"></span></div><button type="button" class="preset-btn" onclick="applyGW2CostumeTeamSelection(\'' + team + '\')">Only ' + team + '</button></div>';
+        html += '<div class="gw2-costume-team-header"><div><strong>' + team + '</strong><span class="mod-card-desc" data-gw2-team-summary="' + team + '"></span></div><button type="button" class="preset-btn" onclick="applyGW2CostumeTeamSelection(\'' + team + '\')">' + t('modifiers.only_team', {team: team}) + '</button></div>';
         html += '<div class="gw2-costume-class-grid">';
         classes.forEach(characterClass => {
             const classIds = characterClass.variants.map(variant => variant.id).join(';');
@@ -261,8 +261,8 @@ function buildGW2CostumeSection() {
         html += '</div></section>';
     });
     html += '</div>';
-    html += '<div class="gw2-costume-raw"><div class="mod-card-info"><span class="mod-card-name">Raw Costume IDs</span><span class="mod-card-desc">Still editable manually if you want to paste a custom AvailableCostumes string.</span></div>';
-    html += '<input type="text" class="text-input text-input-sm mod-toggle gw2-costume-input" data-key="GameMode.AvailableCostumes" id="gw2CostumeIds" placeholder="e.g. 1364115386;87944021;..." oninput="syncGW2CostumeUi()"></div>';
+    html += '<div class="gw2-costume-raw"><div class="mod-card-info"><span class="mod-card-name">' + t('modifiers.raw_costume_ids') + '</span><span class="mod-card-desc">' + t('modifiers.raw_costume_desc') + '</span></div>';
+    html += '<input type="text" class="text-input text-input-sm mod-toggle gw2-costume-input" data-key="GameMode.AvailableCostumes" id="gw2CostumeIds" placeholder="' + t('modifiers.costume_placeholder') + '" oninput="syncGW2CostumeUi()"></div>';
     html += '</div>';
     html += '</div>';
     return html;
@@ -305,21 +305,21 @@ function toggleGW2CostumeButton(button) {
 }
 
 function buildBFNClassSection() {
-    let html = '<div class="mod-category-header"><div><strong>Character Restrictions</strong><span class="mod-category-desc">Restrict which classes can be used</span></div></div>';
+    let html = '<div class="mod-category-header"><div><strong>' + t('modifiers.char_restrictions_title') + '</strong><span class="mod-category-desc">' + t('modifiers.restrict_classes_desc') + '</span></div></div>';
     html += '<div class="mod-category-body">';
     html += '<div class="mod-card mod-card-section bfn-class-shell">';
 
-    html += '<div class="mod-card-info"><span class="mod-card-name">Class Kill Switches</span><span class="mod-card-desc">Prevent players from selecting these classes</span></div>';
+    html += '<div class="mod-card-info"><span class="mod-card-name">' + t('modifiers.class_kill_switches_title') + '</span><span class="mod-card-desc">' + t('modifiers.class_kill_switches_desc') + '</span></div>';
     html += '<div class="bfn-class-toolbar">';
-    html += '<button type="button" class="preset-btn bfn-preset-btn is-clear" onclick="applyBFNKillPreset(\'\')">All Playable</button>';
+    html += '<button type="button" class="preset-btn bfn-preset-btn is-clear" data-preset="" onclick="applyBFNKillPreset(\'\')">'+t('modifiers.all_playable')+'</button>';
     html += '</div>';
-    html += '<div class="mod-card-info"><span class="mod-card-name">Weekly Presets</span></div>';
+    html += '<div class="mod-card-info"><span class="mod-card-name">' + t('modifiers.weekly_presets') + '</span></div>';
     html += '<div class="preset-grid bfn-preset-grid">';
     Object.keys(BFN_KILLSWITCH_PRESETS).forEach(name => {
-        html += '<button type="button" class="preset-btn bfn-preset-btn" onclick="applyBFNKillPreset(' + JSON.stringify(name).replace(/"/g, '&quot;') + ')">' + name + '</button>';
+        html += '<button type="button" class="preset-btn bfn-preset-btn" data-preset="' + name + '" onclick="applyBFNKillPreset(' + JSON.stringify(name).replace(/"/g, '&quot;') + ')">' + name + '</button>';
     });
     html += '</div>';
-    html += '<div class="bfn-class-summary" id="bfnKillSummary">All classes are playable.</div>';
+    html += '<div class="bfn-class-summary" id="bfnKillSummary">' + t('modifiers.all_classes_playable') + '</div>';
 
     html += '<div class="bfn-class-team-grid">';
     Object.entries(BFN_CLASSES).forEach(([team, classes]) => {
@@ -337,8 +337,8 @@ function buildBFNClassSection() {
     html += '</div>';
 
     html += '<div class="bfn-class-divider"></div>';
-    html += '<div class="mod-card-info"><span class="mod-card-name">AI Spawn Restrictions</span><span class="mod-card-desc">Disable specific AI classes from spawning</span></div>';
-    html += '<div class="bfn-class-summary" id="bfnAiSummary">All AI classes can spawn.</div>';
+    html += '<div class="mod-card-info"><span class="mod-card-name">' + t('modifiers.ai_spawn_restrictions_title') + '</span><span class="mod-card-desc">' + t('modifiers.ai_spawn_restrictions_desc') + '</span></div>';
+    html += '<div class="bfn-class-summary" id="bfnAiSummary">' + t('modifiers.all_ai_spawn') + '</div>';
     html += '<div class="bfn-class-team-grid">';
     Object.entries(BFN_CLASSES).forEach(([team, classes]) => {
         html += '<section class="bfn-class-team">';
@@ -365,7 +365,7 @@ function buildBFNClassSection() {
 function applyBFNKillPreset(name) {
     const preset = BFN_KILLSWITCH_PRESETS[name] || [];
     document.querySelectorAll('.bfn-preset-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.textContent === (name || 'All Playable'));
+        btn.classList.toggle('active', (btn.getAttribute('data-preset') || '') === (name || ''));
     });
     document.querySelectorAll('.bfn-class-btn[data-section="kill"]').forEach(btn => {
         btn.classList.toggle('active', !preset.includes(btn.getAttribute('data-kit')));
@@ -393,9 +393,9 @@ function syncBFNKillSummary() {
     const summaryEl = document.getElementById('bfnKillSummary');
     if (summaryEl) {
         if (activeBtns.length === allBtns.length) {
-            summaryEl.textContent = 'All classes are playable.';
+            summaryEl.textContent = t('modifiers.all_classes_playable');
         } else {
-            summaryEl.textContent = activeBtns.length + ' of ' + allBtns.length + ' classes playable.';
+            summaryEl.textContent = t('modifiers.n_of_n_classes_playable', {n: activeBtns.length, total: allBtns.length});
         }
     }
     Object.entries(BFN_CLASSES).forEach(([team, classes]) => {
@@ -404,7 +404,7 @@ function syncBFNKillSummary() {
         let activeCount = 0;
         teamBtns.forEach(btn => { if (teamKits.includes(btn.getAttribute('data-kit')) && btn.classList.contains('active')) activeCount++; });
         const el = document.querySelector('[data-bfn-kill-team-summary="' + team + '"]');
-        if (el) el.textContent = activeCount + ' of ' + classes.length + ' playable';
+        if (el) el.textContent = t('modifiers.n_of_n_playable', {n: activeCount, total: classes.length});
     });
 }
 
@@ -414,9 +414,9 @@ function syncBFNAiSummary() {
     const summaryEl = document.getElementById('bfnAiSummary');
     if (summaryEl) {
         if (activeBtns.length === allBtns.length) {
-            summaryEl.textContent = 'All AI classes can spawn.';
+            summaryEl.textContent = t('modifiers.all_ai_spawn');
         } else {
-            summaryEl.textContent = activeBtns.length + ' of ' + allBtns.length + ' AI classes enabled.';
+            summaryEl.textContent = t('modifiers.n_of_n_ai_enabled', {n: activeBtns.length, total: allBtns.length});
         }
     }
     Object.entries(BFN_CLASSES).forEach(([team, classes]) => {
@@ -424,7 +424,7 @@ function syncBFNAiSummary() {
         let activeCount = 0;
         teamBtns.forEach(btn => { if (btn.classList.contains('active')) activeCount++; });
         const el = document.querySelector('[data-bfn-ai-team-summary="' + team + '"]');
-        if (el) el.textContent = activeCount + ' of ' + classes.length + ' can spawn';
+        if (el) el.textContent = t('modifiers.n_of_n_can_spawn', {n: activeCount, total: classes.length});
     });
 }
 
@@ -441,7 +441,7 @@ function syncBFNPresetButtons() {
         }
     }
     document.querySelectorAll('.bfn-preset-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.textContent === (matchedPreset || '') || (matchedPreset === '' && btn.classList.contains('is-clear')));
+        btn.classList.toggle('active', (btn.getAttribute('data-preset') || '') === (matchedPreset || ''));
     });
 }
 
@@ -673,15 +673,15 @@ function getInstanceModifierCommands(containerId) {
 // instance-scoped gw2 costume section
 function buildInstanceGW2CostumeSection(prefix) {
     var p = prefix + '_';
-    var html = '<div class="mod-category-header"><div><strong>Character Restrictions</strong><span class="mod-category-desc">Restrict which characters can be used</span></div></div>';
+    var html = '<div class="mod-category-header"><div><strong>' + t('modifiers.char_restrictions_title') + '</strong><span class="mod-category-desc">' + t('modifiers.char_restrictions_desc') + '</span></div></div>';
     html += '<div class="mod-category-body">';
     html += '<div class="mod-card mod-card-section gw2-costume-shell">';
     html += '<div class="gw2-costume-toolbar">';
-    html += '<button type="button" class="preset-btn gw2-preset-btn is-clear" onclick="instApplyGW2CostumePreset(\'' + p + '\', \'\')">All Characters</button>';
-    html += '<button type="button" class="preset-btn gw2-quick-btn" onclick="instApplyGW2CostumeTeam(\'' + p + '\', \'Plants\')">Plants Only</button>';
-    html += '<button type="button" class="preset-btn gw2-quick-btn" onclick="instApplyGW2CostumeTeam(\'' + p + '\', \'Zombies\')">Zombies Only</button>';
+    html += '<button type="button" class="preset-btn gw2-preset-btn is-clear" data-preset="" onclick="instApplyGW2CostumePreset(\'' + p + '\', \'\')">'+t('modifiers.all_characters')+'</button>';
+    html += '<button type="button" class="preset-btn gw2-quick-btn" onclick="instApplyGW2CostumeTeam(\'' + p + '\', \'Plants\')">'+t('modifiers.plants_only')+'</button>';
+    html += '<button type="button" class="preset-btn gw2-quick-btn" onclick="instApplyGW2CostumeTeam(\'' + p + '\', \'Zombies\')">'+t('modifiers.zombies_only')+'</button>';
     html += '</div>';
-    html += '<div class="mod-card-info"><span class="mod-card-name">Weekly Presets</span></div>';
+    html += '<div class="mod-card-info"><span class="mod-card-name">' + t('modifiers.weekly_presets') + '</span></div>';
     html += '<div class="preset-grid gw2-preset-grid">';
     if (typeof GW2_COSTUME_PRESETS !== 'undefined') {
         Object.keys(GW2_COSTUME_PRESETS).forEach(function(name) {
@@ -689,12 +689,12 @@ function buildInstanceGW2CostumeSection(prefix) {
         });
     }
     html += '</div>';
-    html += '<div class="gw2-costume-summary" id="' + p + 'gw2Summary">All characters are playable.</div>';
+    html += '<div class="gw2-costume-summary" id="' + p + 'gw2Summary">' + t('modifiers.all_chars_playable') + '</div>';
     html += '<div class="gw2-costume-team-grid">';
     if (typeof GW2_COSTUME_CLASSES !== 'undefined') {
         Object.entries(GW2_COSTUME_CLASSES).forEach(function([team, classes]) {
             html += '<section class="gw2-costume-team">';
-            html += '<div class="gw2-costume-team-header"><div><strong>' + team + '</strong></div><button type="button" class="preset-btn" onclick="instApplyGW2CostumeTeam(\'' + p + '\', \'' + team + '\')">Only ' + team + '</button></div>';
+            html += '<div class="gw2-costume-team-header"><div><strong>' + team + '</strong></div><button type="button" class="preset-btn" onclick="instApplyGW2CostumeTeam(\'' + p + '\', \'' + team + '\')">' + t('modifiers.only_team', {team: team}) + '</button></div>';
             html += '<div class="gw2-costume-class-grid">';
             classes.forEach(function(cls) {
                 var classIds = cls.variants.map(function(v) { return v.id; }).join(';');
@@ -717,7 +717,7 @@ function buildInstanceGW2CostumeSection(prefix) {
         });
     }
     html += '</div>';
-    html += '<input type="text" class="text-input text-input-sm inst-gw2-costume-input" id="' + p + 'gw2Ids" placeholder="e.g. 1364115386;87944021;..." oninput="instSyncGW2CostumeUi(\'' + p + '\')">';
+    html += '<input type="text" class="text-input text-input-sm inst-gw2-costume-input" id="' + p + 'gw2Ids" placeholder="' + t('modifiers.costume_placeholder') + '" oninput="instSyncGW2CostumeUi(\'' + p + '\')">';
     html += '</div></div>';
     return html;
 }
@@ -749,7 +749,7 @@ function instCollectGW2Costumes(prefix) {
     }
     var summary = document.getElementById(prefix + 'gw2Summary');
     if (summary) {
-        summary.textContent = ids.length === allBtns.length ? 'All characters are playable.' : ids.length + ' of ' + allBtns.length + ' characters enabled.';
+        summary.textContent = ids.length === allBtns.length ? t('modifiers.all_chars_playable') : t('modifiers.n_of_n_enabled', {n: ids.length, total: allBtns.length});
     }
     // update class counts
     parent.querySelectorAll('.gw2-costume-class-card').forEach(function(card) {
@@ -803,22 +803,22 @@ function instApplyGW2CostumeTeam(prefix, team) {
 // instance-scoped bfn class section
 function buildInstanceBFNClassSection(prefix) {
     var p = prefix + '_';
-    var html = '<div class="mod-category-header"><div><strong>Character Restrictions</strong><span class="mod-category-desc">Restrict which classes can be used</span></div></div>';
+    var html = '<div class="mod-category-header"><div><strong>' + t('modifiers.char_restrictions_title') + '</strong><span class="mod-category-desc">' + t('modifiers.restrict_classes_desc') + '</span></div></div>';
     html += '<div class="mod-category-body">';
     html += '<div class="mod-card mod-card-section bfn-class-shell">';
-    html += '<div class="mod-card-info"><span class="mod-card-name">Class Kill Switches</span><span class="mod-card-desc">Prevent players from selecting these classes</span></div>';
+    html += '<div class="mod-card-info"><span class="mod-card-name">' + t('modifiers.class_kill_switches_title') + '</span><span class="mod-card-desc">' + t('modifiers.class_kill_switches_desc') + '</span></div>';
     html += '<div class="bfn-class-toolbar">';
-    html += '<button type="button" class="preset-btn bfn-preset-btn is-clear" onclick="instApplyBFNKillPreset(\'' + p + '\', \'\')">All Playable</button>';
+    html += '<button type="button" class="preset-btn bfn-preset-btn is-clear" data-preset="" onclick="instApplyBFNKillPreset(\'' + p + '\', \'\')">'+t('modifiers.all_playable')+'</button>';
     html += '</div>';
     if (typeof BFN_KILLSWITCH_PRESETS !== 'undefined') {
-        html += '<div class="mod-card-info"><span class="mod-card-name">Weekly Presets</span></div>';
+        html += '<div class="mod-card-info"><span class="mod-card-name">' + t('modifiers.weekly_presets') + '</span></div>';
         html += '<div class="preset-grid bfn-preset-grid">';
         Object.keys(BFN_KILLSWITCH_PRESETS).forEach(function(name) {
-            html += '<button type="button" class="preset-btn bfn-preset-btn" onclick="instApplyBFNKillPreset(\'' + p + '\', ' + JSON.stringify(name).replace(/"/g, '&quot;') + ')">' + name + '</button>';
+            html += '<button type="button" class="preset-btn bfn-preset-btn" data-preset="' + name + '" onclick="instApplyBFNKillPreset(\'' + p + '\', ' + JSON.stringify(name).replace(/"/g, '&quot;') + ')">' + name + '</button>';
         });
         html += '</div>';
     }
-    html += '<div class="bfn-class-summary" id="' + p + 'bfnKillSummary">All classes are playable.</div>';
+    html += '<div class="bfn-class-summary" id="' + p + 'bfnKillSummary">' + t('modifiers.all_classes_playable') + '</div>';
     html += '<div class="bfn-class-team-grid">';
     if (typeof BFN_CLASSES !== 'undefined') {
         Object.entries(BFN_CLASSES).forEach(function([team, classes]) {
@@ -836,8 +836,8 @@ function buildInstanceBFNClassSection(prefix) {
     }
     html += '</div>';
     html += '<div class="bfn-class-divider"></div>';
-    html += '<div class="mod-card-info"><span class="mod-card-name">AI Spawn Restrictions</span><span class="mod-card-desc">Disable specific AI classes from spawning</span></div>';
-    html += '<div class="bfn-class-summary" id="' + p + 'bfnAiSummary">All AI classes can spawn.</div>';
+    html += '<div class="mod-card-info"><span class="mod-card-name">' + t('modifiers.ai_spawn_restrictions_title') + '</span><span class="mod-card-desc">' + t('modifiers.ai_spawn_restrictions_desc') + '</span></div>';
+    html += '<div class="bfn-class-summary" id="' + p + 'bfnAiSummary">' + t('modifiers.all_ai_spawn') + '</div>';
     html += '<div class="bfn-class-team-grid">';
     if (typeof BFN_CLASSES !== 'undefined') {
         Object.entries(BFN_CLASSES).forEach(function([team, classes]) {
@@ -885,7 +885,7 @@ function instUpdateBFNKillOutput(prefix) {
     if (summary) {
         var all = parent.querySelectorAll('.bfn-class-btn[data-section="kill"]').length;
         var active = parent.querySelectorAll('.bfn-class-btn[data-section="kill"].active').length;
-        summary.textContent = active === all ? 'All classes are playable.' : active + ' of ' + all + ' classes playable.';
+        summary.textContent = active === all ? t('modifiers.all_classes_playable') : t('modifiers.n_of_n_classes_playable', {n: active, total: all});
     }
 }
 
@@ -907,7 +907,7 @@ function instUpdateBFNMasks(prefix) {
     if (summary) {
         var all = parent.querySelectorAll('.bfn-class-btn[data-section="ai"]').length;
         var active = parent.querySelectorAll('.bfn-class-btn[data-section="ai"].active').length;
-        summary.textContent = active === all ? 'All AI classes can spawn.' : active + ' of ' + all + ' AI classes enabled.';
+        summary.textContent = active === all ? t('modifiers.all_ai_spawn') : t('modifiers.n_of_n_ai_enabled', {n: active, total: all});
     }
 }
 

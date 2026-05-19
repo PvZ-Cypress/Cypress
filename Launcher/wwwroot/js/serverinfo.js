@@ -63,7 +63,7 @@ function setServerList(list) {
 }
 
 function addServerPrompt() {
-    document.getElementById('serverModalTitle').textContent = 'Add Server';
+    document.getElementById('serverModalTitle').textContent = t('server_modal.add_title');
     document.getElementById('serverModalName').value = '';
     document.getElementById('serverModalAddress').value = '';
     document.getElementById('serverModalEditIndex').value = '-1';
@@ -74,7 +74,7 @@ function addServerPrompt() {
 function editServerEntry(idx) {
     var entry = serverList[idx];
     if (!entry) return;
-    document.getElementById('serverModalTitle').textContent = 'Edit Server';
+    document.getElementById('serverModalTitle').textContent = t('server_modal.edit_title');
     document.getElementById('serverModalName').value = entry.name || '';
     document.getElementById('serverModalAddress').value = entry.address || '';
     document.getElementById('serverModalEditIndex').value = idx;
@@ -170,7 +170,7 @@ function renderServerList() {
         html += '</div>';
         html += '<div class="server-entry-info">';
         html += '<span class="server-entry-name">' + escapeHtml(s.name) + '</span>';
-        var motd = status && status.ok ? (status.motd || 'A Cypress Server') : '';
+        var motd = status && status.ok ? (status.motd || t('browser.default_server_name')) : '';
         if (motd) {
             html += '<span class="server-entry-motd motd-rendered">' + renderMotd(motd) + '</span>';
         }
@@ -185,7 +185,7 @@ function renderServerList() {
         }
         html += '</span>';
         if (status && status.ok && status.modpackUrl) {
-            html += '<a class="server-entry-modpack" href="#" onclick="event.stopPropagation(); openModpackLink(\'' + escapeJs(status.modpackUrl) + '\'); return false;" title="Download modpack">';
+            html += '<a class="server-entry-modpack" href="#" onclick="event.stopPropagation(); openModpackLink(\'' + escapeJs(status.modpackUrl) + '\'); return false;" title="' + escapeHtml(t('server_entry.download_modpack')) + '">';
             html += '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
             html += ' Modpack';
             html += '</a>';
@@ -203,10 +203,10 @@ function renderServerList() {
         }
         html += '</div>';
         html += '<div class="server-entry-actions">';
-        html += '<button class="server-entry-btn" onclick="event.stopPropagation(); moveServerEntry(' + i + ', -1)" title="Move up"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg></button>';
-        html += '<button class="server-entry-btn" onclick="event.stopPropagation(); moveServerEntry(' + i + ', 1)" title="Move down"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>';
-        html += '<button class="server-entry-btn" onclick="event.stopPropagation(); editServerEntry(' + i + ')" title="Edit"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>';
-        html += '<button class="server-entry-btn danger" onclick="event.stopPropagation(); removeServerEntry(' + i + ')" title="Remove"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>';
+        html += '<button class="server-entry-btn" onclick="event.stopPropagation(); moveServerEntry(' + i + ', -1)" title="' + escapeHtml(t('server_entry.move_up')) + '"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg></button>';
+        html += '<button class="server-entry-btn" onclick="event.stopPropagation(); moveServerEntry(' + i + ', 1)" title="' + escapeHtml(t('server_entry.move_down')) + '"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>';
+        html += '<button class="server-entry-btn" onclick="event.stopPropagation(); editServerEntry(' + i + ')" title="' + escapeHtml(t('server_entry.edit')) + '"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>';
+        html += '<button class="server-entry-btn danger" onclick="event.stopPropagation(); removeServerEntry(' + i + ')" title="' + escapeHtml(t('server_entry.remove')) + '"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>';
         html += '</div>';
         html += '</div>';
     }
@@ -308,5 +308,5 @@ function toggleSidebar() {
     var sidebar = document.getElementById('sidebar');
     var btn = document.getElementById('sidebarCollapseBtn');
     sidebar.classList.toggle('collapsed', sidebarCollapsed);
-    btn.title = sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar';
+    btn.title = sidebarCollapsed ? t('sidebar.expand_title') : t('sidebar.collapse_title');
 }

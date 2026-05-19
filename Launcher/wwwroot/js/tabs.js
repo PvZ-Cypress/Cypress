@@ -8,6 +8,7 @@ function switchTab(tab) {
     var pw = document.getElementById('profileWidget');
     if (pw) pw.classList.toggle('active', tab === 'profile');
     if (tab === 'profile' && typeof syncProfileDisplay === 'function') syncProfileDisplay();
+    if (tab === 'profile') send('getTranslationsList', {});
     if (tab === 'docs') switchDoc('quickstart');
     if (tab === 'instances') send('getInstances');
     if (tab === 'join' && typeof pingAllServers === 'function') pingAllServers();
@@ -87,11 +88,13 @@ function syncFloatingFooter(tab) {
 
 function getGame() { return document.getElementById('gameSelector').value; }
 
-const GAME_LABELS = {
-    'GW1': 'Garden Warfare 1',
-    'GW2': 'Garden Warfare 2',
-    'BFN': 'Battle for Neighborville'
-};
+function getGameLabels() {
+    return {
+        'GW1': t('game.gw1'),
+        'GW2': t('game.gw2'),
+        'BFN': t('game.bfn')
+    };
+}
 
 function toggleGamePicker() {
     document.getElementById('gamePicker').classList.toggle('open');
@@ -99,7 +102,7 @@ function toggleGamePicker() {
 
 function selectGame(game) {
     document.getElementById('gameSelector').value = game;
-    document.getElementById('gamePickerLabel').textContent = GAME_LABELS[game] || game;
+    document.getElementById('gamePickerLabel').textContent = getGameLabels()[game] || game;
     const selectedOption = document.querySelector('.game-picker-option[data-game="' + game + '"]');
     if (selectedOption) {
         const iconSrc = selectedOption.querySelector('img').src;
@@ -119,11 +122,13 @@ document.addEventListener('click', function(e) {
     }
 });
 
-const GAME_INFO = {
-    'GW1': { title: 'Garden Warfare 1' },
-    'GW2': { title: 'Garden Warfare 2' },
-    'BFN': { title: 'Battle for Neighborville' }
-};
+function getGameInfo() {
+    return {
+        'GW1': { title: t('game.gw1') },
+        'GW2': { title: t('game.gw2') },
+        'BFN': { title: t('game.bfn') }
+    };
+}
 
 function updateGameBranding() {
     const game = getGame();
@@ -138,7 +143,8 @@ function updateGameBranding() {
     const bgData = document.getElementById('bgData' + game);
     const bgSrc = bgData ? bgData.src : '';
 
-    const info = GAME_INFO[game] || GAME_INFO['GW2'];
+    const gameInfo = getGameInfo();
+    const info = gameInfo[game] || gameInfo['GW2'];
     ['join', 'host'].forEach(function(tab) {
         var bgEl = document.getElementById(tab + 'GameInfoBg');
         var iconEl = document.getElementById(tab + 'GameInfoIcon');
@@ -157,7 +163,7 @@ function onGameChanged() {
     if (fovGroup) fovGroup.style.display = isGW1 ? 'none' : '';
     document.getElementById('username').maxLength = isBFN ? 16 : 32;
     var usernameHint = document.getElementById('usernameHint');
-    if (usernameHint) usernameHint.textContent = isBFN ? '3-16 characters' : '3-32 characters';
+    if (usernameHint) usernameHint.textContent = isBFN ? t('tabs.username_hint_bfn') : t('tabs.username_hint_default');
     document.getElementById('aiBackfillGroup').style.display = isBFN ? '' : 'none';
     document.getElementById('hostedModeGroup').style.display = (game === 'GW2') ? '' : 'none';
     document.getElementById('hostAnticheatTab').style.display = (game === 'GW2') ? '' : 'none';
@@ -169,7 +175,7 @@ function onGameChanged() {
     document.getElementById('startPointGroup').style.display = isBFN ? '' : 'none';
     document.getElementById('startPointValueGroup').style.display = isBFN ? '' : 'none';
     document.getElementById('variantGroup').style.display = isGW1 ? '' : 'none';
-    document.getElementById('levelPickerLabel').textContent = isBFN ? 'DSub' : 'Level';
+    document.getElementById('levelPickerLabel').textContent = isBFN ? t('tabs.dsub_label') : t('mapmode.level_label');
     populateLevelPicker(true);
     populateModePicker();
     if (isBFN) populateStartPointPicker();

@@ -30,10 +30,13 @@
       <Link>launcher.config.json</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="tools\xdelta3\**\*">
+    <Content Include="courgette.exe" Condition="Exists('courgette.exe')">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="patches\**\*">
+    <Content Include="GW2.patch" Condition="Exists('GW2.patch')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="BFN.Patch" Condition="Exists('BFN.Patch')">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\cypressicons\ico\Burbank-CypressIcon.ico">
@@ -80,10 +83,6 @@
     <EmbeddedResource Remove="CypressLauncher.Properties.Resources.resx" />
     <EmbeddedResource Remove="CypressLauncher\LaunchWindow.resx" />
   </ItemGroup>
-  <!-- patch icon into apphost exe (SDK doesn't do this for framework-dependent builds) -->
-  <Target Name="PatchAppHostIcon" AfterTargets="Build" Condition="'$(OS)' == 'Windows_NT' and Exists('$(OutputPath)$(AssemblyName).exe')">
-    <Exec Command="&quot;$(MSBuildProjectDirectory)\tools\rcedit-x64.exe&quot; &quot;$(OutputPath)$(AssemblyName).exe&quot; --set-icon &quot;$(MSBuildProjectDirectory)\assets\cypressicons\ico\Burbank-CypressIcon.ico&quot;" />
-  </Target>
   <Target Name="PruneWebView2WpfArtifacts" AfterTargets="Build;Publish" Condition="'$(TargetFramework)' == 'net8.0-windows'">
     <Delete Files="$(OutputPath)Microsoft.Web.WebView2.Wpf.dll;$(OutputPath)Microsoft.Web.WebView2.Wpf.xml" />
     <Delete Files="$(PublishDir)Microsoft.Web.WebView2.Wpf.dll;$(PublishDir)Microsoft.Web.WebView2.Wpf.xml" Condition="'$(PublishDir)' != ''" />

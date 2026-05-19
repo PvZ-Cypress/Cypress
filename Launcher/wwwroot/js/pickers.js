@@ -130,7 +130,7 @@ function updateAiSetPickerBgs(bgKey) {
 // display text
 
 function getPickerDisplayText(selectId, option) {
-    if (!option) return 'Select option';
+    if (!option) return t('pickers.select_option');
     const reg = PICKER_REGISTRY[selectId];
     // mode pickers: strip the note suffix
     if (reg && reg.type === 'mode') return option.textContent.split(' - ')[0];

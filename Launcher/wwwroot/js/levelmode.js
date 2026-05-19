@@ -146,14 +146,14 @@ function checkCompatibility() {
     const supported = getSupportedModesForLevel(levelData);
     if (supported && !supported.has(modeId)) {
         const modeData = GAME_DATA[game].modes.find(m => m.id === modeId);
-        warnings.push('"' + (modeData ? modeData.name : modeId) + '" is not supported on "' + levelData.name + '". This will likely result in a black screen.');
+        warnings.push(t('mapmode.mode_incompatible', { mode: modeData ? modeData.name : modeId, level: levelData.name }));
     }
 
     // GW1: night TOD check
     if (game === 'GW1') {
         const tod = document.getElementById('todPicker').value;
         if (tod === 'Night' && !levelData.night) {
-            warnings.push('Night TOD is not supported on "' + levelData.name + '". Use Day instead.');
+            warnings.push(t('mapmode.night_not_supported_gw1', { level: levelData.name }));
         }
     }
 
@@ -161,7 +161,7 @@ function checkCompatibility() {
     if (game === 'GW2') {
         const tod = document.getElementById('todPicker').value;
         if (tod === 'Night' && !levelData.tod) {
-            warnings.push('Night may not fully work on "' + levelData.name + '". It works best on Seeds of Time and Great White North.');
+            warnings.push(t('mapmode.night_partial_gw2', { level: levelData.name }));
         }
     }
 
@@ -182,11 +182,11 @@ function checkCompatibility() {
                 spLevelOk = !spData.excludeLevels.includes(levelId);
             }
             if (!spLevelOk) {
-                warnings.push('"' + spData.name + '" start point is not supported on "' + levelData.name + '".');
+                warnings.push(t('mapmode.start_not_supported', { sp: spData.name, level: levelData.name }));
             }
             if (spData.modes && !spData.modes.includes(modeId)) {
                 const modeData = GAME_DATA.BFN.modes.find(m => m.id === modeId);
-                warnings.push('"' + spData.name + '" start point requires: ' + spData.modes.join(', ') + '. Current mode: ' + (modeData ? modeData.name : modeId) + '.');
+                warnings.push(t('mapmode.start_requires_mode', { sp: spData.name, modes: spData.modes.join(', '), mode: modeData ? modeData.name : modeId }));
             }
         }
     }
@@ -254,7 +254,7 @@ function updateVariantPicker() {
         btn.style.display = vData ? '' : 'none';
     });
     const hint = document.getElementById('variantHint');
-    if (hint) hint.textContent = 'Selects which map variation loads for this level.';
+    if (hint) hint.textContent = t('mapmode.variant_hint');
 }
 
 function onInclusionChanged() {
@@ -274,7 +274,7 @@ function onInclusionChanged() {
         const nightBtn = document.querySelector('[data-select-target="todPicker"] .segmented-btn[data-value="Night"]');
         if (nightBtn) {
             nightBtn.classList.toggle('segmented-btn-dimmed', !nightSupported);
-            nightBtn.title = nightSupported ? 'Nighttime' : 'Night may not be fully supported on this map';
+            nightBtn.title = nightSupported ? t('mapmode.night_title') : t('mapmode.night_unsupported_title');
         }
     }
 

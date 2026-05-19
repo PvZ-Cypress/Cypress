@@ -16,6 +16,8 @@
     addPlaylistEntry();
     initMotdEditor();
     buildMotdColorPresets();
+    send('getTranslations', { lang: localStorage.getItem('cypress_lang') || 'en_us' });
+    send('getTranslationsList', {});
     send('checkTos', {});
     send('checkUpdates', {});
 });

@@ -18,15 +18,46 @@ function updateProfileIdentitySection() {
         if (loggedIn) {
             usernameField.readOnly = true;
             usernameField.oninput = null;
-            usernameField.placeholder = 'Not registered';
-            if (usernameHint) usernameHint.textContent = 'your Cypress identity username';
+            usernameField.placeholder = t('auth.not_registered_placeholder');
+            if (usernameHint) usernameHint.textContent = t('auth.identity_username_hint');
         } else {
             usernameField.readOnly = false;
             usernameField.oninput = onProfileFieldChanged;
-            usernameField.placeholder = 'Enter your name';
-            if (usernameHint) usernameHint.textContent = 'your display name when joining servers';
+            usernameField.placeholder = t('profile.display_name_placeholder');
+            if (usernameHint) usernameHint.textContent = t('auth.display_name_hint');
         }
     }
+    updateGameLibrarySection();
+}
+
+var _GAME_LIBRARY_DEFS = [
+    { name: 'Garden Warfare 1', iconId: 'iconDataGW1', label: 'GW1' },
+    { name: 'Garden Warfare 2', iconId: 'iconDataGW2', label: 'GW2' },
+    { name: 'Battle for Neighborville', iconId: 'iconDataBFN', label: 'BFN' }
+];
+
+function updateGameLibrarySection() {
+    var list = document.getElementById('gameLibraryList');
+    if (!list) return;
+    var loggedIn = !!window._eaLoggedIn;
+    if (!loggedIn) {
+        list.innerHTML = '<div class="game-library-empty">' + (window._i18nStrings['profile.library_sign_in'] || 'Sign in to see your owned games') + '</div>';
+        return;
+    }
+    var owned = window._identityOwnedGames || [];
+    list.innerHTML = '';
+    _GAME_LIBRARY_DEFS.forEach(function(def) {
+        var isOwned = owned.indexOf(def.name) !== -1;
+        var iconEl = document.getElementById(def.iconId);
+        var iconSrc = iconEl ? iconEl.src : '';
+        var card = document.createElement('div');
+        card.className = 'game-library-card ' + (isOwned ? 'owned' : 'not-owned');
+        card.innerHTML =
+            (iconSrc ? '<img src="' + iconSrc + '" alt="' + def.label + '" draggable="false">' : '') +
+            '<div class="game-library-card-name">' + def.label + '</div>' +
+            (isOwned ? '<div class="game-library-badge">' + (window._i18nStrings['profile.library_owned'] || 'Owned') + '</div>' : '');
+        list.appendChild(card);
+    });
 }
 
 function _updateIdentityButtons() {
@@ -57,7 +88,7 @@ function startEaLogin() {
     const btn = document.getElementById('authLoginBtn');
     const status = document.getElementById('authStatus');
     btn.disabled = true;
-    status.textContent = 'Opening EA sign-in window...';
+    status.textContent = t('auth.opening_ea');
     status.className = 'auth-status waiting';
     send('eaLogin');
 }
@@ -81,14 +112,14 @@ function handleAuthLoginResult(data) {
     if (data.ok) {
         window._eaLoggedIn = true;
         updateProfileIdentitySection();
-        status.textContent = 'Logged in as ' + data.displayName;
+        status.textContent = t('auth.logged_in_as', { name: data.displayName });
         status.className = 'auth-status';
         if (data.uid) setAvatarImage(data.uid);
         hideAuthModal();
         send('init', {});
     } else {
         btn.disabled = false;
-        status.textContent = data.error || 'Login failed';
+        status.textContent = data.error || t('auth.login_failed');
         status.className = 'auth-status error';
     }
 }
@@ -108,6 +139,7 @@ function handleIdentityStatus(data) {
         window._identityOwnedGames = data.ownedGames || [];
         window._identityEaRelinked = !!data.eaRelinked;
         _updateIdentityButtons();
+        updateGameLibrarySection();
         hideIdentityModal();
         const usernameField = document.getElementById('username');
         if (usernameField) usernameField.value = data.username || '';
@@ -144,7 +176,7 @@ function showIdentityModal(eaDisplayName, ownedGames) {
             });
         } else {
             var li = document.createElement('li');
-            li.textContent = 'No supported games found';
+            li.textContent = t('auth.no_games_found');
             li.style.color = 'var(--text-muted, #999)';
             listEl.appendChild(li);
         }
@@ -176,18 +208,18 @@ function submitIdentityRegistration() {
     const btn = document.getElementById('identityRegisterBtn');
 
     if (username.length < 3 || username.length > 32) {
-        status.textContent = 'Username must be 3-32 characters';
+        status.textContent = t('auth.username_length_error');
         status.className = 'auth-status error';
         return;
     }
     if (!/^[a-zA-Z0-9][a-zA-Z0-9 _-]*[a-zA-Z0-9]$/.test(username) && !/^[a-zA-Z0-9]$/.test(username)) {
-        status.textContent = 'Letters, numbers, spaces, _ and - allowed (no leading/trailing spaces)';
+        status.textContent = t('auth.username_chars_error');
         status.className = 'auth-status error';
         return;
     }
 
     btn.disabled = true;
-    status.textContent = 'Registering...';
+    status.textContent = t('auth.registering');
     status.className = 'auth-status waiting';
     send('registerIdentity', { username: username });
 }
@@ -210,7 +242,7 @@ function handleRegisterResult(data) {
         if (typeof updateProfileWidget === 'function') updateProfileWidget();
     } else {
         btn.disabled = false;
-        status.textContent = data.error || 'Registration failed';
+        status.textContent = data.error || t('auth.registration_failed');
         status.className = 'auth-status error';
     }
 }
@@ -221,7 +253,7 @@ function submitRefreshEntitlements() {
     var btn = document.getElementById('refreshLicensesBtn');
     var hint = document.getElementById('refreshLicensesHint');
     if (btn) btn.disabled = true;
-    if (hint) hint.textContent = 'Checking with EA...';
+    if (hint) hint.textContent = t('auth.checking_ea');
     send('refreshEntitlements');
 }
 
@@ -231,14 +263,15 @@ function handleRefreshEntitlementsResult(data) {
     if (data.ok) {
         window._identityOwnedGames = data.ownedGames || [];
         _updateIdentityButtons();
-        if (hint) hint.textContent = 'Licenses updated';
+        updateGameLibrarySection();
+        if (hint) hint.textContent = t('auth.licenses_updated');
         setTimeout(function() {
-            if (hint) hint.textContent = 're-fetches your owned PvZ games from EA';
+            if (hint) hint.textContent = t('auth.refresh_licenses_hint');
         }, 3000);
     } else {
-        if (hint) hint.textContent = data.error || 'Failed to refresh';
+        if (hint) hint.textContent = data.error || t('auth.refresh_failed');
         setTimeout(function() {
-            if (hint) hint.textContent = 're-fetches your owned PvZ games from EA';
+            if (hint) hint.textContent = t('auth.refresh_licenses_hint');
         }, 4000);
     }
     if (btn) btn.disabled = false;
@@ -261,7 +294,7 @@ function startRelinkEALogin() {
     var btn = document.getElementById('relinkConfirmBtn');
     var status = document.getElementById('relinkStatus');
     btn.disabled = true;
-    status.textContent = 'Opening EA sign-in window...';
+    status.textContent = t('auth.opening_ea');
     status.className = 'auth-status waiting';
     send('relinkEA');
 }
@@ -273,11 +306,12 @@ function handleRelinkEAResult(data) {
         window._identityEaRelinked = true;
         window._identityOwnedGames = data.ownedGames || [];
         _updateIdentityButtons();
+        updateGameLibrarySection();
         closeRelinkModal();
-        showStatus('EA account relinked successfully', 'info');
+        showStatus(t('auth.relink_success'), 'info');
     } else {
         btn.disabled = false;
-        status.textContent = data.error || 'Relink failed';
+        status.textContent = data.error || t('auth.relink_failed');
         status.className = 'auth-status error';
     }
 }
@@ -288,24 +322,24 @@ function submitNickname() {
     var nickname = input.value.trim();
     var status = document.getElementById('nicknameStatus');
     if (nickname.length > 0 && (nickname.length < 3 || nickname.length > 32)) {
-        if (status) { status.textContent = 'Nickname must be 3-32 characters or empty to clear'; status.className = 'auth-status error'; }
+        if (status) { status.textContent = t('auth.nickname_length_error'); status.className = 'auth-status error'; }
         return;
     }
     if (nickname.length > 0 && !/^[a-zA-Z0-9][a-zA-Z0-9 _-]*[a-zA-Z0-9]$/.test(nickname) && !/^[a-zA-Z0-9]$/.test(nickname)) {
-        if (status) { status.textContent = 'Letters, numbers, spaces, _ and - allowed'; status.className = 'auth-status error'; }
+        if (status) { status.textContent = t('auth.nickname_chars_error'); status.className = 'auth-status error'; }
         return;
     }
     if (nickname.length > 0 && Math.random() < 1 / 10000) {
         nickname = 'Cypress Carl';
     }
-    if (status) { status.textContent = 'Saving...'; status.className = 'auth-status waiting'; }
+    if (status) { status.textContent = t('auth.saving'); status.className = 'auth-status waiting'; }
     send('setNickname', { nickname: nickname });
 }
 
 function handleNicknameResult(data) {
     var status = document.getElementById('nicknameStatus');
     if (data.ok) {
-        if (status) { status.textContent = data.nickname ? 'Nickname set' : 'Nickname cleared'; status.className = 'auth-status'; }
+        if (status) { status.textContent = data.nickname ? t('auth.nickname_set') : t('auth.nickname_cleared'); status.className = 'auth-status'; }
         setTimeout(function() { if (status) status.textContent = ''; }, 2000);
     } else {
         if (status) { status.textContent = data.error || 'Failed'; status.className = 'auth-status error'; }
