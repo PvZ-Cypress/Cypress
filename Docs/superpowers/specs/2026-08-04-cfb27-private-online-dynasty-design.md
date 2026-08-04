@@ -1,13 +1,14 @@
-# CFB27 Offline Online Dynasty Recovery Design
+# CFB27 Private Online Dynasty Design
 
 **Date:** 2026-08-04
 **Status:** Approved for implementation planning
 
 ## Goal
 
-Make CFB27 Online Dynasty usable through the local Cypress private stack while
-guaranteeing that the game cannot communicate with EA services during a
-private-server run.
+Make the game's Online Dynasty mode usable through a Cypress-owned private
+Online Dynasty server while guaranteeing that the game cannot communicate with
+EA services during a private-server run. This does not target or use the game's
+Offline Dynasty mode.
 
 The first deliverable is a repeatable diagnostic launch that restores bridge
 loading for the currently installed executable, records every request needed to
@@ -69,7 +70,7 @@ Known fixed import slots may be used only after validating their expected
 values. Module import-table interception remains the portable fallback for
 `connect`, `WSAConnect`, `ConnectEx`, and the required WinHTTP calls.
 
-### 2. Offline capture gateway
+### 2. Private-server capture gateway
 
 The local gateway records enough information to identify each access point:
 
@@ -91,8 +92,8 @@ A repository PowerShell entry point performs these steps:
 
 1. Build the proxy bridge and private services.
 2. Create a timestamped run directory under Cypress application data.
-3. Write an explicit offline bridge configuration.
-4. Verify the gateway health and offline enforcement.
+3. Write an explicit private Online Dynasty bridge configuration.
+4. Verify the gateway health and EA-disconnection enforcement.
 5. Install the proxy as `dinput8.dll` without replacing the game executable.
 6. Launch CFB27 through the existing supported launch flow.
 7. Continuously write bridge, gateway, Dynasty, process-exit, and run-summary
@@ -151,7 +152,8 @@ response from a client-side injection fault.
 - Rejects zero and multiple signature matches.
 - Rejects non-executable or unreadable regions.
 - Verifies original bytes before applying the patch.
-- Allows loopback and intercepts non-loopback IPv4, IPv6, and IPv4-mapped IPv6.
+- Allows private-server loopback traffic and intercepts non-loopback IPv4,
+  IPv6, and IPv4-mapped IPv6.
 
 ### Gateway and service tests
 
@@ -181,8 +183,8 @@ response from a client-side injection fault.
 
 ## Scope Boundaries
 
-This work targets local Online Dynasty only. It does not connect to EA,
+This work targets the game's Online Dynasty mode on a private Cypress server.
+It does not implement the game's Offline Dynasty mode. It does not connect to EA,
 impersonate EA services on the public network, support public matchmaking, or
 make unrelated online modes fully playable. Mascot behavior is retained only
 as a regression check for the shared authentication/bootstrap path.
-
