@@ -12,9 +12,11 @@ $releaseSource = $PSScriptRoot
 $repoRoot = [IO.Path]::GetFullPath((Join-Path $releaseSource "..\..\.."))
 if ([string]::IsNullOrWhiteSpace($OutputRoot)) { $OutputRoot = Join-Path $repoRoot "dist\cfb27-private" }
 $outputBase = [IO.Path]::GetFullPath($OutputRoot)
+$sourceDirty = @(& git -C $repoRoot status --porcelain --untracked-files=normal).Count -gt 0
 if ([string]::IsNullOrWhiteSpace($Version)) {
     $shortHash = (& git -C $repoRoot rev-parse --short HEAD).Trim()
     $Version = "{0}-{1}" -f (Get-Date -Format "yyyy.MM.dd"), $shortHash
+    if ($sourceDirty) { $Version += "-dirty" }
 }
 if ($Version -notmatch '^[0-9A-Za-z._-]+$') { throw "Version contains unsupported filename characters: $Version" }
 $releaseRoot = Join-Path $outputBase $Version
@@ -61,7 +63,7 @@ function New-PackageManifest {
             sha256 = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash
         }
     })
-    $manifest = [ordered]@{ schemaVersion = 1; package = $PackageName; version = $Version; files = $files }
+    $manifest = [ordered]@{ schemaVersion = 1; package = $PackageName; version = $Version; sourceDirty = $sourceDirty; files = $files }
     [IO.File]::WriteAllText((Join-Path $PackageRoot "manifest.json"), (($manifest | ConvertTo-Json -Depth 6) + [Environment]::NewLine), (New-Object Text.UTF8Encoding($false)))
 }
 
@@ -145,7 +147,7 @@ Compress-Archive -Path (Join-Path $clientStage "*") -DestinationPath $clientZip 
 $packageEntries = @(@($serverZip, $clientZip) | ForEach-Object {
     [ordered]@{ file = Split-Path -Leaf $_; size = (Get-Item -LiteralPath $_).Length; sha256 = (Get-FileHash -LiteralPath $_ -Algorithm SHA256).Hash }
 })
-$releaseManifest = [ordered]@{ schemaVersion = 1; version = $Version; gitCommit = (& git -C $repoRoot rev-parse HEAD).Trim(); builtAtUtc = [DateTime]::UtcNow.ToString("O"); packages = $packageEntries }
+$releaseManifest = [ordered]@{ schemaVersion = 1; version = $Version; gitCommit = (& git -C $repoRoot rev-parse HEAD).Trim(); sourceDirty = $sourceDirty; builtAtUtc = [DateTime]::UtcNow.ToString("O"); packages = $packageEntries }
 [IO.File]::WriteAllText((Join-Path $releaseRoot "manifest.json"), (($releaseManifest | ConvertTo-Json -Depth 5) + [Environment]::NewLine), (New-Object Text.UTF8Encoding($false)))
 $checksumLines = @($packageEntries | ForEach-Object { "$($_.sha256)  $($_.file)" })
 [IO.File]::WriteAllLines((Join-Path $releaseRoot "SHA256SUMS.txt"), $checksumLines, (New-Object Text.UTF8Encoding($false)))

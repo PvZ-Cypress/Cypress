@@ -44,6 +44,9 @@ foreach ($package in @($serverRoot, $clientRoot)) {
 
 $version = (Get-Content -LiteralPath (Join-Path $serverRoot "VERSION.txt") -Raw).Trim()
 Assert-Equal $version (Get-Content -LiteralPath (Join-Path $clientRoot "VERSION.txt") -Raw).Trim() "package versions"
+$releaseManifest = Get-Content -LiteralPath (Join-Path $root "manifest.json") -Raw | ConvertFrom-Json
+Assert-True ($null -ne $releaseManifest.sourceDirty) "release manifest should disclose source dirty state"
+if ([bool]$releaseManifest.sourceDirty) { Assert-True $version.EndsWith("-dirty") "dirty source version suffix" }
 $serverZip = Join-Path $root ("Cypress-CFB27-Server-{0}-win-x64.zip" -f $version)
 $clientZip = Join-Path $root ("Cypress-CFB27-Client-{0}-win-x64.zip" -f $version)
 Assert-True (Test-Path -LiteralPath $serverZip -PathType Leaf) "server ZIP"
