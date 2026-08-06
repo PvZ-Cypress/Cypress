@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "builds": [
+    {
+      "fileName": "CollegeFB27_Trial.exe",
+      "sha256": "B16F49F6E53F81C084B0E1B2F1EAFB1DA78CE51BEE3660BD5A79ED92C626817D",
+      "size": null,
+      "fileVersion": null,
+      "bridgeProfile": "cfb27-trial-original"
+    },
+    {
+      "fileName": "CollegeFB27.exe",
+      "sha256": "6BEDDE67760E425DB1165E8745BC472886B73DFF60FB4F127E573D3E40DA98B7",
+      "size": null,
+      "fileVersion": null,
+      "bridgeProfile": "cfb27-normal-original"
+    },
+    {
+      "fileName": "CollegeFB27.exe",
+      "sha256": "3A587DEB7E2189E53F87A2899774BB3C66EA863B3C323B602A6820E855A7D6E6",
+      "size": null,
+      "fileVersion": null,
+      "bridgeProfile": "cfb27-normal-current"
+    },
+    {
+      "fileName": "CollegeFB27.exe",
+      "sha256": "A048578530F7ED5967DF38803B63AD9B9F04FC71287F1E151C901A94AB240BFD",
+      "size": null,
+      "fileVersion": null,
+      "bridgeProfile": "cfb27-normal-2026-07-16"
+    }
+  ]
+}

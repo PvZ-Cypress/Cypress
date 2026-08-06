@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "vpnBindAddress": "100.64.0.1",
+  "vpnRemoteAddress": "100.64.0.0/10",
+  "blazePort": 27920,
+  "diagnosticsPort": 27921,
+  "dynastyPort": 27910,
+  "profile": "CFB27Private",
+  "assetSlot": 0,
+  "dynastySeed": "data/seed/DYNASTY-SEED"
+}

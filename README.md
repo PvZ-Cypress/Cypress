@@ -49,6 +49,15 @@ dotnet publish CypressLauncher.csproj -c Release -f net8.0-windows -o build /p:L
 
 See [the workflows](./.github/workflows) for more details.
 
+### CFB27 Portable Private Release
+
+The current CFB27 private stack can be packaged as separate self-contained
+Windows server and player archives for use over a trusted private VPN. Run
+`tools/cypress-servers/release/Build-Release.ps1`; the versioned archives and
+checksums are written beneath `dist/cfb27-private/`. See the
+[portable VPN release design](./Docs/superpowers/specs/2026-08-05-cfb27-portable-vpn-release-design.md)
+for the topology and update-compatibility boundary.
+
 ### Server Build Configurations
 
 Each game has its own configuration via preprocessor defines (`CYPRESS_GW1`, `CYPRESS_GW2`, `CYPRESS_BFN`):
