@@ -30,7 +30,31 @@ const (
 	TypeObjectType
 	TypeObjectID
 	TypeFloat
+	// TypeGeneric (12) is EA's "generic" TDF: a value whose concrete type is not
+	// in the wire encoding but in a registry the client and server share. It
+	// appears as the value type of the TMPA template-attribute map in
+	// GameManager createOrJoinGame (4/10), which is why that request would not
+	// decode at all before this existed.
+	//
+	// Layout: [present:1][typeID varint][value][0x00]. The type id names a
+	// registered TDF type; two are seen in CFB27 captures — 20 (integer) and
+	// 2807479042 (list<string>).
+	TypeGeneric Type = 12
 )
+
+// Known generic type ids, mapped to the wire shape their value uses.
+var genericTypes = map[int64]Type{
+	20:         TypeInteger,
+	2807479042: TypeList,
+}
+
+// Generic is a TypeGeneric value: a registry type id plus its decoded payload.
+type Generic struct {
+	Present  bool
+	TypeID   int64
+	ValueTyp Type
+	Value    any
+}
 
 type Field struct {
 	Tag   string
@@ -62,6 +86,19 @@ type ObjectType struct {
 type ObjectID struct {
 	Type ObjectType
 	ID   int64
+}
+
+type Union struct {
+	ActiveMember uint8
+	// Value is the first member, kept so existing callers and the encoder are
+	// unaffected. Members holds the full body, which can carry several fields.
+	Value   *Field
+	Members []Field
+}
+
+type Variable struct {
+	Marker uint8
+	Value  *Field
 }
 
 func EncodeTag(tag string) ([3]byte, error) {
@@ -96,6 +133,12 @@ func DecodeTag(tag [3]byte) string {
 	return strings.TrimRight(string(raw[:]), " ")
 }
 
+// TraceHook, when set, is called for every field header the decoder reads.
+// It exists to diagnose desyncs on captured payloads: the last few entries
+// before a failure show which construct the decoder mis-measured. Leave nil in
+// production — it is checked, not called, on the hot path.
+var TraceHook func(offset, depth int, tag string, typ Type)
+
 func Decode(data []byte) ([]Field, error) {
 	d := decoder{data: data}
 	fields, err := d.fields(false, 0)
@@ -127,6 +170,7 @@ func (d *decoder) fields(terminated bool, depth int) ([]Field, error) {
 	}
 	fields := make([]Field, 0)
 	for d.pos < len(d.data) {
+		fieldOffset := d.pos
 		if terminated && d.data[d.pos] == 0 {
 			d.pos++
 			return fields, nil
@@ -140,19 +184,32 @@ func (d *decoder) fields(terminated bool, depth int) ([]Field, error) {
 		tag := [3]byte{d.data[d.pos], d.data[d.pos+1], d.data[d.pos+2]}
 		typ := Type(d.data[d.pos+3])
 		d.pos += 4
+		if TraceHook != nil {
+			TraceHook(fieldOffset, depth, DecodeTag(tag), typ)
+		}
 		value, err := d.value(typ, depth+1)
 		if err != nil {
-			return nil, fmt.Errorf("decode TDF field %s: %w", DecodeTag(tag), err)
+			return nil, fmt.Errorf("decode TDF field %s at offset %d: %w", DecodeTag(tag), fieldOffset, err)
 		}
 		fields = append(fields, Field{Tag: DecodeTag(tag), Type: typ, Value: value})
 	}
 	if terminated {
-		return nil, errors.New("unterminated TDF struct")
+		// Running out of data ends the list too. The final field of a payload can
+		// be a struct or union whose terminator is simply omitted — there is
+		// nothing after it to separate from. Decode still verifies that the whole
+		// payload was consumed, so a genuinely truncated body is caught there.
+		return fields, nil
 	}
 	return fields, nil
 }
 
 func (d *decoder) value(typ Type, depth int) (any, error) {
+	return d.valueIn(typ, depth, false)
+}
+
+// valueIn decodes a value, tracking whether it is a list element: union encoding
+// differs between the two positions.
+func (d *decoder) valueIn(typ Type, depth int, inList bool) (any, error) {
 	if depth > maxTDFDepth {
 		return nil, errors.New("TDF nesting limit exceeded")
 	}
@@ -198,7 +255,7 @@ func (d *decoder) value(typ Type, depth int) (any, error) {
 		}
 		list := List{ElementType: Type(elementByte), Values: make([]any, 0, count)}
 		for i := 0; i < count; i++ {
-			value, err := d.value(list.ElementType, depth+1)
+			value, err := d.valueIn(list.ElementType, depth+1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decode list item %d: %w", i, err)
 			}
@@ -231,16 +288,68 @@ func (d *decoder) value(typ Type, depth int) (any, error) {
 			m.Entries = append(m.Entries, MapEntry{Key: key, Value: value})
 		}
 		return m, nil
+	case TypeUnion:
+		activeMember, err := d.byte()
+		if err != nil {
+			return nil, err
+		}
+		union := Union{ActiveMember: activeMember}
+		if activeMember == 0x7f {
+			return union, nil
+		}
+		// How a union's body is encoded depends on where the union sits.
+		//
+		// As a struct FIELD it carries one tagged member, and the fields after it
+		// are its siblings: reading a terminated list here made PNET swallow the
+		// twelve that follow it in NotifyPlayerJoining (PSET, RCRE, ROLE, SCEN,
+		// SID, SLOT, STAT, TIDX, TIME, UGID, UID, UUID).
+		//
+		// As a LIST ELEMENT there is no tag — list elements are untagged — so the
+		// body is a terminated field list. Reading a single tagged field here made
+		// HNET in NotifyGameSetup stop after its first member and spill MACI and
+		// PORT to the enclosing struct, after which the stream was noise.
+		if inList {
+			members, err := d.fields(true, depth)
+			if err != nil {
+				return nil, err
+			}
+			union.Members = members
+			if len(members) > 0 {
+				first := members[0]
+				union.Value = &first
+			}
+			return union, nil
+		}
+		if len(d.data)-d.pos < 4 {
+			return nil, errors.New("truncated TDF union field")
+		}
+		tag := [3]byte{d.data[d.pos], d.data[d.pos+1], d.data[d.pos+2]}
+		typ := Type(d.data[d.pos+3])
+		d.pos += 4
+		value, err := d.value(typ, depth+1)
+		if err != nil {
+			return nil, err
+		}
+		field := Field{Tag: DecodeTag(tag), Type: typ, Value: value}
+		union.Value = &field
+		union.Members = []Field{field}
+		return union, nil
 	case TypeVariable:
-		valueType, err := d.byte()
+		marker, err := d.byte()
 		if err != nil {
 			return nil, err
 		}
-		value, err := d.value(Type(valueType), depth+1)
+		if len(d.data)-d.pos < 4 {
+			return nil, errors.New("truncated TDF variable field")
+		}
+		tag := [3]byte{d.data[d.pos], d.data[d.pos+1], d.data[d.pos+2]}
+		typ := Type(d.data[d.pos+3])
+		d.pos += 4
+		value, err := d.value(typ, depth+1)
 		if err != nil {
 			return nil, err
 		}
-		return Field{Type: Type(valueType), Value: value}, nil
+		return Variable{Marker: marker, Value: &Field{Tag: DecodeTag(tag), Type: typ, Value: value}}, nil
 	case TypeObjectType:
 		component, err := d.integer()
 		if err != nil {
@@ -267,9 +376,48 @@ func (d *decoder) value(typ Type, depth int) (any, error) {
 			return nil, err
 		}
 		return math.Float32frombits(binary.BigEndian.Uint32(raw)), nil
+	case TypeGeneric:
+		return d.generic(depth)
 	default:
 		return nil, fmt.Errorf("unsupported TDF type %d", typ)
 	}
+}
+
+// generic decodes a TypeGeneric value. The concrete type is not on the wire, so
+// a known type id is used when there is one and otherwise the candidate shapes
+// are tried in turn: the value is followed by a 0x00 terminator, which is enough
+// to tell a correct reading from a wrong one.
+func (d *decoder) generic(depth int) (any, error) {
+	present, err := d.byte()
+	if err != nil {
+		return nil, err
+	}
+	if present == 0 {
+		return Generic{}, nil
+	}
+	typeID, err := d.integer()
+	if err != nil {
+		return nil, err
+	}
+	candidates := []Type{TypeInteger, TypeString, TypeList, TypeBlob, TypeStruct, TypeMap, TypeFloat}
+	if known, ok := genericTypes[typeID]; ok {
+		candidates = append([]Type{known}, candidates...)
+	}
+	start := d.pos
+	for _, candidate := range candidates {
+		d.pos = start
+		value, err := d.valueIn(candidate, depth+1, false)
+		if err != nil {
+			continue
+		}
+		// The terminator is what confirms the reading consumed exactly the value.
+		if d.pos >= len(d.data) || d.data[d.pos] != 0 {
+			continue
+		}
+		d.pos++
+		return Generic{Present: true, TypeID: typeID, ValueTyp: candidate, Value: value}, nil
+	}
+	return nil, fmt.Errorf("generic type id %d: no candidate TDF type decodes the value", typeID)
 }
 
 func (d *decoder) integer() (int64, error) {
@@ -365,6 +513,12 @@ func encodeFields(out *bytes.Buffer, fields []Field, terminated bool, depth int)
 }
 
 func encodeValue(out *bytes.Buffer, typ Type, value any, depth int) error {
+	return encodeValueIn(out, typ, value, depth, false)
+}
+
+// encodeValueIn mirrors valueIn: a union written as a list element has no tag and
+// is terminated, while one written as a struct field carries a tagged member.
+func encodeValueIn(out *bytes.Buffer, typ Type, value any, depth int, inList bool) error {
 	if depth > maxTDFDepth {
 		return errors.New("TDF nesting limit exceeded")
 	}
@@ -407,7 +561,7 @@ func encodeValue(out *bytes.Buffer, typ Type, value any, depth int) error {
 		out.WriteByte(byte(v.ElementType))
 		writeInteger(out, int64(len(v.Values)))
 		for _, item := range v.Values {
-			if err := encodeValue(out, v.ElementType, item, depth+1); err != nil {
+			if err := encodeValueIn(out, v.ElementType, item, depth+1, true); err != nil {
 				return err
 			}
 		}
@@ -430,13 +584,50 @@ func encodeValue(out *bytes.Buffer, typ Type, value any, depth int) error {
 				return err
 			}
 		}
+	case TypeUnion:
+		v, ok := value.(Union)
+		if !ok {
+			return fmt.Errorf("union value has type %T", value)
+		}
+		out.WriteByte(v.ActiveMember)
+		if v.ActiveMember == 0x7f {
+			return nil
+		}
+		// Mirror the decoder: in a list the body is a terminated field list; as a
+		// struct field it is a single tagged member.
+		if inList {
+			members := v.Members
+			if len(members) == 0 && v.Value != nil {
+				members = []Field{*v.Value}
+			}
+			return encodeFields(out, members, true, depth+1)
+		}
+		if v.Value == nil {
+			return errors.New("active union has no value")
+		}
+		tag, err := EncodeTag(v.Value.Tag)
+		if err != nil {
+			return err
+		}
+		out.Write(tag[:])
+		out.WriteByte(byte(v.Value.Type))
+		return encodeValue(out, v.Value.Type, v.Value.Value, depth+1)
 	case TypeVariable:
-		v, ok := value.(Field)
+		v, ok := value.(Variable)
 		if !ok {
 			return fmt.Errorf("variable value has type %T", value)
 		}
-		out.WriteByte(byte(v.Type))
-		return encodeValue(out, v.Type, v.Value, depth+1)
+		out.WriteByte(v.Marker)
+		if v.Value == nil {
+			return errors.New("variable has no value")
+		}
+		tag, err := EncodeTag(v.Value.Tag)
+		if err != nil {
+			return err
+		}
+		out.Write(tag[:])
+		out.WriteByte(byte(v.Value.Type))
+		return encodeValue(out, v.Value.Type, v.Value.Value, depth+1)
 	case TypeObjectType:
 		v, ok := value.(ObjectType)
 		if !ok {
@@ -461,6 +652,21 @@ func encodeValue(out *bytes.Buffer, typ Type, value any, depth int) error {
 		var raw [4]byte
 		binary.BigEndian.PutUint32(raw[:], math.Float32bits(v))
 		out.Write(raw[:])
+	case TypeGeneric:
+		v, ok := value.(Generic)
+		if !ok {
+			return fmt.Errorf("generic value has type %T", value)
+		}
+		if !v.Present {
+			out.WriteByte(0)
+			return nil
+		}
+		out.WriteByte(1)
+		writeInteger(out, v.TypeID)
+		if err := encodeValue(out, v.ValueTyp, v.Value, depth+1); err != nil {
+			return err
+		}
+		out.WriteByte(0)
 	default:
 		return fmt.Errorf("unsupported TDF type %d", typ)
 	}

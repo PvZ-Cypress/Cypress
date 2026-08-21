@@ -19,14 +19,13 @@ namespace Cypress::CFB27
 	// the BearSSL end_chain hook never fires. Returns true if the handler and guards installed.
 	bool InstallProtoSslVerifyProbe(BridgeLog& log);
 
-	// Hooks the ProtoSSL function at RVA 0x16D1750 (a confirmed call target on the handshake
-	// verify path). Logs its return value each call; when force is true, overrides the return
-	// with 0 to force certificate acceptance. Returns true if the hook installed.
+	// Observes the ProtoSSL receive-state routine at RVA 0x16D1750. This is diagnostic only:
+	// it never overrides a return value because the routine is not certificate verification.
 	bool InstallCertVerifyHook(BridgeLog& log, bool force);
 
-	// Hooks _ProtoSSLUpdate (RVA 0x16E1A40) to capture the connection state pointer, then
-	// arms a hardware write breakpoint on state[0x370] (iState) and logs each write with a
-	// backtrace. The write of value 3 identifies the certificate-reject verdict. Requires the
-	// guard-page probe to be OFF (shared single-step VEH). Returns true if installed.
+	// Hooks _ProtoSSLUpdate (RVA 0x16E1A40) and passively logs iState state[0x370]
+	// transitions with a backtrace. It uses no debug registers or exceptions.
 	bool InstallFailStateWatch(BridgeLog& log);
+	std::size_t BoundedProtoSslReceiveLength(std::int64_t result, std::size_t requestedLength);
+	std::size_t ProtoSslDiagnosticPreviewLimit();
 }

@@ -1084,27 +1084,17 @@ namespace Cypress::CFB27
 // ---------------------------------------------------------------------------
 // ProtoSSL certificate-verify hook (experimental, off by default)
 //
-// The probe confirmed the game rejects our certificate in the DirtySDK ProtoSSL
-// TLS 1.3 state machine (BearSSL's end_chain never fires). RVA 0x16D1750 is a
-// call target reached on the handshake verify path
-// (dispatcher -> 0x16E1D28 -> 0x16E45C5 -> 0x16D1750). This hook calls the
-// original and logs its return value so we can confirm whether that return is
-// the accept/reject verdict. When force is set, it overrides the return with 0
-// to force acceptance. All x64 functions share one calling convention, so a
-// four-argument fastcall thunk forwards the register arguments safely.
+// This hook is retained for observation only. Its callsite sits in the
+// ProtoSSL receive/state loop, so it is not a certificate-verdict function.
 // ---------------------------------------------------------------------------
 namespace
 {
-	using CertVerifyFunction = std::int64_t(*)(void*, void*, void*, void*);
+	using CertVerifyFunction = std::int64_t(*)(void*, void*, std::uint32_t, void*);
 	CertVerifyFunction s_originalCertVerify = nullptr;
 	Cypress::CFB27::BridgeLog* s_certVerifyLog = nullptr;
 	std::atomic_uint s_certVerifyLogCount{0};
 	bool s_certVerifyForce = false;
-	// 0x16D3170 is the ProtoSSL alert-raise/flush routine: it reads the alert
-	// description from [state+0x11E2] (state = rcx) and marks it pending. Hooking
-	// it reveals the exact TLS alert code (48=unknown_ca, 42=bad_certificate, ...)
-	// and the caller chain that decided to reject, which pins the verdict + fix.
-	constexpr std::uintptr_t kCertVerifyRva = 0x16D3170;
+	constexpr std::uintptr_t kCertVerifyRva = 0x16D1750;
 
 	std::uint8_t SafeReadByteAt(const void* base, const std::size_t offset)
 	{
@@ -1112,14 +1102,19 @@ namespace
 		__except (EXCEPTION_EXECUTE_HANDLER) { return 0xFF; }
 	}
 
-	std::int64_t HookCertVerify(void* a, void* b, void* c, void* d)
+	std::int64_t HookCertVerify(void* a, void* b, const std::uint32_t requestedLength, void* d)
 	{
+		const std::int64_t originalResult = s_originalCertVerify ? s_originalCertVerify(a, b, requestedLength, d) : 0;
+		if (originalResult <= 0)
+			return originalResult;
 		const unsigned count = s_certVerifyLogCount.fetch_add(1);
-		if (s_certVerifyLog && count < 48 && a)
+		if (s_certVerifyLog && count < 48)
 		{
-			const unsigned desc = SafeReadByteAt(a, 0x11E2);
-			const unsigned level = SafeReadByteAt(a, 0x11E1);
-			const unsigned pending = SafeReadByteAt(a, 0x11E0);
+			const std::size_t payloadLength = (std::min)(
+				Cypress::CFB27::BoundedProtoSslReceiveLength(originalResult, requestedLength),
+				Cypress::CFB27::ProtoSslDiagnosticPreviewLimit());
+			std::array<std::uint8_t, 4096> payload{};
+			const bool payloadRead = payloadLength != 0 && SafeReadBytes(b, payload.data(), payloadLength);
 			const ImageView image = GetImage();
 			void* frames[24] = {};
 			const USHORT captured = CaptureStackBackTrace(0, 24, frames, nullptr);
@@ -1131,13 +1126,13 @@ namespace
 				stack += "0x" + FormatRva(image, frames[index]);
 			}
 			s_certVerifyLog->Write(
-				"alert-raise call=" + std::to_string(count + 1) +
-				" desc=" + std::to_string(desc) +
-				" level=" + std::to_string(level) +
-				" pending=" + std::to_string(pending) +
+				"ProtoSSL receive-state callback=" + std::to_string(count + 1) +
+				" result=" + std::to_string(originalResult) +
+				" requested=" + std::to_string(requestedLength) +
+				(payloadRead ? " plaintext=" + FormatBytes(payload.data(), payloadLength) : "") +
 				" stack=" + stack);
 		}
-		return s_originalCertVerify ? s_originalCertVerify(a, b, c, d) : 0;
+		return originalResult;
 	}
 }
 
@@ -1158,7 +1153,7 @@ namespace Cypress::CFB27
 		auto* target = RvaToAddress(image, kCertVerifyRva, 16);
 		if (!target || !IsExecutablePointer(image, target))
 		{
-			log.Write("alert-raise hook: target RVA 0x16D3170 not executable; not installing");
+			log.Write("cert-verify hook: target RVA 0x16D1750 not executable; not installing");
 			return false;
 		}
 
@@ -1179,26 +1174,20 @@ namespace Cypress::CFB27
 			return false;
 		}
 
-		log.Write(std::string("alert-raise hook installed at RVA 0x16D3170 (observe) force=") + (force ? "true" : "false"));
+		log.Write(std::string("ProtoSSL receive-state callback hook installed at RVA 0x16D1750 force is ignored=") + (force ? "true" : "false"));
 		return true;
 	}
 }
 
 // ---------------------------------------------------------------------------
-// Fail-state hardware watch (experimental, off by default)
+// ProtoSSL state trace (diagnostic, off by default)
 //
 // The game rejects our certificate silently: it sets the ProtoSSL iState field
 // state[0x370] to 3 (fail) during Certificate processing and tears the socket
 // down without a wire alert. To pin the exact instruction that writes that
 // verdict, we hook _ProtoSSLUpdate (RVA 0x16E1A40, whose rcx is the state),
-// capture the state pointer on its first call, and arm an x86 hardware write
-// breakpoint (DR0) on state[0x370]. A vectored handler then logs every write to
-// that field with its faulting RIP + backtrace; the write of 3 is the verdict.
-//
-// Debug registers can only be set reliably on a suspended thread, so a helper
-// thread suspends the handshake thread, programs DR0/DR7, and resumes it. This
-// shares the single-step exception with the guard-page probe, so that probe must
-// be disabled when this watch is enabled.
+// observe the value before and after each call. It uses neither debug registers
+// nor exceptions, so it cannot perturb the game's anti-tamper state.
 // ---------------------------------------------------------------------------
 namespace
 {
@@ -1207,19 +1196,8 @@ namespace
 	constexpr std::uintptr_t kProtoSslUpdateRva = 0x16E1A40;
 	constexpr std::size_t kIStateOffset = 0x370;
 
-	// Private exception code used to program THIS thread's debug registers from the
-	// vectored handler -- the reliable way to set DR0-7 on a running thread.
-	constexpr DWORD kFailWatchArmCode = 0x2000E1E1;
-
 	Cypress::CFB27::BridgeLog* g_failWatchLog = nullptr;
 	std::atomic_uint g_failWatchHitCount{0};
-	std::atomic_uint g_failWatchArmCount{0};
-	PVOID g_failWatchVeh = nullptr;
-	// Each connection has its own state and runs its handshake on its own thread, and
-	// hardware breakpoints are per-thread. Arm per-thread on that thread's current state so
-	// whichever connection fails gets caught (a single global arm caught the wrong one).
-	thread_local std::uintptr_t t_failWatchArmed = 0;
-	thread_local std::uintptr_t t_failWatchWant = 0;
 
 	std::uint32_t SafeReadDwordAt(const void* address)
 	{
@@ -1229,72 +1207,24 @@ namespace
 
 	std::int64_t HookProtoSslUpdate(void* a, void* b, void* c, void* d)
 	{
-		if (a)
+		const std::uintptr_t address = a ? reinterpret_cast<std::uintptr_t>(a) + kIStateOffset : 0;
+		const std::uint32_t before = address ? SafeReadDwordAt(reinterpret_cast<const void*>(address)) : 0xFFFFFFFFu;
+		const std::int64_t result = s_originalProtoSslUpdate ? s_originalProtoSslUpdate(a, b, c, d) : 0;
+		const std::uint32_t after = address ? SafeReadDwordAt(reinterpret_cast<const void*>(address)) : 0xFFFFFFFFu;
+		if (g_failWatchLog && Cypress::CFB27::IsProtoSslStateTransition(before, after) && g_failWatchHitCount.fetch_add(1) < 128)
 		{
-			const std::uintptr_t address = reinterpret_cast<std::uintptr_t>(a) + kIStateOffset;
-			// Re-arm on EVERY call (not just state changes): protected games run a watchdog
-			// that periodically zeroes debug registers, so we reprogram DR0 immediately before
-			// the state machine runs and writes iState -- too small a window to be cleared.
-			t_failWatchWant = address;
-			RaiseException(kFailWatchArmCode, 0, 0, nullptr); // handler programs DR0 on this thread
-			if (address != t_failWatchArmed)
+			const ImageView image = GetImage();
+			void* frames[24] = {};
+			const USHORT captured = CaptureStackBackTrace(0, 24, frames, nullptr);
+			std::string stack;
+			for (USHORT index = 0; index < captured; ++index)
 			{
-				t_failWatchArmed = address;
-				const unsigned n = g_failWatchArmCount.fetch_add(1);
-				if (g_failWatchLog && n < 24)
-					g_failWatchLog->Write("fail-state watch armed DR0 on state+0x370 addr=0x" + FormatHex(address));
+				if (!stack.empty()) stack += ",";
+				stack += "0x" + FormatRva(image, frames[index]);
 			}
+			g_failWatchLog->Write("protossl-state transition iState=" + std::to_string(before) + "->" + std::to_string(after) + (after == 3 ? " VERDICT" : "") + " stack=" + stack);
 		}
-		return s_originalProtoSslUpdate ? s_originalProtoSslUpdate(a, b, c, d) : 0;
-	}
-
-	LONG CALLBACK FailWatchVectoredHandler(EXCEPTION_POINTERS* info)
-	{
-		if (!info || !info->ExceptionRecord || !info->ContextRecord)
-			return EXCEPTION_CONTINUE_SEARCH;
-		const DWORD code = info->ExceptionRecord->ExceptionCode;
-		CONTEXT* context = info->ContextRecord;
-
-		if (code == kFailWatchArmCode)
-		{
-			// The debug registers are only written back on continue if ContextFlags says so.
-			context->ContextFlags |= CONTEXT_DEBUG_REGISTERS;
-			context->Dr0 = t_failWatchWant;
-			context->Dr6 = 0;
-			// L0=1, RW0=01 (write), LEN0=11 (4 bytes).
-			context->Dr7 = 0x000D0001;
-			return EXCEPTION_CONTINUE_EXECUTION;
-		}
-
-		if (code == 0x80000004 && (context->Dr6 & 0x1)) // STATUS_SINGLE_STEP, DR0 hit
-		{
-			const std::uintptr_t address = t_failWatchArmed;
-			const std::uint32_t value = address ? SafeReadDwordAt(reinterpret_cast<void*>(address)) : 0;
-			const unsigned count = g_failWatchHitCount.fetch_add(1);
-			if (g_failWatchLog && count < 128)
-			{
-				const ImageView image = GetImage();
-				void* frames[24] = {};
-				const USHORT captured = CaptureStackBackTrace(0, 24, frames, nullptr);
-				std::string stack;
-				for (USHORT index = 0; index < captured; ++index)
-				{
-					if (!stack.empty())
-						stack += ",";
-					stack += "0x" + FormatRva(image, frames[index]);
-				}
-				g_failWatchLog->Write(
-					"fail-state write iState=" + std::to_string(value) +
-					" rip=0x" + FormatRva(image, reinterpret_cast<void*>(context->Rip)) +
-					(value == 3 ? " VERDICT" : "") +
-					" stack=" + stack);
-			}
-			context->ContextFlags |= CONTEXT_DEBUG_REGISTERS;
-			context->Dr6 = 0; // acknowledge; keep DR0/DR7 armed
-			return EXCEPTION_CONTINUE_EXECUTION;
-		}
-
-		return EXCEPTION_CONTINUE_SEARCH;
+		return result;
 	}
 }
 
@@ -1321,13 +1251,6 @@ namespace Cypress::CFB27
 
 		g_failWatchLog = &log;
 
-		g_failWatchVeh = AddVectoredExceptionHandler(1, FailWatchVectoredHandler);
-		if (!g_failWatchVeh)
-		{
-			log.Write("fail-state watch: AddVectoredExceptionHandler failed");
-			return false;
-		}
-
 		if (MH_CreateHook(
 			target,
 			reinterpret_cast<void*>(&HookProtoSslUpdate),
@@ -1342,7 +1265,7 @@ namespace Cypress::CFB27
 			return false;
 		}
 
-		log.Write("fail-state watch installed; hooking _ProtoSSLUpdate 0x16E1A40 to arm DR0 on state+0x370");
+		log.Write("ProtoSSL state trace installed; observing _ProtoSSLUpdate 0x16E1A40 state+0x370");
 		return true;
 	}
 }

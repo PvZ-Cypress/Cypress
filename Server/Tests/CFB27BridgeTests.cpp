@@ -1,5 +1,6 @@
 #include <CFB27/BridgeConfig.h>
 #include <CFB27/BridgeLog.h>
+#include <CFB27/MemoryDiscovery.h>
 #include <CFB27/PatternScanner.h>
 #include <CFB27/RedirectorHook.h>
 
@@ -30,7 +31,8 @@ namespace
 		_putenv_s("CYPRESS_CFB27_BLAZE_PORT", "29000");
 		_putenv_s("CYPRESS_CFB27_PROFILE", "TestProfile");
 		_putenv_s("CYPRESS_CFB27_RUN_DIR", "C:\\tmp\\cfb27-test");
-		_putenv_s("CYPRESS_CFB27_ENABLE_CANDIDATE_ENDPOINT_REDIRECTS", "");
+		_putenv_s("CYPRESS_CFB27_ENABLE_CANDIDATE_ENDPOINT_REDIRECTS", "0");
+		_putenv_s("CYPRESS_CFB27_ENABLE_REDIRECTOR_NETWORK_REDIRECT", "0");
 
 		auto config = Cypress::CFB27::BridgeConfig::FromEnvironment();
 		Check(config.blazeHost == "127.0.0.2", "bridge host should come from the environment");
@@ -38,10 +40,14 @@ namespace
 		Check(config.profile == "TestProfile", "profile should come from the environment");
 		Check(config.runDirectory == "C:\\tmp\\cfb27-test", "run directory should come from the environment");
 		Check(!config.enableCandidateEndpointRedirects, "candidate endpoint redirects should default off");
+		Check(!config.enableRedirectorNetworkRedirect, "redirector network redirect should support observation mode");
 
 		_putenv_s("CYPRESS_CFB27_ENABLE_CANDIDATE_ENDPOINT_REDIRECTS", "1");
 		config = Cypress::CFB27::BridgeConfig::FromEnvironment();
 		Check(config.enableCandidateEndpointRedirects, "candidate endpoint redirects should be explicit opt-in");
+		_putenv_s("CYPRESS_CFB27_ENABLE_REDIRECTOR_NETWORK_REDIRECT", "1");
+		config = Cypress::CFB27::BridgeConfig::FromEnvironment();
+		Check(config.enableRedirectorNetworkRedirect, "redirector network redirect should be explicit opt-in");
 	}
 
 	void TestSHA256()
@@ -178,6 +184,30 @@ namespace
 			!Cypress::CFB27::IsTlsServerHelloDone(certificate, sizeof(certificate)),
 			"other handshake messages should not be recognized as ServerHelloDone");
 	}
+
+	void TestProtoSslStateTransitionDetection()
+	{
+		Check(
+			!Cypress::CFB27::IsProtoSslStateTransition(2, 2),
+			"unchanged ProtoSSL state should not be logged as a transition");
+		Check(
+			Cypress::CFB27::IsProtoSslStateTransition(2, 3),
+			"ProtoSSL failure state transition should be observable");
+	}
+
+	void TestProtoSslReceiveLength()
+	{
+		Check(
+			Cypress::CFB27::BoundedProtoSslReceiveLength(-1, 512) == 0,
+			"failed ProtoSSL receive should not produce a payload preview");
+		Check(
+			Cypress::CFB27::BoundedProtoSslReceiveLength(80, 32) == 32,
+			"ProtoSSL payload preview should not exceed the caller buffer");
+		Check(
+			Cypress::CFB27::ProtoSslDiagnosticPreviewLimit() == 4096,
+			"ProtoSSL diagnostics should retain a complete small control-plane response");
+	}
+
 }
 
 int main()
@@ -190,6 +220,8 @@ int main()
 	TestCandidateEndpointParsing();
 	TestRedirectedSocketDiagnosticTracking();
 	TestTlsServerHelloDoneDetection();
+	TestProtoSslStateTransitionDetection();
+	TestProtoSslReceiveLength();
 	if (s_failures == 0)
 		std::cout << "CFB27 bridge tests passed\n";
 	return s_failures == 0 ? 0 : 1;

@@ -128,6 +128,17 @@ function captureCFB27Snapshot() {
     send('cfb27CaptureSnapshot', { scenario: 'manual launcher snapshot' });
 }
 
+function importCFB27EAmitm() {
+    if (typeof getGame === 'function' && getGame() !== 'CFB27') {
+        showStatus('Select CFB27 before importing an EA-MITM dump.', 'error');
+        return;
+    }
+    const button = document.getElementById('cfb27EAmitmBtn');
+    if (button) button.disabled = true;
+    showStatus('Importing the newest completed EA-MITM dump (redacted report)...', 'info');
+    send('cfb27ImportEAmitm', {});
+}
+
 function traceCFB27Endpoints() {
     if (typeof getGame === 'function' && getGame() !== 'CFB27') {
         showStatus('Select CFB27 before tracing endpoints.', 'error');
@@ -171,6 +182,17 @@ function onCFB27CaptureResult(data) {
     } else {
         if (data.path) setCFB27EvidencePath(data.path);
         showStatus('CFB27 evidence capture failed: ' + (data.error || 'unknown error'), 'error');
+    }
+}
+
+function onCFB27EAmitmImportResult(data) {
+    const button = document.getElementById('cfb27EAmitmBtn');
+    if (button) button.disabled = false;
+    if (data.ok) {
+        setCFB27EvidencePath(data.path || '');
+        showStatus('EA-MITM dump imported safely: ' + (data.path || data.source), 'success');
+    } else {
+        showStatus('EA-MITM import failed: ' + (data.error || 'unknown error'), 'error');
     }
 }
 

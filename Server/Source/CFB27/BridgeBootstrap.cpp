@@ -69,11 +69,18 @@ namespace
 
 			Cypress::CFB27::LogImageDiscoverySummary(s_log);
 
-			if (!Cypress::CFB27::PatchRedirectorHostnameTable(config, s_log))
-				s_log.Write("redirector hostname table patch was not available; API hooks remain active");
+			if (config.enableRedirectorNetworkRedirect)
+			{
+				if (!Cypress::CFB27::PatchRedirectorHostnameTable(config, s_log))
+					s_log.Write("redirector hostname table patch was not available; API hooks remain active");
 
-			if (!Cypress::CFB27::PatchRedirectorServiceNameTable(s_log))
-				s_log.Write("redirector service-name table patch was not available; secure service name may remain selected");
+				if (!Cypress::CFB27::PatchRedirectorServiceNameTable(s_log))
+					s_log.Write("redirector service-name table patch was not available; secure service name may remain selected");
+			}
+			else
+			{
+				s_log.Write("redirector table patches disabled; observation mode preserves the production endpoint");
+			}
 
 			if (config.enableBearSslBypass)
 			{

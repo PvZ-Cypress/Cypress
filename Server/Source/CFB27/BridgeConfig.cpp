@@ -131,6 +131,8 @@ namespace
 			TryParseBool(value, config.enableBearSslBypass);
 		else if (key == "dumpRuntimeCodeBytes")
 			TryParseBool(value, config.dumpRuntimeCodeBytes);
+		else if (key == "enableRedirectorNetworkRedirect")
+			TryParseBool(value, config.enableRedirectorNetworkRedirect);
 		else if (key == "enableCandidateEndpointRedirects")
 			TryParseBool(value, config.enableCandidateEndpointRedirects);
 		else if (key == "enableProtoSslVerifyProbe")
@@ -215,6 +217,7 @@ namespace Cypress::CFB27
 		config.configSource = "defaults";
 		config.enableBearSslBypass = false;
 		config.dumpRuntimeCodeBytes = false;
+		config.enableRedirectorNetworkRedirect = true;
 		config.enableCandidateEndpointRedirects = false;
 		config.enableProtoSslVerifyProbe = false;
 		config.enableCertVerifyHook = false;
@@ -240,6 +243,8 @@ namespace Cypress::CFB27
 			config.enableBearSslBypass = enabled;
 		if (TryReadBool("CYPRESS_CFB27_DUMP_RUNTIME_CODE", enabled))
 			config.dumpRuntimeCodeBytes = enabled;
+		if (TryReadBool("CYPRESS_CFB27_ENABLE_REDIRECTOR_NETWORK_REDIRECT", enabled))
+			config.enableRedirectorNetworkRedirect = enabled;
 		if (TryReadBool("CYPRESS_CFB27_ENABLE_CANDIDATE_ENDPOINT_REDIRECTS", enabled))
 			config.enableCandidateEndpointRedirects = enabled;
 		if (TryReadBool("CYPRESS_CFB27_ENABLE_PROTOSSL_PROBE", enabled))
@@ -350,4 +355,22 @@ namespace Cypress::CFB27
 		const SupportedBuild* build = FindSupportedBuild(executablePath);
 		return build && build->trial;
 	}
+
+	bool IsProtoSslStateTransition(const std::uint32_t before, const std::uint32_t after)
+	{
+		return before != after;
+	}
+
+	std::size_t BoundedProtoSslReceiveLength(const std::int64_t result, const std::size_t requestedLength)
+	{
+		if (result <= 0)
+			return 0;
+		return (std::min)(static_cast<std::size_t>(result), requestedLength);
+	}
+
+	std::size_t ProtoSslDiagnosticPreviewLimit()
+	{
+		return 4096;
+	}
+
 }

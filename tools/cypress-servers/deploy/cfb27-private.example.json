@@ -7,7 +7,10 @@
     "dataDir": "C:\\Cypress\\cfb27-private",
     "blazeLogFile": "C:\\Cypress\\cfb27-private\\cfb27-blaze.jsonl",
     "dynastyDb": "C:\\Cypress\\cfb27-private\\cfb27_dynasty.db",
-    "dynastySchemaRoot": "C:\\Cypress\\CFB27\\Dynasty_Files"
+    "dynastySchemaRoot": "C:\\Users\\Shadow\\Desktop\\CFB27\\Release\\Dynasty_Assets\\0",
+    "dynastyAssetsRoot": "C:\\Users\\Shadow\\Desktop\\CFB27\\Release\\Dynasty_Assets",
+    "dynastyAssetsSlot": 0,
+    "coachCatalog": "C:\\Cypress\\cfb27-private\\cfb27-coaches-slot0.json"
   },
   "blaze": {
     "bind": "127.0.0.1",

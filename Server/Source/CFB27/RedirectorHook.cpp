@@ -87,6 +87,7 @@ namespace
 	std::mutex s_redirectedSocketsMutex;
 	std::unordered_map<SOCKET, std::string> s_redirectedSockets;
 	bool s_enableCandidateEndpointRedirects = false;
+	bool s_enableRedirectorNetworkRedirect = true;
 
 	std::string Narrow(const wchar_t* value)
 	{
@@ -248,12 +249,12 @@ namespace
 		const auto* incoming = reinterpret_cast<const sockaddr_in*>(name);
 		address = ntohl(incoming->sin_addr.s_addr);
 		port = ntohs(incoming->sin_port);
-		if (IsLoopbackRedirectPort(port) && address == INADDR_LOOPBACK)
+		if (s_enableRedirectorNetworkRedirect && IsLoopbackRedirectPort(port) && address == INADDR_LOOPBACK)
 		{
 			reason = "patched-hostname-loopback";
 			return true;
 		}
-		if (port == 443 && Cypress::CFB27::IsKnownRedirectorIPv4(address))
+		if (s_enableRedirectorNetworkRedirect && port == 443 && Cypress::CFB27::IsKnownRedirectorIPv4(address))
 		{
 			reason = "known-redirector";
 			return true;
@@ -301,12 +302,12 @@ namespace
 	{
 		if (!TryReadIPv4MappedIPv6(name, nameLength, address, port))
 			return false;
-		if (IsLoopbackRedirectPort(port) && address == INADDR_LOOPBACK)
+		if (s_enableRedirectorNetworkRedirect && IsLoopbackRedirectPort(port) && address == INADDR_LOOPBACK)
 		{
 			reason = "patched-hostname-loopback-ipv6";
 			return true;
 		}
-		if (port == 443 && Cypress::CFB27::IsKnownRedirectorIPv4(address))
+		if (s_enableRedirectorNetworkRedirect && port == 443 && Cypress::CFB27::IsKnownRedirectorIPv4(address))
 		{
 			reason = "known-redirector-ipv6";
 			return true;
@@ -500,7 +501,7 @@ namespace
 		PADDRINFOA* result)
 	{
 		TraceDns(nodeName ? nodeName : "", FormatService(serviceName));
-		if (nodeName && Cypress::CFB27::IsBlazeRedirectorHost(nodeName))
+		if (s_enableRedirectorNetworkRedirect && nodeName && Cypress::CFB27::IsBlazeRedirectorHost(nodeName))
 		{
 			std::call_once(s_dnsLog, []
 			{
@@ -520,7 +521,7 @@ namespace
 	{
 		const std::string narrowed = Narrow(nodeName);
 		TraceDns(narrowed, FormatService(serviceName));
-		if (nodeName && Cypress::CFB27::IsBlazeRedirectorHost(narrowed))
+		if (s_enableRedirectorNetworkRedirect && nodeName && Cypress::CFB27::IsBlazeRedirectorHost(narrowed))
 		{
 			std::call_once(s_dnsLog, []
 			{
@@ -853,10 +854,13 @@ namespace Cypress::CFB27
 		s_bridgeHostWide = Widen(config.blazeHost);
 		s_bridgePort = config.blazePort;
 		s_log = &log;
+		s_enableRedirectorNetworkRedirect = config.enableRedirectorNetworkRedirect;
 		s_enableCandidateEndpointRedirects = config.enableCandidateEndpointRedirects;
 		s_candidateEndpoints = LoadCandidateEndpoints(config.endpointsFile, log);
 		if (!s_enableCandidateEndpointRedirects)
 			log.Write("candidate endpoint redirects disabled by configuration");
+		if (!s_enableRedirectorNetworkRedirect)
+			log.Write("redirector network redirect disabled; observation mode leaves redirector traffic unchanged");
 
 		if (MH_CreateHook(
 			reinterpret_cast<LPVOID>(&getaddrinfo),

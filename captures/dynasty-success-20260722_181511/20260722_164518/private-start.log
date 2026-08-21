@@ -1,0 +1,27 @@
+2026-07-22T16:45:18.4499486-04:00 private stack start requested
+2026-07-22T16:45:18.4512640-04:00 root=C:\Users\Shadow\Documents\Cypress-main
+2026-07-22T16:45:18.4515448-04:00 servicesDir=C:\Users\Shadow\Documents\Cypress-main\tools\cypress-servers
+2026-07-22T16:45:18.4518488-04:00 dynastyExe=C:\Users\Shadow\Documents\Cypress-main\tools\cypress-servers\build\dynasty.exe
+2026-07-22T16:45:18.4521001-04:00 blazeExe=C:\Users\Shadow\Documents\Cypress-main\tools\cypress-servers\build\cfb27blaze.exe
+2026-07-22T16:45:18.4523270-04:00 schemaRoot=C:\Users\Shadow\AppData\Roaming\Cypress\CFB27\Private\data\Dynasty_Files
+2026-07-22T16:45:18.4529218-04:00 dataDir=C:\Users\Shadow\AppData\Roaming\Cypress\CFB27\Private\data
+2026-07-22T16:45:18.4531698-04:00 profile=LocalPlayer
+2026-07-22T16:45:18.4582668-04:00 dynasty: healthy existing service found at http://127.0.0.1:27910/health; restarting
+2026-07-22T16:45:18.4655122-04:00 dynasty: stopping existing pid=35676
+2026-07-22T16:45:18.4805570-04:00 dynasty: stopped pid=35676
+2026-07-22T16:45:18.9905132-04:00 dynasty: starting C:\Users\Shadow\Documents\Cypress-main\tools\cypress-servers\build\dynasty.exe
+2026-07-22T16:45:18.9913046-04:00 dynasty: args=-bind 127.0.0.1 -port 27910 -schema-root C:\Users\Shadow\AppData\Roaming\Cypress\CFB27\Private\data\Dynasty_Files -db C:\Users\Shadow\AppData\Roaming\Cypress\CFB27\Private\data\cfb27_dynasty.db
+2026-07-22T16:45:18.9915348-04:00 dynasty: workingDir=C:\Users\Shadow\AppData\Roaming\Cypress\CFB27\Private\runs\20260722_164518
+2026-07-22T16:45:19.0014293-04:00 dynasty: started pid=42296
+2026-07-22T16:45:19.5343857-04:00 dynasty: healthy at http://127.0.0.1:27910/health
+2026-07-22T16:45:19.5355181-04:00 dynasty service healthy
+2026-07-22T16:45:19.5381107-04:00 cfb27blaze: healthy existing service found at http://127.0.0.1:27921/health; restarting
+2026-07-22T16:45:19.5427229-04:00 cfb27blaze: stopping existing pid=37420
+2026-07-22T16:45:19.5548766-04:00 cfb27blaze: stopped pid=37420
+2026-07-22T16:45:20.0603806-04:00 cfb27blaze: starting C:\Users\Shadow\Documents\Cypress-main\tools\cypress-servers\build\cfb27blaze.exe
+2026-07-22T16:45:20.0608436-04:00 cfb27blaze: args=-bind 127.0.0.1 -port 27920 -diagnostics-bind 127.0.0.1 -diagnostics-port 27921 -dynasty-url http://127.0.0.1:27910 -profile LocalPlayer -run-id 20260722_164518 -log-file C:\Users\Shadow\AppData\Roaming\Cypress\CFB27\Private\runs\20260722_164518\cfb27-blaze.jsonl
+2026-07-22T16:45:20.0610564-04:00 cfb27blaze: workingDir=C:\Users\Shadow\AppData\Roaming\Cypress\CFB27\Private\runs\20260722_164518
+2026-07-22T16:45:20.0700950-04:00 cfb27blaze: started pid=43124
+2026-07-22T16:45:20.5729313-04:00 cfb27blaze: healthy at http://127.0.0.1:27921/health
+2026-07-22T16:45:20.5733439-04:00 cfb27blaze service healthy
+2026-07-22T16:45:20.5735267-04:00 private stack ready

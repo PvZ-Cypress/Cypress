@@ -1,0 +1,11 @@
+{
+  "name": "cypress-cfb27-tools",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test cmd/shared/*.test.mjs cmd/cfb27assetexport/*.test.mjs cmd/cfb27franchise/*.test.mjs"
+  },
+  "dependencies": {
+    "madden-franchise": "4.3.6"
+  }
+}

@@ -151,6 +151,9 @@ window.external.receiveMessage(function (msg) {
         case 'cfb27CaptureResult':
             if (typeof onCFB27CaptureResult === 'function') onCFB27CaptureResult(data);
             break;
+        case 'cfb27EAmitmImportResult':
+            if (typeof onCFB27EAmitmImportResult === 'function') onCFB27EAmitmImportResult(data);
+            break;
         case 'cfb27TraceResult':
             if (typeof onCFB27TraceResult === 'function') onCFB27TraceResult(data);
             break;

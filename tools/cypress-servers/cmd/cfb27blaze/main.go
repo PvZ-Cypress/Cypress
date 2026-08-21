@@ -20,6 +20,8 @@ func main() {
 	flag.StringVar(&cfg.RunID, "run-id", "", "shared Cypress run identifier")
 	flag.StringVar(&cfg.Profile, "profile", "LocalPlayer", "local offline player name")
 	flag.StringVar(&cfg.DynastyURL, "dynasty-url", "http://127.0.0.1:27910", "Cypress Dynasty REST base URL")
+	flag.StringVar(&cfg.CoachCatalog, "coach-catalog", "", "authoritative CFB27 coach catalog JSON path")
+	flag.BoolVar(&cfg.PersistDynasty, "persist-dynasty", true, "persist Dynasty advance transitions through the local Dynasty service")
 	flag.StringVar(&cfg.TLSMode, "tls-mode", "tls13", "TLS compatibility mode: tls13, tls13-noalpn, tls12, tls12-noalpn")
 	flag.Parse()
 

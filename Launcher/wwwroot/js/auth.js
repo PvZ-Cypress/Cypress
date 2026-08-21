@@ -100,6 +100,8 @@ function handleAuthStatus(data) {
     if (data.loggedIn) {
         hideAuthModal();
         if (data.uid) setAvatarImage(data.uid);
+    } else if (data.privateOnlineDynasty) {
+        hideAuthModal();
     } else {
         showAuthModal(); // dismissable
     }

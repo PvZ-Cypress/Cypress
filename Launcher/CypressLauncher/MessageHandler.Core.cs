@@ -297,6 +297,9 @@ public partial class MessageHandler
 				case "cfb27OpenEvidenceFolder":
 					OnCFB27OpenEvidenceFolder();
 					break;
+				case "cfb27ImportEAmitm":
+					OnCFB27ImportEAmitm();
+					break;
 				case "openExternal":
 					OnOpenExternal((string?)msg["url"]);
 					break;

@@ -1,6 +1,7 @@
 package dynasty
 
 import (
+	"context"
 	"database/sql"
 	"encoding/json"
 	"fmt"
@@ -9,6 +10,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 
 	_ "modernc.org/sqlite"
@@ -16,28 +18,40 @@ import (
 
 const serviceMaxBodySize = 1 << 20
 
+const sessionColumns = `id, name, dynasty_mode, current_week, stage, max_users, password_hash != '', save_path, save_sha256, save_revision, selected_team_key, created_at, updated_at`
+
 type Config struct {
-	Bind       string
-	Port       int
-	SchemaRoot string
-	DBFile     string
+	Bind          string
+	Port          int
+	SchemaRoot    string
+	DBFile        string
+	SeedFile      string
+	DataDir       string
+	NodePath      string
+	FranchiseTool string
 }
 
 type Service struct {
-	db      *sql.DB
-	catalog *Catalog
+	db         *sql.DB
+	catalog    *Catalog
+	store      *franchiseStore
+	artifactMu sync.Mutex
 }
 
 type Session struct {
-	ID          int64     `json:"id"`
-	Name        string    `json:"name"`
-	DynastyMode string    `json:"dynastyMode"`
-	CurrentWeek int       `json:"currentWeek"`
-	Stage       string    `json:"stage"`
-	MaxUsers    int       `json:"maxUsers"`
-	HasPassword bool      `json:"hasPassword"`
-	CreatedAt   time.Time `json:"createdAt"`
-	UpdatedAt   time.Time `json:"updatedAt"`
+	ID              int64     `json:"id"`
+	Name            string    `json:"name"`
+	DynastyMode     string    `json:"dynastyMode"`
+	CurrentWeek     int       `json:"currentWeek"`
+	Stage           string    `json:"stage"`
+	MaxUsers        int       `json:"maxUsers"`
+	HasPassword     bool      `json:"hasPassword"`
+	SavePath        string    `json:"savePath,omitempty"`
+	SaveSHA256      string    `json:"saveSha256,omitempty"`
+	SaveRevision    int       `json:"saveRevision"`
+	SelectedTeamKey int64     `json:"selectedTeamKey,omitempty"`
+	CreatedAt       time.Time `json:"createdAt"`
+	UpdatedAt       time.Time `json:"updatedAt"`
 }
 
 type User struct {
@@ -84,7 +98,7 @@ func Run(cfg Config) error {
 		cfg.DBFile = "cfb27_dynasty.db"
 	}
 
-	svc, err := NewService(cfg.SchemaRoot, cfg.DBFile)
+	svc, err := NewServiceWithConfig(cfg)
 	if err != nil {
 		return err
 	}
@@ -98,23 +112,82 @@ func Run(cfg Config) error {
 }
 
 func NewService(schemaRoot, dbFile string) (*Service, error) {
-	catalog, err := LoadCatalog(schemaRoot)
+	return NewServiceWithConfig(Config{SchemaRoot: schemaRoot, DBFile: dbFile})
+}
+
+func NewServiceWithConfig(cfg Config) (*Service, error) {
+	catalog, err := LoadCatalog(cfg.SchemaRoot)
 	if err != nil {
 		return nil, err
 	}
-	if err := ensureParentDir(dbFile); err != nil {
+	if err := ensureParentDir(cfg.DBFile); err != nil {
 		return nil, err
 	}
-	db, err := sql.Open("sqlite", dbFile)
+	db, err := sql.Open("sqlite", cfg.DBFile)
 	if err != nil {
 		return nil, err
 	}
-	svc := &Service{db: db, catalog: catalog}
+	store, err := newFranchiseStore(cfg)
+	if err != nil {
+		db.Close()
+		return nil, err
+	}
+	svc := &Service{db: db, catalog: catalog, store: store}
 	if err := svc.migrate(); err != nil {
 		db.Close()
 		return nil, err
 	}
+	if err := svc.ensureSessionArtifacts(); err != nil {
+		db.Close()
+		return nil, err
+	}
 	return svc, nil
+}
+
+func (s *Service) ensureSessionArtifacts() error {
+	if s.store == nil {
+		return nil
+	}
+	rows, err := s.db.Query(`SELECT id, save_path FROM sessions ORDER BY id`)
+	if err != nil {
+		return err
+	}
+	type existingSession struct {
+		id   int64
+		path string
+	}
+	var sessions []existingSession
+	for rows.Next() {
+		var id int64
+		var savePath string
+		if err := rows.Scan(&id, &savePath); err != nil {
+			rows.Close()
+			return err
+		}
+		sessions = append(sessions, existingSession{id: id, path: savePath})
+	}
+	if err := rows.Close(); err != nil {
+		return err
+	}
+	for _, session := range sessions {
+		if session.path != "" {
+			if err := validateFranchiseFile(session.path); err != nil {
+				return fmt.Errorf("session %d Dynasty artifact: %w", session.id, err)
+			}
+			continue
+		}
+		savePath, saveHash, err := s.store.create(context.Background(), session.id)
+		if err != nil {
+			return fmt.Errorf("backfill session %d Dynasty artifact: %w", session.id, err)
+		}
+		now := time.Now().UTC().Format(time.RFC3339Nano)
+		if _, err := s.db.Exec(`UPDATE sessions SET save_path = ?, save_sha256 = ?, current_week = 1, stage = 'preseason', save_revision = 0, selected_team_key = 0, updated_at = ? WHERE id = ?`,
+			savePath, saveHash, now, session.id); err != nil {
+			_ = os.Remove(savePath)
+			return err
+		}
+	}
+	return nil
 }
 
 func (s *Service) Close() error {
@@ -143,6 +216,10 @@ func (s *Service) migrate() error {
 			stage TEXT NOT NULL DEFAULT 'preseason',
 			max_users INTEGER NOT NULL DEFAULT 32,
 			password_hash TEXT NOT NULL DEFAULT '',
+			save_path TEXT NOT NULL DEFAULT '',
+			save_sha256 TEXT NOT NULL DEFAULT '',
+			save_revision INTEGER NOT NULL DEFAULT 0,
+			selected_team_key INTEGER NOT NULL DEFAULT 0,
 			created_at TEXT NOT NULL,
 			updated_at TEXT NOT NULL
 		)`,
@@ -177,21 +254,70 @@ func (s *Service) migrate() error {
 			updated_at TEXT NOT NULL,
 			FOREIGN KEY(session_id) REFERENCES sessions(id) ON DELETE CASCADE
 		)`,
+		`CREATE TABLE IF NOT EXISTS advance_requests (
+			session_id INTEGER NOT NULL,
+			request_id TEXT NOT NULL,
+			result_week INTEGER NOT NULL,
+			result_stage TEXT NOT NULL,
+			created_at TEXT NOT NULL,
+			PRIMARY KEY(session_id, request_id),
+			FOREIGN KEY(session_id) REFERENCES sessions(id) ON DELETE CASCADE
+		)`,
 	}
 	for _, stmt := range stmts {
 		if _, err := s.db.Exec(stmt); err != nil {
 			return err
 		}
 	}
+	for name, definition := range map[string]string{
+		"save_path":         "TEXT NOT NULL DEFAULT ''",
+		"save_sha256":       "TEXT NOT NULL DEFAULT ''",
+		"save_revision":     "INTEGER NOT NULL DEFAULT 0",
+		"selected_team_key": "INTEGER NOT NULL DEFAULT 0",
+	} {
+		if err := ensureSQLiteColumn(s.db, "sessions", name, definition); err != nil {
+			return err
+		}
+	}
 	return nil
 }
 
+func ensureSQLiteColumn(db *sql.DB, table, column, definition string) error {
+	rows, err := db.Query(`PRAGMA table_info(` + table + `)`)
+	if err != nil {
+		return err
+	}
+	found := false
+	for rows.Next() {
+		var cid, notNull, primaryKey int
+		var name, dataType string
+		var defaultValue any
+		if err := rows.Scan(&cid, &name, &dataType, &notNull, &defaultValue, &primaryKey); err != nil {
+			rows.Close()
+			return err
+		}
+		if name == column {
+			found = true
+		}
+	}
+	if err := rows.Close(); err != nil {
+		return err
+	}
+	if found {
+		return nil
+	}
+	_, err = db.Exec(`ALTER TABLE ` + table + ` ADD COLUMN ` + column + ` ` + definition)
+	return err
+}
+
 func (s *Service) handleHealth(w http.ResponseWriter, r *http.Request) {
+	artifactConfigured := s.store != nil
 	jsonResp(w, 200, map[string]any{
 		"status":             "ok",
 		"schemas":            s.catalog.SchemaCount,
 		"files":              s.catalog.FileCount,
 		"uiRequestFormCount": s.catalog.UIRequestFormCount,
+		"artifactConfigured": artifactConfigured,
 	})
 }
 
@@ -214,7 +340,7 @@ func (s *Service) handleUIRequestForms(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Service) handleSessionsGet(w http.ResponseWriter, r *http.Request) {
-	rows, err := s.db.Query(`SELECT id, name, dynasty_mode, current_week, stage, max_users, password_hash != '', created_at, updated_at FROM sessions ORDER BY updated_at DESC`)
+	rows, err := s.db.Query(`SELECT ` + sessionColumns + ` FROM sessions ORDER BY updated_at DESC`)
 	if err != nil {
 		errResp(w, 500, err.Error())
 		return
@@ -263,6 +389,20 @@ func (s *Service) handleSessionsPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	id, _ := res.LastInsertId()
+	if s.store != nil {
+		savePath, saveHash, artifactErr := s.store.create(r.Context(), id)
+		if artifactErr != nil {
+			_, _ = s.db.Exec(`DELETE FROM sessions WHERE id = ?`, id)
+			errResp(w, http.StatusInternalServerError, "create Dynasty artifact: "+artifactErr.Error())
+			return
+		}
+		if _, err := s.db.Exec(`UPDATE sessions SET save_path = ?, save_sha256 = ? WHERE id = ?`, savePath, saveHash, id); err != nil {
+			_ = os.Remove(savePath)
+			_, _ = s.db.Exec(`DELETE FROM sessions WHERE id = ?`, id)
+			errResp(w, http.StatusInternalServerError, err.Error())
+			return
+		}
+	}
 	sess, err := s.getSession(id)
 	if err != nil {
 		errResp(w, 500, err.Error())
@@ -301,9 +441,19 @@ func (s *Service) handleSessionPath(w http.ResponseWriter, r *http.Request) {
 			s.handleTeamPost(w, r, id)
 			return
 		}
+	case "select-team":
+		if r.Method == http.MethodPost {
+			s.handleSelectTeamPost(w, r, id)
+			return
+		}
 	case "stage":
 		if r.Method == http.MethodPost {
 			s.handleStagePost(w, r, id)
+			return
+		}
+	case "advance":
+		if r.Method == http.MethodPost {
+			s.handleAdvancePost(w, r, id)
 			return
 		}
 	case "actions":
@@ -394,6 +544,62 @@ func (s *Service) handleTeamPost(w http.ResponseWriter, r *http.Request, session
 	jsonResp(w, 200, map[string]any{"sessionId": sessionID, "teamId": req.TeamID, "name": req.Name, "userId": req.UserID, "updatedAt": now})
 }
 
+func (s *Service) handleSelectTeamPost(w http.ResponseWriter, r *http.Request, sessionID int64) {
+	var req struct {
+		TeamKey  int64 `json:"teamKey"`
+		CoachKey int64 `json:"coachKey,omitempty"`
+	}
+	if err := readJSON(r, &req); err != nil {
+		errResp(w, http.StatusBadRequest, "invalid json")
+		return
+	}
+	if req.TeamKey <= 0 {
+		errResp(w, http.StatusBadRequest, "teamKey required")
+		return
+	}
+	if s.store == nil {
+		errResp(w, http.StatusServiceUnavailable, "Dynasty franchise persistence is not configured")
+		return
+	}
+
+	s.artifactMu.Lock()
+	defer s.artifactMu.Unlock()
+	session, err := s.getSession(sessionID)
+	if err != nil {
+		errResp(w, http.StatusNotFound, "session not found")
+		return
+	}
+	if session.SavePath == "" {
+		errResp(w, http.StatusConflict, "session has no Dynasty artifact")
+		return
+	}
+	mutation, err := s.store.selectTeam(r.Context(), session.SavePath, req.TeamKey, req.CoachKey)
+	if err != nil {
+		errResp(w, http.StatusUnprocessableEntity, err.Error())
+		return
+	}
+	defer os.Remove(mutation.temporaryPath)
+	commitArtifact, rollbackArtifact, err := swapFranchiseArtifact(session.SavePath, mutation)
+	if err != nil {
+		errResp(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	now := time.Now().UTC().Format(time.RFC3339Nano)
+	if _, err := s.db.Exec(`UPDATE sessions SET selected_team_key = ?, save_sha256 = ?, save_revision = save_revision + 1, updated_at = ? WHERE id = ?`,
+		req.TeamKey, mutation.sha256, now, sessionID); err != nil {
+		rollbackArtifact()
+		errResp(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	commitArtifact()
+	updated, err := s.getSession(sessionID)
+	if err != nil {
+		errResp(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	jsonResp(w, http.StatusOK, updated)
+}
+
 func (s *Service) handleStagePost(w http.ResponseWriter, r *http.Request, sessionID int64) {
 	var req struct {
 		CurrentWeek int    `json:"currentWeek"`
@@ -423,6 +629,141 @@ func (s *Service) handleStagePost(w http.ResponseWriter, r *http.Request, sessio
 		return
 	}
 	jsonResp(w, 200, sess)
+}
+
+func (s *Service) handleAdvancePost(w http.ResponseWriter, r *http.Request, sessionID int64) {
+	var req struct {
+		UserID    int64  `json:"userId"`
+		RequestID string `json:"requestId"`
+	}
+	if err := readJSON(r, &req); err != nil {
+		errResp(w, http.StatusBadRequest, "invalid json")
+		return
+	}
+	req.RequestID = trunc(strings.TrimSpace(req.RequestID), 128)
+	if req.RequestID == "" {
+		errResp(w, http.StatusBadRequest, "requestId required")
+		return
+	}
+	s.artifactMu.Lock()
+	defer s.artifactMu.Unlock()
+
+	tx, err := s.db.Begin()
+	if err != nil {
+		errResp(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	defer tx.Rollback()
+
+	if req.UserID != 0 {
+		var isAdmin int
+		if err := tx.QueryRow(`SELECT is_admin FROM users WHERE session_id = ? AND id = ?`, sessionID, req.UserID).Scan(&isAdmin); err != nil || isAdmin == 0 {
+			errResp(w, http.StatusForbidden, "commissioner required")
+			return
+		}
+	}
+
+	var existingWeek int
+	var existingStage string
+	if err := tx.QueryRow(`SELECT result_week, result_stage FROM advance_requests WHERE session_id = ? AND request_id = ?`, sessionID, req.RequestID).Scan(&existingWeek, &existingStage); err == nil {
+		session, err := sessionFromTx(tx, sessionID)
+		if err != nil {
+			errResp(w, http.StatusNotFound, "session not found")
+			return
+		}
+		session.CurrentWeek = existingWeek
+		session.Stage = existingStage
+		jsonResp(w, http.StatusOK, session)
+		return
+	}
+
+	session, err := sessionFromTx(tx, sessionID)
+	if err != nil {
+		errResp(w, http.StatusNotFound, "session not found")
+		return
+	}
+	nextWeek, nextStage, ok := nextDynastyStage(session.CurrentWeek, session.Stage)
+	if !ok {
+		errResp(w, http.StatusConflict, "illegal dynasty stage transition")
+		return
+	}
+	var commitArtifact, rollbackArtifact func()
+	var mutation franchiseMutation
+	if session.SavePath != "" {
+		if s.store == nil {
+			errResp(w, http.StatusServiceUnavailable, "Dynasty franchise persistence is not configured")
+			return
+		}
+		mutation, err = s.store.advance(r.Context(), session.SavePath, nextWeek, nextStage)
+		if err != nil {
+			errResp(w, http.StatusUnprocessableEntity, err.Error())
+			return
+		}
+		defer os.Remove(mutation.temporaryPath)
+		commitArtifact, rollbackArtifact, err = swapFranchiseArtifact(session.SavePath, mutation)
+		if err != nil {
+			errResp(w, http.StatusInternalServerError, err.Error())
+			return
+		}
+	}
+	now := time.Now().UTC().Format(time.RFC3339Nano)
+	updateQuery := `UPDATE sessions SET current_week = ?, stage = ?, updated_at = ? WHERE id = ?`
+	updateArgs := []any{nextWeek, nextStage, now, sessionID}
+	if commitArtifact != nil {
+		updateQuery = `UPDATE sessions SET current_week = ?, stage = ?, save_sha256 = ?, save_revision = save_revision + 1, updated_at = ? WHERE id = ?`
+		updateArgs = []any{nextWeek, nextStage, mutation.sha256, now, sessionID}
+	}
+	if _, err := tx.Exec(updateQuery, updateArgs...); err != nil {
+		if rollbackArtifact != nil {
+			rollbackArtifact()
+		}
+		errResp(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	if _, err := tx.Exec(`INSERT INTO advance_requests (session_id, request_id, result_week, result_stage, created_at) VALUES (?, ?, ?, ?, ?)`, sessionID, req.RequestID, nextWeek, nextStage, now); err != nil {
+		if rollbackArtifact != nil {
+			rollbackArtifact()
+		}
+		errResp(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	if err := tx.Commit(); err != nil {
+		if rollbackArtifact != nil {
+			rollbackArtifact()
+		}
+		errResp(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	if commitArtifact != nil {
+		commitArtifact()
+		session.SaveSHA256 = mutation.sha256
+		session.SaveRevision++
+	}
+	session.CurrentWeek = nextWeek
+	session.Stage = nextStage
+	session.UpdatedAt = parseTime(now)
+	jsonResp(w, http.StatusOK, session)
+}
+
+func sessionFromTx(tx *sql.Tx, id int64) (Session, error) {
+	row := tx.QueryRow(`SELECT `+sessionColumns+` FROM sessions WHERE id = ?`, id)
+	return scanSession(row)
+}
+
+func nextDynastyStage(currentWeek int, stage string) (int, string, bool) {
+	stage = strings.ToLower(strings.TrimSpace(stage))
+	if stage == "preseason" {
+		return 1, "week_1", true
+	}
+	if !strings.HasPrefix(stage, "week_") {
+		return 0, "", false
+	}
+	week, err := strconv.Atoi(strings.TrimPrefix(stage, "week_"))
+	if err != nil || week < 1 || week != currentWeek {
+		return 0, "", false
+	}
+	week++
+	return week, fmt.Sprintf("week_%d", week), true
 }
 
 func (s *Service) handleActionsGet(w http.ResponseWriter, sessionID int64) {
@@ -521,7 +862,7 @@ func (s *Service) handleWebSocketProbe(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Service) getSession(id int64) (Session, error) {
-	row := s.db.QueryRow(`SELECT id, name, dynasty_mode, current_week, stage, max_users, password_hash != '', created_at, updated_at FROM sessions WHERE id = ?`, id)
+	row := s.db.QueryRow(`SELECT `+sessionColumns+` FROM sessions WHERE id = ?`, id)
 	return scanSession(row)
 }
 
@@ -595,7 +936,11 @@ func scanSession(row scanner) (Session, error) {
 	var sess Session
 	var hasPassword bool
 	var created, updated string
-	if err := row.Scan(&sess.ID, &sess.Name, &sess.DynastyMode, &sess.CurrentWeek, &sess.Stage, &sess.MaxUsers, &hasPassword, &created, &updated); err != nil {
+	if err := row.Scan(
+		&sess.ID, &sess.Name, &sess.DynastyMode, &sess.CurrentWeek, &sess.Stage,
+		&sess.MaxUsers, &hasPassword, &sess.SavePath, &sess.SaveSHA256,
+		&sess.SaveRevision, &sess.SelectedTeamKey, &created, &updated,
+	); err != nil {
 		return Session{}, err
 	}
 	sess.HasPassword = hasPassword

@@ -20,6 +20,12 @@ func TestRunTextAndJSON(t *testing.T) {
 			if code := run([]string{"-format", format, path}, &stdout, &stderr); code != 0 {
 				t.Fatalf("code=%d stderr=%s", code, stderr.String())
 			}
+			if format == "json" && !strings.Contains(stdout.String(), `"http"`) {
+				t.Fatalf("JSON output omitted HTTP records: %s", stdout.String())
+			}
+			if format == "json" && strings.Contains(stdout.String(), "payloadHex") {
+				t.Fatalf("JSON output disclosed raw payload bytes: %s", stdout.String())
+			}
 			if !strings.Contains(stdout.String(), "1") || strings.Contains(strings.ToLower(stdout.String()), "bearer") {
 				t.Fatalf("unexpected output: %s", stdout.String())
 			}

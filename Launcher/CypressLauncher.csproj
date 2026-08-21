@@ -39,6 +39,9 @@
     <Content Include="BFN.Patch" Condition="Exists('BFN.Patch')">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="cypress_CFB27.dll" Condition="Exists('cypress_CFB27.dll')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\cypressicons\ico\Burbank-CypressIcon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

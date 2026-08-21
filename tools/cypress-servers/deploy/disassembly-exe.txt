@@ -1,775 +1,246 @@
 exe: C:\Program Files\EA Games\EA SPORTS College Football 27\CollegeFB27.exe
 
-==== rva=0x16E1A40 len=0x800 ====
-0x016E1A40: repne mov   byte ptr [66C297AAF380A10Ch],al
-0x016E1A4A: push        rdx
-0x016E1A4B: shl         byte ptr [rcx],0BDh
-0x016E1A4E: loopne      FFFFFFFFFFFFFFD2
-0x016E1A50: jge         0000000000000023   <-- branch/call/ret
-0x016E1A52: push        4C449072h
-0x016E1A57: out         0DCh,eax
-0x016E1A59: lahf
-0x016E1A5A: jrcxz       FFFFFFFFFFFFFFFE   <-- branch/call/ret
-0x016E1A5C: 0E
-0x016E1A5D: mov         eax,dword ptr [D60B4AA269911E6Ch]
-0x016E1A66: cmp         rax,0FFFFFFFF92B34DB7h
-0x016E1A6C: mov         ah,0C6h
-0x016E1A6E: movs        byte ptr [rdi],byte ptr [rsi]
-0x016E1A6F: 06
-0x016E1A70: shr         dword ptr [rdx+1Eh],cl
-0x016E1A73: adc         dword ptr [rsi],edx
-0x016E1A75: cmp         eax,0C8573A58h
-0x016E1A7A: 44
-0x016E1A7B: 8D
-0x016E1A7C: fcomp       qword ptr [rdx+0000000053C05350h]
-0x016E1A82: ins         dword ptr [rdi],dx
-0x016E1A83: or          al,0FBh
-0x016E1A86: clc
-0x016E1A87: D6
-0x016E1A88: ret         0FA42h   <-- branch/call/ret
-0x016E1A8B: sbb         eax,50475B50h
-0x016E1A90: cmps        dword ptr [rsi],dword ptr [rdi]
-0x016E1A91: fild        word ptr [rbp+FFFFFFFFE6EDC05Dh]
-0x016E1A97: 06
-0x016E1A98: je          000000000000008B   <-- branch/call/ret
-0x016E1A9A: push        rax
-0x016E1A9B: sbb         esi,dword ptr [rdx]
-0x016E1A9D: push        rdi
-0x016E1A9E: lea         ebx,[rax]
-0x016E1AA0: loopne      0000000000000018
-0x016E1AA2: push        rbx
-0x016E1AA3: sub         edi,ebp
-0x016E1AA5: sub         eax,9123016Fh
-0x016E1AAA: imul        ebx,edx,5Ch
-0x016E1AAD: pop         rdi
-0x016E1AAE: fchs
-0x016E1AB0: xor         dl,ch
-0x016E1AB2: FF
-0x016E1AB3: jnp         000000000000000F   <-- branch/call/ret
-0x016E1AB5: mov         cl,0E1h
-0x016E1AB7: clc
-0x016E1AB8: push        rbp
-0x016E1AB9: jnp         0000000000000066   <-- branch/call/ret
-0x016E1ABC: pop         rdx
-0x016E1ABD: cmp         eax,0B236FA95h
-0x016E1AC2: adc         cl,byte ptr [rbx+000000005CCDB4B0h]
-0x016E1AC8: adc         dword ptr [rsi],2C71057Fh
-0x016E1ACE: call        FFFFFFFFDFE8344B   <-- branch/call/ret
-0x016E1AD3: lea         esi,[rdx+20h]
-0x016E1AD6: jne         00000000000000B4   <-- branch/call/ret
-0x016E1AD8: cmp         eax,669FE048h
-0x016E1ADD: or          eax,dword ptr [rsi-6]
-0x016E1AE0: shufps      xmm18,xmmword ptr [r18+r17*8-2Dh],9
-0x016E1AE7: lahf
-0x016E1AE8: and         byte ptr [rcx+0000000077D086BBh],ch
-0x016E1AEE: imul        ecx,dword ptr [rax+FFFFFFFFD394B4E8h],1Ah
-0x016E1AF5: mov         ah,4Bh
-0x016E1AF7: in          eax,92h
-0x016E1AF9: 3F
-0x016E1AFA: pop         rbx
-0x016E1AFB: mov         bl,0CBh
-0x016E1AFD: C6
-0x016E1AFE: cdq
-0x016E1AFF: xchg        r15,rsp
-0x016E1B02: C7
-0x016E1B03: sbb         ah,byte ptr [rsi]
-0x016E1B05: dec         ebp
-0x016E1B07: 0E
-0x016E1B08: not         ch
-0x016E1B0A: adc         eax,dword ptr [rsi]
-0x016E1B0C: dec         byte ptr [rbx]
-0x016E1B0E: mov         eax,5AFDD11Ch
-0x016E1B13: F3
-0x016E1B14: EA
-0x016E1B15: C4
-0x016E1B16: cqo
-0x016E1B18: lahf
-0x016E1B19: sbb         cl,dl
-0x016E1B1B: xchg        eax,edi
-0x016E1B1C: jmp         0000000000000107   <-- branch/call/ret
-0x016E1B1F: pop         rdx
-0x016E1B20: adc         eax,7AADC44h
-0x016E1B25: 62
-0x016E1B26: xchg        eax,esp
-0x016E1B27: stc
-0x016E1B28: jp          0000000000000143   <-- branch/call/ret
-0x016E1B2B: xchg        eax,esp
-0x016E1B2C: 82
-0x016E1B2D: cmp         esp,edx
-0x016E1B2F: ins         byte ptr [rdi],dx
-0x016E1B30: mov         eax,7DE0C2BEh
-0x016E1B35: stc
-0x016E1B36: and         esi,dword ptr [rax]
-0x016E1B38: pop         rdi
-0x016E1B39: xacquire sub dl,byte ptr [rsi-13h]
-0x016E1B3D: 64
-0x016E1B3E: D4
-0x016E1B3F: jnp         00000000000000A6   <-- branch/call/ret
-0x016E1B41: D4
-0x016E1B42: 3F
-0x016E1B43: adc         edx,dword ptr [rcx]
-0x016E1B45: loop        00000000000000BE
-0x016E1B47: and         al,8Bh
-0x016E1B4A: and         byte ptr [rbx],bl
-0x016E1B4C: push        rdi
-0x016E1B4D: 1E
-0x016E1B4E: and         eax,0D4BDCEE4h
-0x016E1B53: cdq
-0x016E1B54: sub         byte ptr [rax],cl
-0x016E1B56: lods        dword ptr [rsi]
-0x016E1B57: imul        esi
-0x016E1B59: ficomp      word ptr [rdx-71h]
-0x016E1B5C: outs        dx,byte ptr [rsi]
-0x016E1B5D: jo          00000000000000A2   <-- branch/call/ret
-0x016E1B5F: mov         eax,9B7B6263h
-0x016E1B64: C6
-0x016E1B65: loopne      00000000000000DE
-0x016E1B67: mov         esp,23FD4D1Ch
-0x016E1B6C: D6
-0x016E1B6D: fdiv        dword ptr [rbp+00000000050A6775h]
-0x016E1B73: or          byte ptr ds:[rcx+0000000005D33482h],0F3h
-0x016E1B7B: C7
-0x016E1B7C: jrcxz       00000000000001AB   <-- branch/call/ret
-0x016E1B7E: 07
-0x016E1B7F: or          eax,ecx
-0x016E1B81: nop
-0x016E1B82: test        dword ptr [rbp-33h],ebx
-0x016E1B85: leave
-0x016E1B86: fistp       dword ptr [rsi]
-0x016E1B88: 2E
-0x016E1B89: 44
-0x016E1B8A: 17
-0x016E1B8B: mov         eax,5E0A6CEBh
-0x016E1B90: out         0BAh,al
-0x016E1B92: test        eax,0C2AFC838h
-0x016E1B97: cli
-0x016E1B98: add         al,89h
-0x016E1B9A: sar         byte ptr [rsp+rsi*8],cl
-0x016E1B9D: 1F
-0x016E1B9E: and         al,al
-0x016E1BA0: and         ebp,32h
-0x016E1BA3: sal         dword ptr [rax+FFFFFFFFACB611BCh],5Ah
-0x016E1BAA: adc         eax,0C91A90EFh
-0x016E1BAF: mov         byte ptr [E1C1A78396F02623h],al
-0x016E1BB8: xchg        eax,esp
-0x016E1BB9: mov         al,byte ptr [34056CDE6A282A91h]
-0x016E1BC2: mov         ch,0CDh
-0x016E1BC4: xor         al,0ECh
-0x016E1BC6: mov         dh,0E6h
-0x016E1BC8: D4
-0x016E1BC9: ins         byte ptr [rdi],dx
-0x016E1BCA: or          dl,byte ptr [rdx-62h]
-0x016E1BCD: outs        dx,dword ptr [rsi]
-0x016E1BCE: 4C
-0x016E1BCF: C7
-0x016E1BD0: mov         dl,0A9h
-0x016E1BD2: loopne      000000000000019A
-0x016E1BD4: jno         00000000000001A1   <-- branch/call/ret
-0x016E1BD6: 2F
-0x016E1BD7: C4
-0x016E1BD8: out         dx,eax
-0x016E1BD9: sub         dword ptr [rdx-52h],eax
-0x016E1BDC: rep cmp     byte ptr [rsp+rcx+FFFFFFFFCC6DCD42h],3Eh
-0x016E1BE5: xor         al,69h
-0x016E1BE7: C4
-0x016E1BE8: mov         fs,word ptr [rsi+FFFFFFFFE925D091h]
-0x016E1BEE: mov         ecx,2406129Ch
-0x016E1BF3: 2F
-0x016E1BF4: mov         dl,0Ch
-0x016E1BF7: xlat        byte ptr [rbx]
-0x016E1BF8: mov         al,byte ptr [6FAB115B4B4861FCh]
-0x016E1C01: wait
-0x016E1C02: xchg        eax,edx
-0x016E1C03: sahf
-0x016E1C04: lea         edx,[rdi+00000000518AD2D8h]
-0x016E1C0A: cwde
-0x016E1C0B: mov         esp,0C71E4A63h
-0x016E1C10: mov         edx,0A5102693h
-0x016E1C15: ins         dword ptr [rdi],dx
-0x016E1C16: imul        ecx,dword ptr [rdi+rdi*2+28h],0FFFFFFA9h
-0x016E1C1B: cmp         byte ptr [rdx+6],dh
-0x016E1C1E: adc         dword ptr [rax],ebx
-0x016E1C20: 8F
-0x016E1C21: inc         dword ptr [rbx]
-0x016E1C23: jle         00000000000001F0   <-- branch/call/ret
-0x016E1C26: stos        dword ptr [rdi]
-0x016E1C27: push        rbp
-0x016E1C28: in          eax,0F9h
-0x016E1C2A: xor         eax,0AF426453h
-0x016E1C2F: fcom        st(5)
-0x016E1C32: cmps        byte ptr [rsi],byte ptr [rdi]
-0x016E1C33: test        dword ptr [rdi+00000000428CBA04h],eax
-0x016E1C39: out         dx,al
-0x016E1C3A: mul         al,byte ptr [rsi+FFFFFFFFAF33B0B4h]
-0x016E1C40: pop         rcx
-0x016E1C41: test        al,0EAh
-0x016E1C43: fadd        dword ptr [rdx+0000000001586C77h]
-0x016E1C49: mov         eax,546F3336h
-0x016E1C4E: ins         dword ptr [rdi],dx
-0x016E1C4F: sbb         dword ptr [rdx+4Dh],esi
-0x016E1C52: imul        edi,esp,95ABF456h
-0x016E1C59: mov         ebx,0CEEE156Fh
-0x016E1C5E: mov         bl,5Ch
-0x016E1C60: out         dx,eax
-0x016E1C61: cmp         bl,byte ptr [rcx]
-0x016E1C63: sub         edx,edx
-0x016E1C65: cmp         cl,byte ptr [rbx+FFFFFFFFDBC47D86h]
-0x016E1C6B: out         dx,eax
-0x016E1C6C: sbb         eax,0A35FAFC6h
-0x016E1C72: C5
-0x016E1C73: cmp         al,83h
-0x016E1C75: idiv        byte ptr [rdi+0000000065C4E491h]
-0x016E1C7B: pop         rbp
-0x016E1C7C: jmp         000000003E38C9C4   <-- branch/call/ret
-0x016E1C81: in          eax,dx
-0x016E1C83: 07
-0x016E1C84: sbb         dword ptr [rcx],eax
-0x016E1C86: mov         dword ptr [FDAAAC90950463CBh],eax
-0x016E1C8F: cli
-0x016E1C90: mov         al,byte ptr [E4C4629C8BCD7E31h]
-0x016E1C99: adc         dh,byte ptr [rsi+FFFFFFFFD9FAE3B4h]
-0x016E1C9F: ja          000000000000029B   <-- branch/call/ret
-0x016E1CA1: xlat        byte ptr [rbx]
-0x016E1CA2: cmp         al,byte ptr [rax]
-0x016E1CA5: sbb         byte ptr [rsi+rbx*2],bl
-0x016E1CA8: lods        dword ptr [rsi]
-0x016E1CA9: sub         ch,byte ptr [rbx]
-0x016E1CAB: cmp         al,0D8h
-0x016E1CAD: scas        dword ptr [rdi]
-0x016E1CAE: mov         ch,59h
-0x016E1CB0: cwde
-0x016E1CB2: ht jnp      00000000000002CF
-0x016E1CB5: lods        dword ptr [rsi]
-0x016E1CB6: mov         r12d,0EA51DEAh
-0x016E1CBC: sbb         eax,0F96550BCh
-0x016E1CC1: cmp         byte ptr [rdi],r12b
-0x016E1CC4: test        eax,0FDFF90A7h
-0x016E1CC9: popfq
-0x016E1CCA: sub         ebx,dword ptr [rdi+rcx*4+FFFFFFFFF4A324F1h]
-0x016E1CD1: mov         al,byte ptr [1023BC00D3F693D5h]
-0x016E1CDA: adc         edx,edx
-0x016E1CDC: mov         dword ptr [350C2B99D85E594Fh],eax
-0x016E1CE5: ror         byte ptr [rsi],1
-0x016E1CE7: xchg        eax,esp
-0x016E1CE8: movsxd      edi,esi
-0x016E1CEA: test        byte ptr [rax+rbp*4+0000000072661582h],ah
-0x016E1CF1: movs        dword ptr [rdi],dword ptr [rsi]
-0x016E1CF2: xor         byte ptr [rax+0000000036652256h],9Eh
-0x016E1CF9: invd
-0x016E1CFC: ja          00000000000002F9   <-- branch/call/ret
-0x016E1CFE: in          al,0Eh
-0x016E1D00: mov         ch,91h
-0x016E1D02: CE
-0x016E1D03: jnp         00000000000002FB   <-- branch/call/ret
-0x016E1D05: int         3
-0x016E1D06: std
-0x016E1D07: rcl         byte ptr ss:[rax+FFFFFFFF86FC4C6Eh],1
-0x016E1D0E: mov         dl,0D4h
-0x016E1D10: push        rsp
-0x016E1D11: sub         byte ptr [rcx+FFFFFFFFFC815236h],al
-0x016E1D17: or          r11b,byte ptr [rdi-0Eh]
-0x016E1D1B: mov         bh,0B4h
-0x016E1D1D: in          al,dx
-0x016E1D1E: 61
-0x016E1D1F: sub         dword ptr [rbx+3Bh],ebp
-0x016E1D22: sub         cl,ah
-0x016E1D24: add         eax,0FC432FD5h
-0x016E1D29: stos        byte ptr [rdi]
-0x016E1D2A: xor         bh,cl
-0x016E1D2C: ret         242h   <-- branch/call/ret
-0x016E1D2F: ins         byte ptr [rdi],dx
-0x016E1D30: xor         al,0DFh
-0x016E1D32: imul        esi,dword ptr [rdi+rcx+FFFFFFFF98C7D3A4h],4A48A971h
-0x016E1D3D: push        rbp
-0x016E1D3E: 8F
-0x016E1D3F: 9A
-0x016E1D40: mov         al,byte ptr cs:[C6ABCB7F4E8D8F46h]
-0x016E1D4A: sub         al,38h
-0x016E1D4C: jge         00000000000002AA   <-- branch/call/ret
-0x016E1D4E: dec         dword ptr [rbx+40h]
-0x016E1D51: popfq
-0x016E1D53: xor         al,4Ah
-0x016E1D55: push        rax
-0x016E1D56: xor         al,dh
-0x016E1D58: adc         al,68h
-0x016E1D5A: add         dword ptr [rax-0Dh],edx
-0x016E1D5D: sahf
-0x016E1D5E: xor         al,0BFh
-0x016E1D60: mov         al,0A4h
-0x016E1D62: fidiv       word ptr [rbp+FFFFFFFFF1F80B43h]
-0x016E1D68: cmps        qword ptr [rsi],qword ptr [rdi]
-0x016E1D6A: je          00000000000002FE   <-- branch/call/ret
-0x016E1D6C: cvttps2pi   mm3,mmword ptr [rdx]
-0x016E1D6F: nop
-0x016E1D70: push        rcx
-0x016E1D71: sahf
-0x016E1D72: js          000000000000031D   <-- branch/call/ret
-0x016E1D74: sti
-0x016E1D75: mov         word ptr [rcx-26h],fs
-0x016E1D78: test        al,5Bh
-0x016E1D7A: stos        byte ptr [rdi]
-0x016E1D7B: popfq
-0x016E1D7C: cmp         eax,0F2FB1031h
-0x016E1D81: mov         esi,80D48A27h
-0x016E1D86: ja          000000000000031D   <-- branch/call/ret
-0x016E1D88: cli
-0x016E1D89: pop         di
-0x016E1D8B: mov         al,byte ptr [D73837CD4CEA4E1Fh]
-0x016E1D94: mov         bl,5Dh
-0x016E1D96: movs        dword ptr [rdi],dword ptr [rsi]
-0x016E1D97: retf        40E2h   <-- branch/call/ret
-0x016E1D9A: jrcxz       0000000000000352   <-- branch/call/ret
-0x016E1D9C: js          0000000000000358   <-- branch/call/ret
-0x016E1D9E: repne test  edi,esp
-0x016E1DA1: xchg        eax,esi
-0x016E1DA2: cmp         eax,5ACEBC5h
-0x016E1DA7: adc         bh,cl
-0x016E1DA9: xchg        esp,dword ptr [rdi]
-0x016E1DAB: FE
-0x016E1DAC: jno         00000000000002F1   <-- branch/call/ret
-0x016E1DAE: jle         00000000000003C6   <-- branch/call/ret
-0x016E1DB1: jg          0000000000000350   <-- branch/call/ret
-0x016E1DB3: jae         0000000000000385   <-- branch/call/ret
-0x016E1DB5: pop         rdx
-0x016E1DB6: pop         rcx
-0x016E1DB7: cmp         dword ptr [rsi+6Eh],esp
-0x016E1DBA: 06
-0x016E1DBB: 37
-0x016E1DBC: imul        esi,ebp,48h
-0x016E1DBF: D6
-0x016E1DC0: mov         st(-1),word ptr [rdx+rbx*2+FFFFFFFFB9369C74h]
-0x016E1DC7: xor         al,byte ptr [rbx+rcx+000000004FB7BEDCh]
-0x016E1DCE: sub         byte ptr [rcx-5Ah],al
-0x016E1DD1: mov         al,36h
-0x016E1DD4: push        rbx
-0x016E1DD5: mov         dword ptr [CCFDF34BFAE11096h],eax
-0x016E1DDE: sbb         dword ptr [rcx],esp
-0x016E1DE0: F1
-0x016E1DE1: mov         si,5113h
-0x016E1DE5: mov         ecx,ebp
-0x016E1DE7: and         ebp,dword ptr [rdx+00000000642B02CFh]
-0x016E1DED: stos        dword ptr [rdi]
-0x016E1DEE: xor         ebx,dword ptr [rdi+000000001726BBB9h]
-0x016E1DF4: D4
-0x016E1DF5: F3
-0x016E1DF6: 60
-0x016E1DF7: 3F
-0x016E1DF8: test        eax,916F735Fh
-0x016E1DFD: sahf
-0x016E1DFE: movs        dword ptr [rdi],dword ptr [rsi]
-0x016E1DFF: xchg        ebp,dword ptr [rcx+rdi*2]
-0x016E1E02: and         byte ptr [rbp+00000000377B5B46h],cl
-0x016E1E08: sub         dword ptr [rcx+6Dh],94AC6A9h
-0x016E1E0F: or          byte ptr [rsi-2Dh],ah
-0x016E1E12: out         97h,al
-0x016E1E14: 9A
-0x016E1E15: pop         rbx
-0x016E1E16: 27
-0x016E1E17: ht jbe      000000000000037A
-0x016E1E1A: pop         rsi
-0x016E1E1B: adc         al,76h
-0x016E1E1E: fmul        qword ptr [rax]
-0x016E1E20: mov         esp,2D5B3FD0h
-0x016E1E25: sbb         al,0A7h
-0x016E1E27: and         al,8
-0x016E1E29: xor         byte ptr [rcx+FFFFFFFFE05FBD8Fh],dh
-0x016E1E2F: sub         byte ptr [rsp+rsi*8+000000001F796B61h],cl
-0x016E1E36: adc         spl,r14b
-0x016E1E39: push        rbp
-0x016E1E3A: in          al,0A4h
-0x016E1E3C: 07
-0x016E1E3D: fbld        tbyte ptr [rdx+rsi+25h]
-0x016E1E41: adc         edi,dword ptr ss:[rdi]
-0x016E1E44: lods        byte ptr [rsi]
-0x016E1E45: nop
-0x016E1E46: xbegin      000000001F5C98C9
-0x016E1E4D: jne         00000000000003FB   <-- branch/call/ret
-0x016E1E4F: popfq
-0x016E1E50: hlt
-0x016E1E51: 17
-0x016E1E52: cmp         al,53h
-0x016E1E54: xchg        edx,ecx
-0x016E1E56: out         dx,eax
-0x016E1E57: xor         cl,byte ptr [rax+6Eh]
-0x016E1E5A: je          0000000000000485   <-- branch/call/ret
-0x016E1E5C: jp          000000000000045A   <-- branch/call/ret
-0x016E1E5F: int         3
-0x016E1E60: call        FFFFFFFF941E8EA6   <-- branch/call/ret
-0x016E1E65: ins         dword ptr [rdi],dx
-0x016E1E66: DB
-0x016E1E67: 62
-0x016E1E68: mov         fs,word ptr [rdx+000000001A6B57E0h]
-0x016E1E6E: push        4FE424BBh
-0x016E1E73: add         al,0FCh
-0x016E1E75: cmp         bh,byte ptr [rdx]
-0x016E1E77: and         eax,0EA321484h
-0x016E1E7C: cmp         ecx,eax
-0x016E1E7E: iretd
-0x016E1E7F: CE
-0x016E1E80: add         al,48h
-0x016E1E82: pop         rsi
-0x016E1E83: 07
-0x016E1E84: jne         00000000000003EC   <-- branch/call/ret
-0x016E1E86: in          al,dx
-0x016E1E87: xchg        dh,byte ptr [rdx+00000000530AB4F9h]
-0x016E1E8E: in          al,dx
-0x016E1E8F: adc         byte ptr [rsi],dl
-0x016E1E91: hlt
-0x016E1E92: xor         al,byte ptr [rbx]
-0x016E1E94: xchg        eax,edx
-0x016E1E95: add         dl,ah
-0x016E1E97: and         r11b,byte ptr [r11+000000005494C7BCh]
-0x016E1E9E: lea         esi,[rdx]
-0x016E1EA0: xor         dh,byte ptr [rsi+4]
-0x016E1EA3: cmp         al,0BBh
-0x016E1EA5: and         eax,41A30216h
-0x016E1EAA: and         rax,2164DFB0h
-0x016E1EB0: xlat        byte ptr [rbx]
-0x016E1EB1: and         ah,al
-0x016E1EB3: int         8
-0x016E1EB5: 46
-0x016E1EB6: call        00000000414C6797   <-- branch/call/ret
-0x016E1EBD: sbb         rax,79C94132h
-0x016E1EC3: 60
-0x016E1EC4: cmps        dword ptr [rsi],dword ptr [rdi]
-0x016E1EC5: jrcxz       000000000000042D   <-- branch/call/ret
-0x016E1EC7: push        rbx
-0x016E1EC8: C5
-0x016E1EC9: sub         cl,dl
-0x016E1ECB: shr         dword ptr [rbp-21h],1
-0x016E1ECE: adc         al,8Fh
-0x016E1ED0: or          ecx,dword ptr [rax+rbx*8-48h]
-0x016E1ED4: stos        byte ptr [rdi]
-0x016E1ED5: and         dword ptr [rsi+FFFFFFFFADAFEBE2h],esi
-0x016E1EDB: mov         al,0A2h
-0x016E1EDD: xchg        bh,byte ptr [rcx]
-0x016E1EDF: imul        eax,dword ptr [rbp+6Ah],0FFFFFFBAh
-0x016E1EE3: sub         eax,59CB9218h
-0x016E1EE8: D4
-0x016E1EE9: int         3
-0x016E1EEA: js          00000000000004BA   <-- branch/call/ret
-0x016E1EEC: fild        word ptr [rcx+rdi*8-51h]
-0x016E1EF0: fdivr       st(1),st
-0x016E1EF2: jrcxz       00000000000004F3   <-- branch/call/ret
-0x016E1EF6: or          dword ptr [rcx+37h],esi
-0x016E1EF9: mov         byte ptr [rbx+rax*8],bl
-0x016E1EFC: sbb         al,byte ptr [rdi+00000000560D8CE9h]
-0x016E1F02: leave
-0x016E1F03: pop         rdi
-0x016E1F04: int         0D4h
-0x016E1F06: mov         eax,dword ptr [3146867D9CF23CC7h]
-0x016E1F0F: add         al,0ADh
-0x016E1F12: ins         dword ptr [rdi],dx
-0x016E1F13: enter       0BCC6h,0F0h
-0x016E1F17: xchg        eax,edi
-0x016E1F18: and         al,0B3h
-0x016E1F1A: mov         ecx,32329505h
-0x016E1F1F: xor         al,byte ptr [ebx+BE12B6C4h]
-0x016E1F26: mov         ch,0C1h
-0x016E1F28: xor         byte ptr [rbx+rcx-8],al
-0x016E1F2C: mov         byte ptr [rbx+000000000E33B08Ch],bl
-0x016E1F32: sub         dword ptr [rcx-20h],edx
-0x016E1F35: fstp        qword ptr [rdi]
-0x016E1F37: push        0FFFFFFFFFFFFFFD4h
-0x016E1F39: cdq
-0x016E1F3A: jo          00000000000004E8   <-- branch/call/ret
-0x016E1F3D: push        rax
-0x016E1F3E: cli
-0x016E1F3F: js          0000000000000547   <-- branch/call/ret
-0x016E1F41: xor         ah,byte ptr [rcx]
-0x016E1F43: mov         cl,45h
-0x016E1F45: jnp         0000000000000510   <-- branch/call/ret
-0x016E1F47: shl         byte ptr [rbx],1
-0x016E1F49: test        r14b,r11b
-0x016E1F4C: out         0B2h,eax
-0x016E1F4F: stos        dword ptr [rdi]
-0x016E1F50: test        dword ptr [rbp+rcx*4+1Ah],eax
-0x016E1F54: test        eax,1A25C5C6h
-0x016E1F59: cmp         al,0F2h
-0x016E1F5B: add         dl,byte ptr [rdi+0000000073F2070Ch]
-0x016E1F61: 07
-0x016E1F62: mov         dword ptr [rdi+rdi*2+FFFFFFFFD1697EEEh],ecx
-0x016E1F69: jp          000000000000053E   <-- branch/call/ret
-0x016E1F6B: jle         0000000000000585   <-- branch/call/ret
-0x016E1F6D: movs        dword ptr [rdi],dword ptr [rsi]
-0x016E1F6E: pop         rcx
-0x016E1F6F: 9A
-0x016E1F70: pop         rsp
-0x016E1F71: iretd
-0x016E1F72: sbb         ah,byte ptr [rax+FFFFFFFFC664B675h]
-0x016E1F78: test        al,dh
-0x016E1F7A: jo          0000000000000501   <-- branch/call/ret
-0x016E1F7C: je          000000000000057E   <-- branch/call/ret
-0x016E1F7E: repne mov   r11,0CA59D2F003A38596h
-0x016E1F89: CE
-0x016E1F8A: nop
-0x016E1F8B: retf        0D3AFh   <-- branch/call/ret
-0x016E1F8E: jnp         00000000000005C7   <-- branch/call/ret
-0x016E1F90: in          eax,0BDh
-0x016E1F92: 37
-0x016E1F93: sti
-0x016E1F94: mov         ecx,116776ABh
-0x016E1F99: mov         dword ptr [rsi+rdx*2],ecx
-0x016E1F9C: movs        dword ptr [rdi],dword ptr [rsi]
-0x016E1F9D: C4
-0x016E1F9E: add         eax,45755FFBh
-0x016E1FA3: adc         eax,ebp
-0x016E1FA5: popfq
-0x016E1FA6: CE
-0x016E1FA7: fsub        qword ptr [rsi-33h]
-0x016E1FAA: or          esp,dword ptr [rbp+0000000027437F06h]
-0x016E1FB0: wait
-0x016E1FB2: jrcxz       0000000000000558   <-- branch/call/ret
-0x016E1FB4: cmp         byte ptr [rbx],dl
-0x016E1FB6: push        rbx
-0x016E1FB7: loop        0000000000000581
-0x016E1FB9: movsxd      edx,dword ptr [FFFFFFFFC85FC38Dh]
-0x016E1FBF: retf   <-- branch/call/ret
-0x016E1FC0: 60
-0x016E1FC1: pop         rdi
-0x016E1FC2: cmp         al,80h
-0x016E1FC4: xchg        bh,al
-0x016E1FC6: xchg        cl,byte ptr [rbx]
-0x016E1FC8: sti
-0x016E1FC9: and         eax,8FF9CF47h
-0x016E1FCE: or          bh,byte ptr [rsi+rdi*8]
-0x016E1FD1: pop         rax
-0x016E1FD2: in          eax,8Dh
-0x016E1FD4: jo          00000000000005F3   <-- branch/call/ret
-0x016E1FD6: jg          0000000000000561   <-- branch/call/ret
-0x016E1FD8: in          al,dx
-0x016E1FD9: mov         esp,0B3440767h
-0x016E1FDE: jmp         00000000000005AE   <-- branch/call/ret
-0x016E1FE0: 1E
-0x016E1FE1: mov         rsp,4BE3AB0F0571C149h
-0x016E1FEB: or          eax,917E6BEBh
-0x016E1FF0: xor         eax,5DB076DFh
-0x016E1FF5: 27
-0x016E1FF6: adc         eax,19784CE2h
-0x016E1FFB: lea         ebp,[rbx+1Ch]
-0x016E1FFE: xchg        eax,esi
-0x016E1FFF: jmp         000000000000061D   <-- branch/call/ret
-0x016E2001: mov         rax,qword ptr [03C23514A4FA8D1Ah]
-0x016E200B: or          eax,103DE09Ch
-0x016E2010: shr         dl,cl
-0x016E2012: je          00000000000005A5   <-- branch/call/ret
-0x016E2015: 1F
-0x016E2016: pop         rbp
-0x016E2017: repne push  rdx
-0x016E2019: C4
-0x016E201A: mov         byte ptr [rbx+0000000066F84531h],0F5h
-0x016E2021: xchg        eax,edi
-0x016E2022: pop         rax
-0x016E2023: ficom       word ptr [rbp+60h]
-0x016E2026: mov         al,byte ptr [B44C126DED6DC411h]
-0x016E202F: fstp        dword ptr [rcx+0000000035A4CD10h]
-0x016E2035: dec         r20d
-0x016E2038: mov         dword ptr [rsi-35h],edi
-0x016E203B: out         0Ah,eax
-0x016E203D: cwde
-0x016E203E: mov         esp,fs
-0x016E2040: mov         bh,78h
-0x016E2042: pop         rax
-0x016E2043: mov         r14b,6Dh
-0x016E2047: pop         rbx
-0x016E2049: sub         r14b,byte ptr [r8+78h]
-0x016E204D: js          00000000000005B0   <-- branch/call/ret
-0x016E204F: cmp         ecx,dword ptr [rdi+00000000135EB1AEh]
-0x016E2055: mov         al,30h
-0x016E2057: retf        0A1E3h   <-- branch/call/ret
-0x016E205A: 1E
-0x016E205B: xchg        ch,byte ptr [rsi]
-0x016E205D: EA
-0x016E205E: xor         eax,7C9ED8A4h
-0x016E2063: jbe         00000000000005A8   <-- branch/call/ret
-0x016E2065: test        al,33h
-0x016E2069: hlt
-0x016E206B: sar         esp,0
-0x016E206E: 07
-0x016E206F: adc         edx,dword ptr [r9-6Dh]
-0x016E2073: ror         ebx,1
-0x016E2075: F1
-0x016E2076: 16
-0x016E2077: imul        byte ptr [rsi]
-0x016E2079: xbegin      000000006A2670BB
-0x016E207F: adc         dword ptr [rsi+1Ah],esp
-0x016E2082: push        rdx
-0x016E2083: lock xor    eax,95540883h
-0x016E2089: xor         byte ptr [rsi+rax*8+5Fh],bl
-0x016E208D: or          dword ptr [rbp+000000007D72542Ch],0FFFFFFAAh
-0x016E2094: 60
-0x016E2095: cvtpi2ps    xmm13,mmword ptr [r30+r12*8+2Eh]
-0x016E209B: 07
-0x016E209C: ja          0000000000000625   <-- branch/call/ret
-0x016E209E: cmp         al,0BBh
-0x016E20A0: xacquire sub dword ptr [rdx+7Eh],edi
-0x016E20A4: add         edi,dword ptr [rdi+00000000741BDFCAh]
-0x016E20AA: push        rdi
-0x016E20AB: fmul        dword ptr [rdi+rdx*8+FFFFFFFFA4E6D8E2h]
-0x016E20B2: out         dx,al
-0x016E20B3: cmp         dh,dl
-0x016E20B5: sub         dh,byte ptr [rbp+FFFFFFFFE05E4A32h]
-0x016E20BB: int         3
-0x016E20BC: or          bh,byte ptr [rdx+000000005C536EE1h]
-0x016E20C2: 82
-0x016E20C3: hlt
-0x016E20C4: push        rax
-0x016E20C5: mov         dword ptr [rdx],esi
-0x016E20C7: out         0D3h,al
-0x016E20C9: in          eax,dx
-0x016E20CA: adc         eax,0D09253C0h
-0x016E20CF: xchg        eax,esi
-0x016E20D0: pop         rdx
-0x016E20D1: mov         ss,word ptr [rcx+000000006740C317h]
-0x016E20D7: ja          00000000000006F0   <-- branch/call/ret
-0x016E20D9: shr         dword ptr [rdx+rbx+00000000443563A1h],1
-0x016E20E0: scas        byte ptr [rdi]
-0x016E20E1: C4
-0x016E20E2: pop         rbp
-0x016E20E3: sbb         dword ptr [rdx+50h],esi
-0x016E20E6: fbstp       tbyte ptr [rbx]
-0x016E20E8: test        eax,2F2E960Eh
-0x016E20ED: 1E
-0x016E20EE: int         3
-0x016E20EF: sbb         byte ptr [rsp+rax-20h],al
-0x016E20F3: push        rcx
-0x016E20F4: D4
-0x016E20F5: mov         esp,0CF7972EFh
-0x016E20FA: or          eax,0D26F81B4h
-0x016E20FF: CE
-0x016E2100: mov         al,dh
-0x016E2102: xor         ebp,ecx
-0x016E2104: xor         eax,7D3D6FFh
-0x016E2109: sbb         eax,5D303021h
-0x016E210E: cwde
-0x016E210F: test        al,83h
-0x016E2111: mov         ch,1Ah
-0x016E2113: 82
-0x016E2114: sti
-0x016E2115: outs        dx,dword ptr [rsi]
-0x016E2116: fcomp       dword ptr [rcx-1Dh]
-0x016E211A: mov         ch,bl
-0x016E211C: scas        qword ptr [rdi]
-0x016E211E: shl         byte ptr [rdx-63h],0F3h
-0x016E2122: 0E
-0x016E2123: mov         ebx,52BCA229h
-0x016E2128: outs        dx,dword ptr [rsi]
-0x016E2129: ret   <-- branch/call/ret
-0x016E212A: mov         cl,0FAh
-0x016E212C: sti
-0x016E212D: mov         bl,5Ch
-0x016E212F: ret         1FBEh   <-- branch/call/ret
-0x016E2132: out         0C4h,eax
-0x016E2134: out         0DDh,eax
-0x016E2136: 8D
-0x016E2137: retf   <-- branch/call/ret
-0x016E2138: xchg        eax,esi
-0x016E2139: 17
-0x016E213A: add         ecx,dword ptr [rbx]
-0x016E213C: vpsubsb     ymm28{k6}{z},ymm0,ymmword ptr gs:[rsi+FFFFFFFFAF88B761h]
-0x016E2147: jp          0000000000000764   <-- branch/call/ret
-0x016E2149: sub         byte ptr [rbx],bh
-0x016E214B: push        rsp
-0x016E214C: int         3
-0x016E214D: pop         rsp
-0x016E214E: mov         ch,99h
-0x016E2150: xchg        eax,ebp
-0x016E2151: lea         ebx,[rcx+21h]
-0x016E2154: movaps      xmm2,xmm3
-0x016E2157: ret         2654h   <-- branch/call/ret
-0x016E215A: scas        dword ptr [rdi]
-0x016E215B: F1
-0x016E215C: jge         0000000000000760   <-- branch/call/ret
-0x016E215F: ins         byte ptr [rdi],dx
-0x016E2160: movsxd      ebx,dword ptr [rsi+26h]
-0x016E2163: sub         dword ptr [rdx+FFFFFFFF82E2F343h],0FFFFFF86h
-0x016E216A: cmp         ebp,dword ptr [rbx+6Ch]
-0x016E216D: adc         ebp,dword ptr [rbx+FFFFFFFFB0A37407h]
-0x016E2173: cli
-0x016E2174: cli
-0x016E2175: stos        dword ptr [rdi]
-0x016E2176: adc         al,0C4h
-0x016E2178: D4
-0x016E2179: pop         rdi
-0x016E217A: stos        dword ptr [rdi]
-0x016E217B: out         dx,al
-0x016E217C: fcomi       st,st(4)
-0x016E217E: adc         al,byte ptr [rsi+FFFFFFFF9950EE77h]
-0x016E2184: jbe         000000000000074B   <-- branch/call/ret
-0x016E2186: jl          0000000000000795   <-- branch/call/ret
-0x016E2188: xchg        cl,byte ptr [rbx-6Dh]
-0x016E218B: fisttp      word ptr [rdi+52h]
-0x016E218E: scas        dword ptr [rdi]
-0x016E218F: 26
-0x016E2190: 41
-0x016E2191: sahf
-0x016E2193: in          eax,4Bh
-0x016E2195: rcl         byte ptr [rbx+FFFFFFFF86B1DCD7h],36h
-0x016E219C: xchg        eax,ebp
-0x016E219D: stos        byte ptr [rdi]
-0x016E219E: scas        byte ptr [rdi]
-0x016E219F: mov         cl,7Fh
-0x016E21A1: fidiv       word ptr [rdi]
-0x016E21A3: test        al,0E0h
-0x016E21A5: iretd
-0x016E21A7: mov         bh,2Fh
-0x016E21A9: in          eax,75h
-0x016E21AB: EA
-0x016E21AC: and         byte ptr [rdi+rax*4-35h],cl
-0x016E21B0: test        al,0B5h
-0x016E21B2: push        27h
-0x016E21B4: cmc
-0x016E21B5: cmp         ecx,dword ptr [rax+4]
-0x016E21B8: vsubpd      ymm8,ymm0,ymmword ptr [rsi]
-0x016E21BC: 17
-0x016E21BD: and         r14b,byte ptr [r15+FFFFFFFFCB5519FFh]
-0x016E21C4: push        0FFFFFFFFA7CC24D3h
-0x016E21C9: xor         bl,byte ptr [FFFFFFFF850439D9h]
-0x016E21CF: xor         eax,4277F374h
-0x016E21D4: pop         rsp
-0x016E21D5: jge         0000000000000767   <-- branch/call/ret
-0x016E21D7: ja          00000000000007B1   <-- branch/call/ret
-0x016E21D9: lods        dword ptr [rsi]
-0x016E21DA: sbb         ch,dl
-0x016E21DC: or          dword ptr [rax+rax],ebp
-0x016E21DF: C7
-0x016E21E0: loopne      000000000000074B
-0x016E21E2: imul        ah
-0x016E21E4: add         dword ptr [rbx],0FFFFFF86h
-0x016E21E7: pop         rax
-0x016E21E8: mov         eax,dword ptr [F181E03A9E0B406Ch]
-0x016E21F1: pushfq
-0x016E21F2: xor         al,0F1h
-0x016E21F5: mov         cl,0B8h
-0x016E21F7: cwde
-0x016E21F9: adc         al,0A9h
-0x016E21FC: mov         dword ptr gs:[F1C853C89CD12EAAh],eax
-0x016E2206: mov         bl,99h
-0x016E2208: jge         00000000000007F4   <-- branch/call/ret
-0x016E220A: jmp         qword ptr [rbx+0Dh]   <-- branch/call/ret
-0x016E220D: out         dx,al
-0x016E220E: pushfq
-0x016E220F: test        byte ptr [r11],r13b
-0x016E2212: sub         byte ptr [rsi+000000007835918Ch],bh
-0x016E2218: loope       000000000000084B
-0x016E221A: mov         ebx,st(-2)
-0x016E221C: stc
-0x016E221D: mov         al,0C1h
-0x016E221F: je          00000000000007AD   <-- branch/call/ret
-0x016E2221: pushfq
-0x016E2222: outs        dx,dword ptr [rsi]
-0x016E2223: movs        dword ptr [rdi],dword ptr [rsi]
-0x016E2224: mov         ch,1Ah
-0x016E2226: mov         ebp,3B21292Fh
-0x016E222B: fsub        st,st(6)
-0x016E222D: or          byte ptr [rax-24h],cl
-0x016E2230: hlt
-0x016E2231: push        rdx
-0x016E2232: int         3
-0x016E2233: xchg        rax,r13
-0x016E2235: in          eax,dx
-0x016E2236: mov         dh,58h
-0x016E2238: xchg        eax,edi
-0x016E2239: test        eax,0F54A1563h
-0x016E223E: 27
-0x016E223F: stc
+==== rva=0xAFE8500 len=0x200 ====
+0x0AFE8500: add         byte ptr [rax],al
+0x0AFE8502: add         byte ptr [rax],al
+0x0AFE8504: add         byte ptr [rax],al
+0x0AFE8506: add         byte ptr [rax],al
+0x0AFE8508: add         byte ptr [rax],al
+0x0AFE850A: add         byte ptr [rax],al
+0x0AFE850C: add         byte ptr [rax],al
+0x0AFE850E: add         byte ptr [rax],al
+0x0AFE8510: add         byte ptr [rax],al
+0x0AFE8512: add         byte ptr [rax],al
+0x0AFE8514: add         byte ptr [rax],al
+0x0AFE8516: add         byte ptr [rax],al
+0x0AFE8518: add         byte ptr [rax],al
+0x0AFE851A: add         byte ptr [rax],al
+0x0AFE851C: add         byte ptr [rax],al
+0x0AFE851E: add         byte ptr [rax],al
+0x0AFE8520: add         byte ptr [rax],al
+0x0AFE8522: add         byte ptr [rax],al
+0x0AFE8524: add         byte ptr [rax],al
+0x0AFE8526: add         byte ptr [rax],al
+0x0AFE8528: add         byte ptr [rax],al
+0x0AFE852A: add         byte ptr [rax],al
+0x0AFE852C: add         byte ptr [rax],al
+0x0AFE852E: add         byte ptr [rax],al
+0x0AFE8530: add         byte ptr [rax],al
+0x0AFE8532: add         byte ptr [rax],al
+0x0AFE8534: add         byte ptr [rax],al
+0x0AFE8536: add         byte ptr [rax],al
+0x0AFE8538: add         byte ptr [rax],al
+0x0AFE853A: add         byte ptr [rax],al
+0x0AFE853C: add         byte ptr [rax],al
+0x0AFE853E: add         byte ptr [rax],al
+0x0AFE8540: add         byte ptr [rax],al
+0x0AFE8542: add         byte ptr [rax],al
+0x0AFE8544: add         byte ptr [rax],al
+0x0AFE8546: add         byte ptr [rax],al
+0x0AFE8548: add         byte ptr [rax],al
+0x0AFE854A: add         byte ptr [rax],al
+0x0AFE854C: add         byte ptr [rax],al
+0x0AFE854E: add         byte ptr [rax],al
+0x0AFE8550: add         byte ptr [rax],al
+0x0AFE8552: add         byte ptr [rax],al
+0x0AFE8554: add         byte ptr [rax],al
+0x0AFE8556: add         byte ptr [rax],al
+0x0AFE8558: add         byte ptr [rax],al
+0x0AFE855A: add         byte ptr [rax],al
+0x0AFE855C: add         byte ptr [rax],al
+0x0AFE855E: add         byte ptr [rax],al
+0x0AFE8560: add         dword ptr [rax],eax
+0x0AFE8562: add         byte ptr [rax],al
+0x0AFE8564: add         byte ptr [rax],al
+0x0AFE8566: add         byte ptr [rax],al
+0x0AFE8568: add         byte ptr [rax],al
+0x0AFE856A: add         byte ptr [rax],al
+0x0AFE856C: add         byte ptr [rax],al
+0x0AFE856E: add         byte ptr [rax],al
+0x0AFE8570: add         byte ptr [rax],al
+0x0AFE8572: add         byte ptr [rax],al
+0x0AFE8574: add         byte ptr [rax],al
+0x0AFE8576: add         byte ptr [rax],al
+0x0AFE8578: add         byte ptr [rax],al
+0x0AFE857A: add         byte ptr [rax],al
+0x0AFE857C: add         dword ptr [rax],eax
+0x0AFE857E: add         byte ptr [rax],al
+0x0AFE8580: add         byte ptr [rax],al
+0x0AFE8582: add         byte ptr [rax],al
+0x0AFE8584: add         byte ptr [rax],al
+0x0AFE8586: add         eax,0
+0x0AFE858B: add         byte ptr [rax],al
+0x0AFE858D: add         byte ptr [rax],al
+0x0AFE858F: add         byte ptr [rax],al
+0x0AFE8591: add         byte ptr [rax],al
+0x0AFE8593: add         byte ptr [rax],al
+0x0AFE8595: add         byte ptr [rax],al
+0x0AFE8597: add         byte ptr [rax-69h],bl
+0x0AFE859A: dec         byte ptr [rdx+1]
+0x0AFE859D: add         byte ptr [rax],al
+0x0AFE859F: add         byte ptr [rax],al
+0x0AFE85A1: add         byte ptr [rax],al
+0x0AFE85A3: add         byte ptr [rax],al
+0x0AFE85A5: add         byte ptr [rax],al
+0x0AFE85A7: add         byte ptr [rax],al
+0x0AFE85A9: add         byte ptr [rax],al
+0x0AFE85AB: add         byte ptr [rax],al
+0x0AFE85AD: add         byte ptr [rax],al
+0x0AFE85AF: add         byte ptr [rax],al
+0x0AFE85B1: add         byte ptr [rax],al
+0x0AFE85B3: add         byte ptr [rax],al
+0x0AFE85B5: add         byte ptr [rax],al
+0x0AFE85B7: add         byte ptr [rax],al
+0x0AFE85B9: cmp         ecx,edi
+0x0AFE85BB: mov         al,byte ptr [rax]
+0x0AFE85BD: in          al,2Bh
+0x0AFE85BF: ret   <-- branch/call/ret
+0x0AFE85C0: add         eax,1200h
+0x0AFE85C5: add         byte ptr [rax],al
+0x0AFE85C7: add         byte ptr [rax],al
+0x0AFE85C9: add         byte ptr [rax],al
+0x0AFE85CB: add         byte ptr [rax],al
+0x0AFE85CD: add         byte ptr [rax],al
+0x0AFE85CF: add         byte ptr [rax-69h],bl
+0x0AFE85D2: dec         byte ptr [rdx+1]
+0x0AFE85D5: add         byte ptr [rax],al
+0x0AFE85D7: add         byte ptr [rax-69h],bh
+0x0AFE85DA: dec         byte ptr [rdx+1]
+0x0AFE85DD: add         byte ptr [rax],al
+0x0AFE85DF: add         byte ptr [rax+00000000014AFE85h],bl
+0x0AFE85E5: add         byte ptr [rax],al
+0x0AFE85E7: add         byte ptr [rcx],al
+0x0AFE85E9: add         byte ptr [rax],al
+0x0AFE85EB: add         byte ptr [rax],al
+0x0AFE85ED: add         byte ptr [rax],al
+0x0AFE85EF: add         byte ptr [rax+00000000014A3874h],dh
+0x0AFE85F5: add         byte ptr [rax],al
+0x0AFE85F7: add         byte ptr [rax],al
+0x0AFE85F9: add         byte ptr [rax],al
+0x0AFE85FB: add         byte ptr [rax],al
+0x0AFE85FD: add         byte ptr [rax],al
+0x0AFE85FF: add         byte ptr [rax],al
+0x0AFE8601: add         byte ptr [rax],al
+0x0AFE8603: add         byte ptr [rax],al
+0x0AFE8605: add         byte ptr [rax],al
+0x0AFE8607: add         byte ptr [rax],al
+0x0AFE8609: add         byte ptr [rax],al
+0x0AFE860B: add         byte ptr [rax],al
+0x0AFE860D: add         byte ptr [rax],al
+0x0AFE860F: add         byte ptr [rax],al
+0x0AFE8611: add         byte ptr [rax],al
+0x0AFE8613: add         byte ptr [rax],al
+0x0AFE8615: add         byte ptr [rax],al
+0x0AFE8617: add         byte ptr [rax],al
+0x0AFE8619: add         byte ptr [rax],al
+0x0AFE861B: add         byte ptr [rax],al
+0x0AFE861D: add         byte ptr [rax],al
+0x0AFE861F: add         byte ptr [rax],al
+0x0AFE8621: add         byte ptr [rax],al
+0x0AFE8623: add         byte ptr [rax],al
+0x0AFE8625: add         byte ptr [rax],al
+0x0AFE8627: add         byte ptr [rax],al
+0x0AFE8629: add         byte ptr [rax],al
+0x0AFE862B: add         byte ptr [rax],al
+0x0AFE862D: add         byte ptr [rax],al
+0x0AFE862F: add         byte ptr [rax],al
+0x0AFE8631: add         byte ptr [rax],al
+0x0AFE8633: add         byte ptr [rax],al
+0x0AFE8635: add         byte ptr [rax],al
+0x0AFE8637: add         byte ptr [rax],al
+0x0AFE8639: add         byte ptr [rax],al
+0x0AFE863B: add         byte ptr [rax],al
+0x0AFE863D: add         byte ptr [rax],al
+0x0AFE863F: add         byte ptr [rax],al
+0x0AFE8641: add         byte ptr [rax],al
+0x0AFE8643: add         byte ptr [rax],al
+0x0AFE8645: add         byte ptr [rax],al
+0x0AFE8647: add         byte ptr [rax],al
+0x0AFE8649: add         byte ptr [rax],al
+0x0AFE864B: add         byte ptr [rax],al
+0x0AFE864D: add         byte ptr [rax],al
+0x0AFE864F: add         byte ptr [rax],al
+0x0AFE8651: add         byte ptr [rax],al
+0x0AFE8653: add         byte ptr [rax],al
+0x0AFE8655: add         byte ptr [rax],al
+0x0AFE8657: add         byte ptr [rax],al
+0x0AFE8659: add         byte ptr [rax],al
+0x0AFE865B: add         byte ptr [rax],al
+0x0AFE865D: add         byte ptr [rax],al
+0x0AFE865F: add         byte ptr [rax],al
+0x0AFE8661: add         byte ptr [rax],al
+0x0AFE8663: add         byte ptr [rax],al
+0x0AFE8665: add         byte ptr [rax],al
+0x0AFE8667: add         byte ptr [rax],al
+0x0AFE8669: add         byte ptr [rax],al
+0x0AFE866B: add         byte ptr [rax],al
+0x0AFE866D: add         byte ptr [rax],al
+0x0AFE866F: add         byte ptr [rax],al
+0x0AFE8671: add         byte ptr [rax],al
+0x0AFE8673: add         byte ptr [rax],al
+0x0AFE8675: add         byte ptr [rax],al
+0x0AFE8677: add         byte ptr [rax],al
+0x0AFE8679: add         byte ptr [rax],al
+0x0AFE867B: add         byte ptr [rax],al
+0x0AFE867D: add         byte ptr [rax],al
+0x0AFE867F: add         byte ptr [rax],al
+0x0AFE8681: add         byte ptr [rax],al
+0x0AFE8683: add         byte ptr [rax],al
+0x0AFE8685: add         byte ptr [rax],al
+0x0AFE8687: add         byte ptr [rax],al
+0x0AFE8689: add         byte ptr [rax],al
+0x0AFE868B: add         byte ptr [rax],al
+0x0AFE868D: add         byte ptr [rax],al
+0x0AFE868F: add         byte ptr [rax],al
+0x0AFE8691: add         byte ptr [rax],al
+0x0AFE8693: add         byte ptr [rax],al
+0x0AFE8695: add         byte ptr [rax],al
+0x0AFE8697: add         byte ptr [rax],al
+0x0AFE8699: add         byte ptr [rax],al
+0x0AFE869B: add         byte ptr [rax],al
+0x0AFE869D: add         byte ptr [rax],al
+0x0AFE869F: add         byte ptr [rcx],al
+0x0AFE86A1: add         byte ptr [rax],al
+0x0AFE86A3: add         byte ptr [rax],al
+0x0AFE86A5: add         byte ptr [rax],al
+0x0AFE86A7: add         byte ptr [rax],al
+0x0AFE86A9: add         byte ptr [rax],al
+0x0AFE86AB: add         byte ptr [rax],al
+0x0AFE86AD: add         byte ptr [rax],al
+0x0AFE86AF: add         byte ptr [rax],al
+0x0AFE86B1: add         byte ptr [rax],al
+0x0AFE86B3: add         byte ptr [rax],al
+0x0AFE86B5: add         byte ptr [rax],al
+0x0AFE86B7: add         byte ptr [rax],al
+0x0AFE86B9: add         byte ptr [rax],al
+0x0AFE86BB: add         byte ptr [rax],al
+0x0AFE86BD: add         byte ptr [rax],al
+0x0AFE86BF: add         byte ptr [rax],al
+0x0AFE86C1: add         byte ptr [rax],al
+0x0AFE86C3: add         byte ptr [rax],al
+0x0AFE86C5: add         byte ptr [00000000000001CBh],al
+0x0AFE86CB: add         byte ptr [rax],al
+0x0AFE86CD: add         byte ptr [rax],al
+0x0AFE86CF: add         byte ptr [rax],al
+0x0AFE86D1: add         byte ptr [rax],al
+0x0AFE86D3: add         byte ptr [rax],al
+0x0AFE86D5: add         byte ptr [rax],al
+0x0AFE86D7: add         byte ptr [rax+00000000014AFE97h],bl
+0x0AFE86DD: add         byte ptr [rax],al
+0x0AFE86DF: add         byte ptr [rax],al
+0x0AFE86E1: add         byte ptr [rax],al
+0x0AFE86E3: add         byte ptr [rax],al
+0x0AFE86E5: add         byte ptr [rax],al
+0x0AFE86E7: add         byte ptr [rax],al
+0x0AFE86E9: add         byte ptr [rax],al
+0x0AFE86EB: add         byte ptr [rax],al
+0x0AFE86ED: add         byte ptr [rax],al
+0x0AFE86EF: add         byte ptr [rax],al
+0x0AFE86F1: add         byte ptr [rax],al
+0x0AFE86F3: add         byte ptr [rax],al
+0x0AFE86F5: add         byte ptr [rax],al
+0x0AFE86F7: add         byte ptr [rax],al
+0x0AFE86F9: cwde
+0x0AFE86FA: dec         byte ptr [rdx+1]
+0x0AFE86FD: add         byte ptr [rax],al
+0x0AFE86FF: 00

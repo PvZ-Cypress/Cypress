@@ -43,11 +43,13 @@ func run(args []string, stdout, stderr io.Writer) int {
 
 	if *format == "json" {
 		result := struct {
-			Packets int                       `json:"packets"`
-			Frames  int                       `json:"frameCount"`
-			Skipped map[string]int            `json:"skipped"`
-			Routes  []cfb27capture.RouteCount `json:"routes"`
-		}{report.Packets, len(report.Frames), report.Skipped, report.Routes()}
+			Packets      int                        `json:"packets"`
+			Frames       int                        `json:"frameCount"`
+			FrameRecords []cfb27capture.FrameRecord `json:"frames"`
+			HTTP         []cfb27capture.HTTPRecord  `json:"http"`
+			Skipped      map[string]int             `json:"skipped"`
+			Routes       []cfb27capture.RouteCount  `json:"routes"`
+		}{report.Packets, len(report.Frames), report.Frames, report.HTTP, report.Skipped, report.Routes()}
 		encoder := json.NewEncoder(stdout)
 		encoder.SetIndent("", "  ")
 		if err := encoder.Encode(result); err != nil {
@@ -58,6 +60,14 @@ func run(args []string, stdout, stderr io.Writer) int {
 	}
 
 	fmt.Fprintf(stdout, "packets=%d frames=%d\n", report.Packets, len(report.Frames))
+	fmt.Fprintf(stdout, "http=%d\n", len(report.HTTP))
+	for _, request := range report.HTTP {
+		if request.Method != "" {
+			fmt.Fprintf(stdout, "http %s host=%s path=%s status=%d\n", request.Method, request.Host, request.Path, request.Status)
+		} else {
+			fmt.Fprintf(stdout, "http response host=%s status=%d\n", request.Host, request.Status)
+		}
+	}
 	for _, route := range report.Routes() {
 		fmt.Fprintf(stdout, "%s component=0x%04X command=0x%04X type=%d error=0x%04X count=%d\n",
 			route.Direction, route.Component, route.Command, route.MessageType, route.ErrorCode, route.Count)

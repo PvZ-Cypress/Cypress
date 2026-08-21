@@ -1,0 +1,2519 @@
+﻿{
+  "packets": 264,
+  "frameCount": 19,
+  "frames": [
+    {
+      "timestamp": "2026-07-23T01:09:12.574765Z",
+      "direction": "client_to_server",
+      "source": "127.0.0.1:40002",
+      "destination": "5.60.70.116:15039",
+      "component": 9,
+      "command": 2,
+      "errorCode": 0,
+      "messageType": 0,
+      "userIndex": 0,
+      "messageId": 0,
+      "options": 0,
+      "metadataSize": 0,
+      "payloadSize": 0
+    },
+    {
+      "timestamp": "2026-07-23T01:09:12.574906Z",
+      "direction": "client_to_server",
+      "source": "127.0.0.1:40002",
+      "destination": "5.60.70.116:15039",
+      "component": 9,
+      "command": 7,
+      "errorCode": 0,
+      "messageType": 0,
+      "userIndex": 0,
+      "messageId": 1,
+      "options": 0,
+      "metadataSize": 0,
+      "payloadSize": 257,
+      "decodedFields": [
+        {
+          "Tag": "CDAT",
+          "Type": 3,
+          "Value": [
+            {
+              "Tag": "CTRY",
+              "Type": 0,
+              "Value": 21843
+            },
+            {
+              "Tag": "IITO",
+              "Type": 0,
+              "Value": 0
+            },
+            {
+              "Tag": "LANG",
+              "Type": 0,
+              "Value": 1701729619
+            },
+            {
+              "Tag": "SVCN",
+              "Type": 1,
+              "Value": "cfb-2027-pc"
+            },
+            {
+              "Tag": "TYPE",
+              "Type": 0,
+              "Value": 0
+            }
+          ]
+        },
+        {
+          "Tag": "CINF",
+          "Type": 3,
+          "Value": [
+            {
+              "Tag": "BSDK",
+              "Type": 1,
+              "Value": "19.1.0"
+            },
+            {
+              "Tag": "BTIM",
+              "Type": 1,
+              "Value": "Jul  5 2026 17:17:50"
+            },
+            {
+              "Tag": "CLNT",
+              "Type": 1,
+              "Value": "Madden"
+            },
+            {
+              "Tag": "CPFT",
+              "Type": 0,
+              "Value": 4
+            },
+            {
+              "Tag": "CSKU",
+              "Type": 1,
+              "Value": "COLLEGEFB_2027_PC"
+            },
+            {
+              "Tag": "CTRY",
+              "Type": 0,
+              "Value": 21843
+            },
+            {
+              "Tag": "CVER",
+              "Type": 1,
+              "Value": "College-27-RL1-9058834-retail-CollegeFB"
+            },
+            {
+              "Tag": "DSDK",
+              "Type": 1,
+              "Value": "19.1.0"
+            },
+            {
+              "Tag": "ENV",
+              "Type": 1,
+              "Value": "prod"
+            },
+            {
+              "Tag": "LOC",
+              "Type": 0,
+              "Value": 1701729619
+            },
+            {
+              "Tag": "PTVR",
+              "Type": 1,
+              "Value": "1.2"
+            },
+            {
+              "Tag": "TTID",
+              "Type": 1,
+              "Value": ""
+            }
+          ]
+        },
+        {
+          "Tag": "FCCR",
+          "Type": 3,
+          "Value": [
+            {
+              "Tag": "CFID",
+              "Type": 1,
+              "Value": "BlazeSDK"
+            }
+          ]
+        },
+        {
+          "Tag": "LADD",
+          "Type": 0,
+          "Value": 168099850
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-07-23T01:09:12.575Z",
+      "direction": "client_to_server",
+      "source": "127.0.0.1:40002",
+      "destination": "5.60.70.116:15039",
+      "component": 9,
+      "command": 1,
+      "errorCode": 0,
+      "messageType": 0,
+      "userIndex": 0,
+      "messageId": 2,
+      "options": 0,
+      "metadataSize": 0,
+      "payloadSize": 15,
+      "decodedFields": [
+        {
+          "Tag": "CFID",
+          "Type": 1,
+          "Value": "OSDK_CORE"
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-07-23T01:09:12.575Z",
+      "direction": "client_to_server",
+      "source": "127.0.0.1:40002",
+      "destination": "5.60.70.116:15039",
+      "component": 9,
+      "command": 1,
+      "errorCode": 0,
+      "messageType": 0,
+      "userIndex": 0,
+      "messageId": 3,
+      "options": 0,
+      "metadataSize": 0,
+      "payloadSize": 17,
+      "decodedFields": [
+        {
+          "Tag": "CFID",
+          "Type": 1,
+          "Value": "OSDK_CLIENT"
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-07-23T01:09:12.575Z",
+      "direction": "client_to_server",
+      "source": "127.0.0.1:40002",
+      "destination": "5.60.70.116:15039",
+      "component": 9,
+      "command": 1,
+      "errorCode": 0,
+      "messageType": 0,
+      "userIndex": 0,
+      "messageId": 4,
+      "options": 0,
+      "metadataSize": 0,
+      "payloadSize": 18,
+      "decodedFields": [
+        {
+          "Tag": "CFID",
+          "Type": 1,
+          "Value": "OSDK_NUCLEUS"
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-07-23T01:09:12.575Z",
+      "direction": "client_to_server",
+      "source": "127.0.0.1:40002",
+      "destination": "5.60.70.116:15039",
+      "component": 9,
+      "command": 1,
+      "errorCode": 0,
+      "messageType": 0,
+      "userIndex": 0,
+      "messageId": 5,
+      "options": 0,
+      "metadataSize": 0,
+      "payloadSize": 26,
+      "decodedFields": [
+        {
+          "Tag": "CFID",
+          "Type": 1,
+          "Value": "OSDK_ABUSE_REPORTING"
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-07-23T01:09:12.575Z",
+      "direction": "client_to_server",
+      "source": "127.0.0.1:40002",
+      "destination": "5.60.70.116:15039",
+      "component": 9,
+      "command": 1,
+      "errorCode": 0,
+      "messageType": 0,
+      "userIndex": 0,
+      "messageId": 6,
+      "options": 0,
+      "metadataSize": 0,
+      "payloadSize": 17,
+      "decodedFields": [
+        {
+          "Tag": "CFID",
+          "Type": 1,
+          "Value": "OSDK_MADSET"
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-07-23T01:09:13.575828Z",
+      "direction": "client_to_server",
+      "source": "127.0.0.1:40002",
+      "destination": "5.60.70.116:15039",
+      "component": 1,
+      "command": 10,
+      "errorCode": 0,
+      "messageType": 0,
+      "userIndex": 0,
+      "messageId": 7,
+      "options": 0,
+      "metadataSize": 0,
+      "payloadSize": 4077,
+      "decodedFields": [
+        {
+          "Tag": "ACHT",
+          "Type": 3,
+          "Value": [
+            {
+              "Tag": "SKID",
+              "Type": 2,
+              "Value": "REDACTED"
+            }
+          ]
+        },
+        {
+          "Tag": "AIDS",
+          "Type": 3,
+          "Value": [
+            {
+              "Tag": "EAID",
+              "Type": 3,
+              "Value": [
+                {
+                  "Tag": "NAME",
+                  "Type": 1,
+                  "Value": ""
+                },
+                {
+                  "Tag": "NID",
+                  "Type": 0,
+                  "Value": 0
+                },
+                {
+                  "Tag": "PCID",
+                  "Type": 0,
+                  "Value": 0
+                }
+              ]
+            },
+            {
+              "Tag": "EXID",
+              "Type": 3,
+              "Value": [
+                {
+                  "Tag": "PSID",
+                  "Type": 0,
+                  "Value": 0
+                },
+                {
+                  "Tag": "STID",
+                  "Type": 0,
+                  "Value": 0
+                },
+                {
+                  "Tag": "SWID",
+                  "Type": 1,
+                  "Value": ""
+                },
+                {
+                  "Tag": "XBID",
+                  "Type": 0,
+                  "Value": 0
+                }
+              ]
+            },
+            {
+              "Tag": "PLAT",
+              "Type": 0,
+              "Value": 4
+            }
+          ]
+        },
+        {
+          "Tag": "APSD",
+          "Type": 3,
+          "Value": [
+            {
+              "Tag": "BNDL",
+              "Type": 1,
+              "Value": "REDACTED"
+            },
+            {
+              "Tag": "VERS",
+              "Type": 1,
+              "Value": ""
+            }
+          ]
+        },
+        {
+          "Tag": "AUTH",
+          "Type": 1,
+          "Value": "REDACTED"
+        },
+        {
+          "Tag": "COPT",
+          "Type": 0,
+          "Value": 0
+        },
+        {
+          "Tag": "CTYP",
+          "Type": 0,
+          "Value": 5
+        },
+        {
+          "Tag": "EXTI",
+          "Type": 0,
+          "Value": 0
+        },
+        {
+          "Tag": "LQTK",
+          "Type": 0,
+          "Value": 0
+        },
+        {
+          "Tag": "PRDT",
+          "Type": 1,
+          "Value": "cfb-2027-pc"
+        },
+        {
+          "Tag": "TOKN",
+          "Type": 1,
+          "Value": "REDACTED"
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-07-23T01:09:13.576046Z",
+      "direction": "client_to_server",
+      "source": "127.0.0.1:40002",
+      "destination": "5.60.70.116:15039",
+      "component": 1,
+      "command": 70,
+      "errorCode": 0,
+      "messageType": 0,
+      "userIndex": 0,
+      "messageId": 8,
+      "options": 0,
+      "metadataSize": 0,
+      "payloadSize": 0
+    },
+    {
+      "timestamp": "2026-07-23T01:09:13.575625Z",
+      "direction": "server_to_client",
+      "source": "99.83.166.42:443",
+      "destination": "127.0.0.1:40004",
+      "component": 0,
+      "command": 0,
+      "errorCode": 0,
+      "messageType": 0,
+      "userIndex": 16,
+      "messageId": 65536,
+      "options": 0,
+      "metadataSize": 0,
+      "payloadSize": 6148
+    },
+    {
+      "timestamp": "2026-07-23T01:09:12.574906Z",
+      "direction": "server_to_client",
+      "source": "5.60.70.116:15039",
+      "destination": "127.0.0.1:40002",
+      "component": 9,
+      "command": 2,
+      "errorCode": 0,
+      "messageType": 1,
+      "userIndex": 0,
+      "messageId": 0,
+      "options": 0,
+      "metadataSize": 0,
+      "payloadSize": 9,
+      "decodedFields": [
+        {
+          "Tag": "STIM",
+          "Type": 0,
+          "Value": 1784768951
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-07-23T01:09:12.574921Z",
+      "direction": "server_to_client",
+      "source": "5.60.70.116:15039",
+      "destination": "127.0.0.1:40002",
+      "component": 9,
+      "command": 7,
+      "errorCode": 0,
+      "messageType": 1,
+      "userIndex": 0,
+      "messageId": 1,
+      "options": 0,
+      "metadataSize": 0,
+      "payloadSize": 13960,
+      "decodedFields": [
+        {
+          "Tag": "ASRC",
+          "Type": 1,
+          "Value": "325760"
+        },
+        {
+          "Tag": "CIDS",
+          "Type": 4,
+          "Value": {
+            "ElementType": 0,
+            "Values": [
+              1,
+              4,
+              9,
+              10,
+              13,
+              2279,
+              25,
+              403,
+              30720,
+              30721,
+              30722,
+              30723,
+              30724,
+              33,
+              30725,
+              30726,
+              30727,
+              30728,
+              30729,
+              30730,
+              40,
+              63490,
+              30731,
+              30732
+            ]
+          }
+        },
+        {
+          "Tag": "CLID",
+          "Type": 1,
+          "Value": "CFB_27_COM_BLZ_SERVER"
+        },
+        {
+          "Tag": "CONF",
+          "Type": 3,
+          "Value": [
+            {
+              "Tag": "CONF",
+              "Type": 5,
+              "Value": {
+                "KeyType": 1,
+                "ValueType": 1,
+                "Entries": [
+                  {
+                    "Key": "associationListSkipInitialSet",
+                    "Value": "1"
+                  },
+                  {
+                    "Key": "autoReconnectEnabled",
+                    "Value": "0"
+                  },
+                  {
+                    "Key": "cachedUserRefreshInterval",
+                    "Value": "1s"
+                  },
+                  {
+                    "Key": "clientUserMetricsUpdateRate",
+                    "Value": "60000"
+                  },
+                  {
+                    "Key": "connIdleTimeout",
+                    "Value": "40s"
+                  },
+                  {
+                    "Key": "defaultRequestTimeout",
+                    "Value": "20s"
+                  },
+                  {
+                    "Key": "dimeCfg",
+                    "Value": "\u003c?xml version=\"1.0\" encoding=\"utf-8\"?\u003e\n\u003cdime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"dimecfg.xsd\"\u003e\n    \u003cconfigFormatVersion\u003e1\u003c/configFormatVersion\u003e\n    \u003cfileVersion\u003e14\u003c/fileVersion\u003e\n\n    \u003cgames\u003e\n        \u003cgame\u003e\n            \u003cindex\u003e0\u003c/index\u003e\n            \u003cname\u003eMadden 23\u003c/name\u003e\n\n            \u003cpc\u003e\n                \u003cgroupName\u003eMADDEN_23PC\u003c/groupName\u003e\n                \u003cstoreId\u003e1\u003c/storeId\u003e      \u003c!-- DEPRECATED, ANY NON-ZERO VALUE WORKS --\u003e\n                \u003ccatalogId\u003e1\u003c/catalogId\u003e  \u003c!-- DEPRECATED, ANY NON-ZERO VALUE WORKS --\u003e\n                \u003ccategoryId\u003eOrigin.CTY.50.0000102\u003c/categoryId\u003e\n            \u003c/pc\u003e\n\n        \u003c/game\u003e\n        \u003cprimaryGameIndex\u003e0\u003c/primaryGameIndex\u003e\n    \u003c/games\u003e\n\n    \u003ccontent\u003e\n\n        \u003c!-- Durables --\u003e\n        \u003cpulcs\u003e\n        \u003c/pulcs\u003e\n\n        \u003cconsumables\u003e\n\n            \u003c!-- Points offers (used for in-game store and marketplace) --\u003e\n\t\t\t\u003cconsumable\u003e\n                \u003cuniqueId\u003eAA000009\u003c/uniqueId\u003e\n                \u003cname\u003e200 Points\u003c/name\u003e\n                \u003cgameIndex\u003e0\u003c/gameIndex\u003e\n                \u003cmetaData\u003e\u003c/metaData\u003e\n                \u003cdimeVersion\u003e1\u003c/dimeVersion\u003e\n                \u003cpc\u003e\n                    \u003citemId\u003eOrigin.OFR.50.0004959\u003c/itemId\u003e\n                    \u003cgameIndex\u003e0\u003c/gameIndex\u003e\n                    \u003centitlementId\u003eM23_200_Points_Pack\u003c/entitlementId\u003e\n                    \u003cofferId\u003eOrigin.OFR.50.0004959\u003c/offerId\u003e\n                    \u003cpurchaseable\u003etrue\u003c/purchaseable\u003e\n                    \u003cadvertise\u003efalse\u003c/advertise\u003e\n                \u003c/pc\u003e\n            \u003c/consumable\u003e\n\t\t\t\u003cconsumable\u003e\n                \u003cuniqueId\u003eAA00000A\u003c/uniqueId\u003e\n                \u003cname\u003e500 Points\u003c/name\u003e\n                \u003cgameIndex\u003e0\u003c/gameIndex\u003e\n                \u003cmetaData\u003e\u003c/metaData\u003e\n                \u003cdimeVersion\u003e1\u003c/dimeVersion\u003e\n                \u003cpc\u003e\n                    \u003citemId\u003eOrigin.OFR.50.0004864\u003c/itemId\u003e\n                    \u003cgameIndex\u003e0\u003c/gameIndex\u003e\n                    \u003centitlementId\u003eM23_500_Points_Pack\u003c/entitlementId\u003e\n                    \u003cofferId\u003eOrigin.OFR.50.0004864\u003c/offerId\u003e\n                    \u003cpurchaseable\u003etrue\u003c/purchaseable\u003e\n                    \u003cadvertise\u003efalse\u003c/advertise\u003e\n                \u003c/pc\u003e\n            \u003c/consumable\u003e\n            \u003cconsumable\u003e\n                \u003cuniqueId\u003eAA00000B\u003c/uniqueId\u003e\n                \u003cname\u003e1050 Points\u003c/name\u003e\n                \u003cgameIndex\u003e0\u003c/gameIndex\u003e\n                \u003cmetaData\u003e\u003c/metaData\u003e\n                \u003cdimeVersion\u003e1\u003c/dimeVersion\u003e\n                \u003cpc\u003e\n                    \u003citemId\u003eOrigin.OFR.50.0004865\u003c/itemId\u003e\n                    \u003cgameIndex\u003e0\u003c/gameIndex\u003e\n                    \u003centitlementId\u003eM23_1050_Points_Pack\u003c/entitlementId\u003e\n                    \u003cofferId\u003eOrigin.OFR.50.0004865\u003c/offerId\u003e\n                    \u003cpurchaseable\u003etrue\u003c/purchaseable\u003e\n                    \u003cadvertise\u003efalse\u003c/advertise\u003e\n                \u003c/pc\u003e\n            \u003c/consumable\u003e\n            \u003cconsumable\u003e\n                \u003cuniqueId\u003eAA00000C\u003c/uniqueId\u003e\n                \u003cname\u003e2800 Points\u003c/name\u003e\n                \u003cgameIndex\u003e0\u003c/gameIndex\u003e\n                \u003cmetaData\u003e\u003c/metaData\u003e\n                \u003cdimeVersion\u003e1\u003c/dimeVersion\u003e\n                \u003cpc\u003e\n                    \u003citemId\u003eOrigin.OFR.50.0004867\u003c/itemId\u003e\n                    \u003cgameIndex\u003e0\u003c/gameIndex\u003e\n                    \u003centitlementId\u003eM23_2800_Points_Pack\u003c/entitlementId\u003e\n                    \u003cofferId\u003eOrigin.OFR.50.0004867\u003c/offerId\u003e\n                    \u003cpurchaseable\u003etrue\u003c/purchaseable\u003e\n                    \u003cadvertise\u003efalse\u003c/advertise\u003e\n                \u003c/pc\u003e\n            \u003c/consumable\u003e\n            \u003cconsumable\u003e\n                \u003cuniqueId\u003eAA00000E\u003c/uniqueId\u003e\n                \u003cname\u003e5850 Points\u003c/name\u003e\n                \u003cgameIndex\u003e0\u003c/gameIndex\u003e\n                \u003cmetaData\u003e\u003c/metaData\u003e\n                \u003cdimeVersion\u003e1\u003c/dimeVersion\u003e\n                \u003cpc\u003e\n                    \u003citemId\u003eOrigin.OFR.50.0004868\u003c/itemId\u003e\n                    \u003cgameIndex\u003e0\u003c/gameIndex\u003e\n                    \u003centitlementId\u003eM23_5850_Points_Pack\u003c/entitlementId\u003e\n                    \u003cofferId\u003eOrigin.OFR.50.0004868\u003c/offerId\u003e\n                    \u003cpurchaseable\u003etrue\u003c/purchaseable\u003e\n                    \u003cadvertise\u003efalse\u003c/advertise\u003e\n                \u003c/pc\u003e\n            \u003c/consumable\u003e\n            \u003cconsumable\u003e\n                \u003cuniqueId\u003eAA00000F\u003c/uniqueId\u003e\n                \u003cname\u003e8900 Points\u003c/name\u003e\n                \u003cgameIndex\u003e0\u003c/gameIndex\u003e\n                \u003cmetaData\u003e\u003c/metaData\u003e\n                \u003cdimeVersion\u003e1\u003c/dimeVersion\u003e\n                \u003cpc\u003e\n                    \u003citemId\u003eOrigin.OFR.50.0004869\u003c/itemId\u003e\n                    \u003cgameIndex\u003e0\u003c/gameIndex\u003e\n                    \u003centitlementId\u003eM23_8900_Points_Pack\u003c/entitlementId\u003e\n                    \u003cofferId\u003eOrigin.OFR.50.0004869\u003c/offerId\u003e\n                    \u003cpurchaseable\u003etrue\u003c/purchaseable\u003e\n                    \u003cadvertise\u003efalse\u003c/advertise\u003e\n                \u003c/pc\u003e\n            \u003c/consumable\u003e\n            \u003cconsumable\u003e\n                \u003cuniqueId\u003eAA000010\u003c/uniqueId\u003e\n                \u003cname\u003e12000 Points\u003c/name\u003e\n                \u003cgameIndex\u003e0\u003c/gameIndex\u003e\n                \u003cmetaData\u003e\u003c/metaData\u003e\n                \u003cdimeVersion\u003e1\u003c/dimeVersion\u003e\n                \u003cpc\u003e\n                    \u003citemId\u003eOrigin.OFR.50.0004870\u003c/itemId\u003e\n                    \u003cgameIndex\u003e0\u003c/gameIndex\u003e\n                    \u003centitlementId\u003eM23_12000_Points_Pack\u003c/entitlementId\u003e\n                    \u003cofferId\u003eOrigin.OFR.50.0004870\u003c/offerId\u003e\n                    \u003cpurchaseable\u003etrue\u003c/purchaseable\u003e\n                    \u003cadvertise\u003efalse\u003c/advertise\u003e\n                \u003c/pc\u003e\n            \u003c/consumable\u003e\n\t\t\t\u003cconsumable\u003e\n                \u003cuniqueId\u003eAA000011\u003c/uniqueId\u003e\n                \u003cname\u003e18500 Points\u003c/name\u003e\n                \u003cgameIndex\u003e0\u003c/gameIndex\u003e\n                \u003cmetaData\u003e\u003c/metaData\u003e\n                \u003cdimeVersion\u003e1\u003c/dimeVersion\u003e\n                \u003cpc\u003e\n                    \u003citemId\u003eOrigin.OFR.50.0005034\u003c/itemId\u003e\n                    \u003cgameIndex\u003e0\u003c/gameIndex\u003e\n                    \u003centitlementId\u003eM23_18500_Points_Pack\u003c/entitlementId\u003e\n                    \u003cofferId\u003eOrigin.OFR.50.0005034\u003c/offerId\u003e\n                    \u003cpurchaseable\u003etrue\u003c/purchaseable\u003e\n                    \u003cadvertise\u003efalse\u003c/advertise\u003e\n                \u003c/pc\u003e\n            \u003c/consumable\u003e\n\n            \u003c!-- Generic Promo Packs reserved for post-launch, code-redemption Marketing promos --\u003e\n            \u003c!-- EA_TODO(\"?\", \"M21\", \"M21\", \"Add consumable elements for Madden 21\") --\u003e\n\n            \u003c!-- Retail-specific, Code to Content (C2C) Points Offers --\u003e\n             \u003cconsumable\u003e\n                \u003cuniqueId\u003eFF000905\u003c/uniqueId\u003e\n                \u003cname\u003e1050 Points (retail)\u003c/name\u003e\n                \u003cgameIndex\u003e0\u003c/gameIndex\u003e\n                \u003cmetaData\u003e\u003c/metaData\u003e\n                \u003cdimeVersion\u003e1\u003c/dimeVersion\u003e\n                \u003cpc\u003e\n                    \u003citemId\u003eOrigin.OFR.50.0003986\u003c/itemId\u003e\n                    \u003centitlementId\u003eM21_1050_Points_Pack_Retail\u003c/entitlementId\u003e\n                    \u003cofferId\u003eOrigin.OFR.50.0003986\u003c/offerId\u003e\n                    \u003cpurchaseable\u003etrue\u003c/purchaseable\u003e\n                    \u003cadvertise\u003efalse\u003c/advertise\u003e\n                \u003c/pc\u003e\n            \u003c/consumable\u003e\n            \u003cconsumable\u003e\n                \u003cuniqueId\u003eFF000907\u003c/uniqueId\u003e\n                \u003cname\u003e5850 Points (retail)\u003c/name\u003e\n                \u003cgameIndex\u003e0\u003c/gameIndex\u003e\n                \u003cmetaData\u003e\u003c/metaData\u003e\n                \u003cdimeVersion\u003e1\u003c/dimeVersion\u003e\n                \u003cpc\u003e\n                    \u003citemId\u003eOrigin.OFR.50.0003988\u003c/itemId\u003e\n                    \u003centitlementId\u003eM21_5750_Points_Pack_Retail\u003c/entitlementId\u003e\n                    \u003cofferId\u003eOrigin.OFR.50.0003988\u003c/offerId\u003e\n                    \u003cpurchaseable\u003etrue\u003c/purchaseable\u003e\n                    \u003cadvertise\u003efalse\u003c/advertise\u003e\n                \u003c/pc\u003e\n            \u003c/consumable\u003e\n            \u003cconsumable\u003e\n                \u003cuniqueId\u003eFF000908\u003c/uniqueId\u003e\n                \u003cname\u003e12000 Points (retail)\u003c/name\u003e\n                \u003cgameIndex\u003e0\u003c/gameIndex\u003e\n                \u003cmetaData\u003e\u003c/metaData\u003e\n                \u003cdimeVersion\u003e1\u003c/dimeVersion\u003e\n                \u003cpc\u003e\n                    \u003citemId\u003eOrigin.OFR.50.0003989\u003c/itemId\u003e\n                    \u003centitlementId\u003eM21_12000_Points_Pack_Retail\u003c/entitlementId\u003e\n                    \u003cofferId\u003eOrigin.OFR.50.0003989\u003c/offerId\u003e\n                    \u003cpurchaseable\u003etrue\u003c/purchaseable\u003e\n                    \u003cadvertise\u003efalse\u003c/advertise\u003e\n                \u003c/pc\u003e\n            \u003c/consumable\u003e\n\n            \u003c!-- Preorder and Post Launch content (what is included in the various bundles/ 1st party offers). These are for stackable awards (user can buy over and over) --\u003e\n            \u003cconsumable\u003e\n                \u003cuniqueId\u003eFF00090A\u003c/uniqueId\u003e\n                \u003cname\u003eStandard Edition Preorder Content\u003c/name\u003e\n                \u003cgameIndex\u003e0\u003c/gameIndex\u003e\n                \u003cmetaData\u003e\u003c/metaData\u003e\n                \u003cdimeVersion\u003e1\u003c/dimeVersion\u003e\n                \u003cpc\u003e\n                    \u003citemId\u003eOrigin.OFR.50.0004929\u003c/itemId\u003e\n                    \u003centitlementId\u003eM23_Standard_Preorder_Content\u003c/entitlementId\u003e\n                    \u003cofferId\u003eOrigin.OFR.50.0004929\u003c/offerId\u003e\n                    \u003cpurchaseable\u003etrue\u003c/purchaseable\u003e\n                    \u003cadvertise\u003efalse\u003c/advertise\u003e\n                \u003c/pc\u003e\n            \u003c/consumable\u003e\n\t\t\t\u003cconsumable\u003e\n                \u003cuniqueId\u003eFF00090B\u003c/uniqueId\u003e\n                \u003cname\u003eDeluxe Preorder Content\u003c/name\u003e\n                \u003cgameIndex\u003e0\u003c/gameIndex\u003e\n                \u003cmetaData\u003e\u003c/metaData\u003e\n                \u003cdimeVersion\u003e1\u003c/dimeVersion\u003e\n                \u003cpc\u003e\n                    \u003citemId\u003eOrigin.OFR.50.0004925\u003c/itemId\u003e\n                    \u003centitlementId\u003eM23_Deluxe_Preorder_Content\u003c/entitlementId\u003e\n                    \u003cofferId\u003eOrigin.OFR.50.0004925\u003c/offerId\u003e\n                    \u003cpurchaseable\u003etrue\u003c/purchaseable\u003e\n                    \u003cadvertise\u003efalse\u003c/advertise\u003e\n                \u003c/pc\u003e\n            \u003c/consumable\u003e\n\t\t\t\u003cconsumable\u003e\n                \u003cuniqueId\u003eFF00090C\u003c/uniqueId\u003e\n                \u003cname\u003eEarlybird Preorder Content\u003c/name\u003e\n                \u003cgameIndex\u003e0\u003c/gameIndex\u003e\n                \u003cmetaData\u003e\u003c/metaData\u003e\n                \u003cdimeVersion\u003e1\u003c/dimeVersion\u003e\n                \u003cpc\u003e\n                    \u003citemId\u003eOrigin.OFR.50.0004938\u003c/itemId\u003e\n                    \u003centitlementId\u003eM23_Earlybird_Preorder_Content\u003c/entitlementId\u003e\n                    \u003cofferId\u003eOrigin.OFR.50.0004938\u003c/offerId\u003e\n                    \u003cpurchaseable\u003etrue\u003c/purchaseable\u003e\n                    \u003cadvertise\u003efalse\u003c/advertise\u003e\n                \u003c/pc\u003e\n            \u003c/consumable\u003e\n\t\t\t\u003cconsumable\u003e\n                \u003cuniqueId\u003eFF00090D\u003c/uniqueId\u003e\n                \u003cname\u003eDeluxe Content\u003c/name\u003e\n                \u003cgameIndex\u003e0\u003c/gameIndex\u003e\n                \u003cmetaData\u003e\u003c/metaData\u003e\n                \u003cdimeVersion\u003e1\u003c/dimeVersion\u003e\n                \u003cpc\u003e\n                    \u003citemId\u003eOrigin.OFR.50.0004926\u003c/itemId\u003e\n                    \u003centitlementId\u003eM23_Deluxe_Content\u003c/entitlementId\u003e\n                    \u003cofferId\u003eOrigin.OFR.50.0004926\u003c/offerId\u003e\n                    \u003cpurchaseable\u003etrue\u003c/purchaseable\u003e\n                    \u003cadvertise\u003efalse\u003c/advertise\u003e\n                \u003c/pc\u003e\n            \u003c/consumable\u003e\n\t\t\t\u003cconsumable\u003e\n                \u003cuniqueId\u003eFF00090E\u003c/uniqueId\u003e\n                \u003cname\u003e500 Points Conversion Offer\u003c/name\u003e\n                \u003cgameIndex\u003e0\u003c/gameIndex\u003e\n                \u003cmetaData\u003e\u003c/metaData\u003e\n                \u003cdimeVersion\u003e1\u003c/dimeVersion\u003e\n                \u003cpc\u003e\n                    \u003citemId\u003eOrigin.OFR.50.0004939\u003c/itemId\u003e\n                    \u003centitlementId\u003eM23_Conversion\u003c/entitlementId\u003e\n                    \u003cofferId\u003eOrigin.OFR.50.0004939\u003c/offerId\u003e\n                    \u003cpurchaseable\u003etrue\u003c/purchaseable\u003e\n                    \u003cadvertise\u003efalse\u003c/advertise\u003e\n                \u003c/pc\u003e\n            \u003c/consumable\u003e\n\t\t\t\u003cconsumable\u003e\n                \u003cuniqueId\u003eFF000910\u003c/uniqueId\u003e\n                \u003cname\u003eSeason 2 Pack Content\u003c/name\u003e\n                \u003cgameIndex\u003e0\u003c/gameIndex\u003e\n                \u003cmetaData\u003e\u003c/metaData\u003e\n                \u003cdimeVersion\u003e1\u003c/dimeVersion\u003e\n                \u003cpc\u003e\n                    \u003citemId\u003eOrigin.OFR.50.0005137\u003c/itemId\u003e\n                    \u003centitlementId\u003eM23_S2_PACK_CONTENT\u003c/entitlementId\u003e\n                    \u003cofferId\u003eOrigin.OFR.50.0005137\u003c/offerId\u003e\n                    \u003cpurchaseable\u003etrue\u003c/purchaseable\u003e\n                    \u003cadvertise\u003efalse\u003c/advertise\u003e\n                \u003c/pc\u003e\n            \u003c/consumable\u003e\n\n\t\t\t\u003c!-- EA_TODO(\"?\", \"M21\", \"M21\", \"Add Post Launch consumable elements for Madden 21\") --\u003e\n\n            \u003c!-- Single Purchase Bundles --\u003e\n\n            \u003c!-- Digital Download --\u003e\n            \u003c!-- uniqueId needs to match DIGITAL_UID in osdk_madset.cfg --\u003e\n            \u003c!-- EA_TODO(\"?\", \"M21\", \"M21\", \"Add consumable elements for Madden 21\") --\u003e\n\n        \u003c/consumables\u003e\n\n        \u003c!-- EA Access --\u003e\n        \u003csubscriptions\u003e\n        \u003c/subscriptions\u003e\n\n    \u003c/content\u003e\n\u003c/dime\u003e\n"
+                  },
+                  {
+                    "Key": "maxReconnectAttempts",
+                    "Value": "30"
+                  },
+                  {
+                    "Key": "nonResumableTimeoutScale",
+                    "Value": "2.0"
+                  },
+                  {
+                    "Key": "nucleusConnect",
+                    "Value": "https://accounts.ea.com"
+                  },
+                  {
+                    "Key": "nucleusConnectTrusted",
+                    "Value": "https://accounts2s.ea.com"
+                  },
+                  {
+                    "Key": "nucleusPortal",
+                    "Value": "https://signin.ea.com"
+                  },
+                  {
+                    "Key": "nucleusProxy",
+                    "Value": "https://gateway.ea.com"
+                  },
+                  {
+                    "Key": "pingPeriod",
+                    "Value": "20s"
+                  },
+                  {
+                    "Key": "psPlusUpsellAlias",
+                    "Value": ""
+                  },
+                  {
+                    "Key": "telemetryPinServerAddr",
+                    "Value": "https://pin-river.data.ea.com"
+                  },
+                  {
+                    "Key": "telemetryPinServerPort",
+                    "Value": "443"
+                  },
+                  {
+                    "Key": "userManagerMaxCachedUsers",
+                    "Value": "0"
+                  },
+                  {
+                    "Key": "voipHeadsetUpdateRate",
+                    "Value": "1000"
+                  },
+                  {
+                    "Key": "voipSTTKey",
+                    "Value": "uebzZ_tggSPuSygIv8CBC5Ij9qrqTLLH-Fwvg1elx49Z"
+                  },
+                  {
+                    "Key": "voipSTTProfile",
+                    "Value": "66307"
+                  },
+                  {
+                    "Key": "voipSTTUrl",
+                    "Value": "wss://api.us-east.speech-to-text.watson.cloud.ibm.com/instances/3b6ca785-d415-4d01-944b-e8e244a8e2c9/v1/recognize"
+                  },
+                  {
+                    "Key": "voipTTSKey",
+                    "Value": "oPUeGgusm-g-kjDCTMU8kGBVk0xrdeH8UDeVZvkAonYz"
+                  },
+                  {
+                    "Key": "voipTTSProvider",
+                    "Value": "1"
+                  },
+                  {
+                    "Key": "voipTTSUrl",
+                    "Value": "https://api.us-east.text-to-speech.watson.cloud.ibm.com/instances/a3a7215b-9ed0-45db-9663-adce2ac47aa8/v1/synthesize"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "Tag": "ESRC",
+          "Type": 1,
+          "Value": "325760"
+        },
+        {
+          "Tag": "HPLT",
+          "Type": 4,
+          "Value": {
+            "ElementType": 0,
+            "Values": [
+              4,
+              22,
+              23
+            ]
+          }
+        },
+        {
+          "Tag": "INST",
+          "Type": 1,
+          "Value": "cfb-2027-pc"
+        },
+        {
+          "Tag": "LQTK",
+          "Type": 0,
+          "Value": 0
+        },
+        {
+          "Tag": "MAID",
+          "Type": 0,
+          "Value": 3009559119
+        },
+        {
+          "Tag": "MINR",
+          "Type": 0,
+          "Value": 0
+        },
+        {
+          "Tag": "NASP",
+          "Type": 1,
+          "Value": "cem_ea_id"
+        },
+        {
+          "Tag": "PILD",
+          "Type": 1,
+          "Value": ""
+        },
+        {
+          "Tag": "PLAT",
+          "Type": 1,
+          "Value": "pc"
+        },
+        {
+          "Tag": "QOSS",
+          "Type": 3,
+          "Value": [
+            {
+              "Tag": "CQFR",
+              "Type": 0,
+              "Value": 300000000
+            },
+            {
+              "Tag": "CQRR",
+              "Type": 0,
+              "Value": 0
+            },
+            {
+              "Tag": "LTPS",
+              "Type": 5,
+              "Value": {
+                "KeyType": 1,
+                "ValueType": 3,
+                "Entries": [
+                  {
+                    "Key": "aws-cmh",
+                    "Value": [
+                      {
+                        "Tag": "PSA",
+                        "Type": 1,
+                        "Value": "3.140.254.195"
+                      },
+                      {
+                        "Tag": "PSP",
+                        "Type": 0,
+                        "Value": 4001
+                      }
+                    ]
+                  },
+                  {
+                    "Key": "aws-iad",
+                    "Value": [
+                      {
+                        "Tag": "PSA",
+                        "Type": 1,
+                        "Value": "3.224.135.137"
+                      },
+                      {
+                        "Tag": "PSP",
+                        "Type": 0,
+                        "Value": 4001
+                      }
+                    ]
+                  },
+                  {
+                    "Key": "aws-lhr",
+                    "Value": [
+                      {
+                        "Tag": "PSA",
+                        "Type": 1,
+                        "Value": "35.179.148.4"
+                      },
+                      {
+                        "Tag": "PSP",
+                        "Type": 0,
+                        "Value": 4001
+                      }
+                    ]
+                  },
+                  {
+                    "Key": "aws-sjc",
+                    "Value": [
+                      {
+                        "Tag": "PSA",
+                        "Type": 1,
+                        "Value": "54.219.89.253"
+                      },
+                      {
+                        "Tag": "PSP",
+                        "Type": 0,
+                        "Value": 4001
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "Tag": "QCNF",
+              "Type": 3,
+              "Value": [
+                {
+                  "Tag": "DPSP",
+                  "Type": 0,
+                  "Value": 4001
+                },
+                {
+                  "Tag": "QCA",
+                  "Type": 1,
+                  "Value": "qoscoordinator.gameservices.ea.com"
+                },
+                {
+                  "Tag": "QCP",
+                  "Type": 0,
+                  "Value": 10010
+                },
+                {
+                  "Tag": "QPR",
+                  "Type": 1,
+                  "Value": "cfb-2027-common"
+                }
+              ]
+            },
+            {
+              "Tag": "SQRR",
+              "Type": 0,
+              "Value": 15000000
+            },
+            {
+              "Tag": "VERS",
+              "Type": 0,
+              "Value": 1
+            }
+          ]
+        },
+        {
+          "Tag": "RELT",
+          "Type": 1,
+          "Value": "prod"
+        },
+        {
+          "Tag": "RSRC",
+          "Type": 1,
+          "Value": "325760"
+        },
+        {
+          "Tag": "SVER",
+          "Type": 1,
+          "Value": "Blaze 19.1.0 (CL# 2162200)"
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-07-23T01:09:12.575015Z",
+      "direction": "server_to_client",
+      "source": "5.60.70.116:15039",
+      "destination": "127.0.0.1:40002",
+      "component": 9,
+      "command": 1,
+      "errorCode": 0,
+      "messageType": 1,
+      "userIndex": 0,
+      "messageId": 2,
+      "options": 0,
+      "metadataSize": 0,
+      "payloadSize": 1774,
+      "decodedFields": [
+        {
+          "Tag": "CONF",
+          "Type": 5,
+          "Value": {
+            "KeyType": 1,
+            "ValueType": 1,
+            "Entries": [
+              {
+                "Key": "JOIN_GAME_TIMEOUT",
+                "Value": "30000"
+              },
+              {
+                "Key": "NETRESOURCE",
+                "Value": "https://eaassets-a.akamaihd.net/gameplayservices/prod/CollegeFootball/2027/resource/pc"
+              },
+              {
+                "Key": "OSDK_ANTIGRIEFING_MAX_COUNT",
+                "Value": "10"
+              },
+              {
+                "Key": "OSDK_DDP_EXPIRE_TIME",
+                "Value": "1347321500"
+              },
+              {
+                "Key": "OSDK_DDP_REGIONAL_EXPIRE_TIME_LIST",
+                "Value": "default:1347321600|NA:1347321700|EU:1347321800|KO:1347321900|JP:1301855955|"
+              },
+              {
+                "Key": "OSDK_EASW_ALLOWED_LOCALES",
+                "Value": "****"
+              },
+              {
+                "Key": "OSDK_EASW_AUTH_URL",
+                "Value": ""
+              },
+              {
+                "Key": "OSDK_EASW_CONNECT_RETRY_PERIOD",
+                "Value": "120000"
+              },
+              {
+                "Key": "OSDK_EASW_MEDIA_URL",
+                "Value": ""
+              },
+              {
+                "Key": "OSDK_EASW_REQ_URL",
+                "Value": ""
+              },
+              {
+                "Key": "OSDK_EXTENDED_MATCHUP_TIMEOUT",
+                "Value": "300000"
+              },
+              {
+                "Key": "OSDK_GAMESETUP_ACK_TIMEOUT",
+                "Value": "1000"
+              },
+              {
+                "Key": "OSDK_MATCHUP_TIMEOUT",
+                "Value": "92000"
+              },
+              {
+                "Key": "OSDK_MAX_PER_OTP_SIDE",
+                "Value": "11"
+              },
+              {
+                "Key": "OSDK_ONDEMAND_DEFAULT_BACKGROUND_SIZE",
+                "Value": "53277"
+              },
+              {
+                "Key": "OSDK_ONDEMAND_DEFAULT_BACKGROUND_URL",
+                "Value": "http://gos.ea.com/easo/editorial/common/2013/weboffer/images/OnDemand2_Logo.png"
+              },
+              {
+                "Key": "OSDK_ONDEMAND_DEFAULT_THUMBNAIL_SIZE",
+                "Value": "7090"
+              },
+              {
+                "Key": "OSDK_ONDEMAND_DEFAULT_THUMBNAIL_URL",
+                "Value": "http://gos.ea.com/easo/editorial/common/2013/weboffer/images/EA_Thumb.png"
+              },
+              {
+                "Key": "OSDK_OTP_ACK_TIMEOUT",
+                "Value": "10000"
+              },
+              {
+                "Key": "OSDK_OTP_POSLOCK_READY_COUNTDOWN_TIMER",
+                "Value": "45"
+              },
+              {
+                "Key": "OSDK_OTP_READY_COUNTDOWN_TIMER",
+                "Value": "180"
+              },
+              {
+                "Key": "OSDK_OTP_READYTIMER_DROPS_SECS",
+                "Value": "10"
+              },
+              {
+                "Key": "OSDK_OTP_READYTIMER_MINIMUM",
+                "Value": "10"
+              },
+              {
+                "Key": "OSDK_OTP_REQ_INTERVAL",
+                "Value": "1000"
+              },
+              {
+                "Key": "OSDK_OTP_REQ_RESPONSE_TIMEOUT",
+                "Value": "500"
+              },
+              {
+                "Key": "OSDK_OTP_ROOM_CAT_ID",
+                "Value": "4"
+              },
+              {
+                "Key": "OSDK_OTP_ROSTER_COUNTDOWN_TIMER",
+                "Value": "15"
+              },
+              {
+                "Key": "OSDK_REFRESH_QOS_PING_SITE_LATENCY_INTERVAL",
+                "Value": "59000"
+              },
+              {
+                "Key": "OSDK_REMATCH_ACCEPT_TIMEOUT",
+                "Value": "90"
+              },
+              {
+                "Key": "OSDK_USERLIST_REQUEST_MAX_USERS",
+                "Value": "2000"
+              },
+              {
+                "Key": "OSDK_VERSION",
+                "Value": "8.01.09.00"
+              },
+              {
+                "Key": "OTP_SYNC_DELAY",
+                "Value": "1000"
+              },
+              {
+                "Key": "ROSTER_BOOTSTRAP_URL",
+                "Value": "http://gos.ea.com/easo/editorial//2013/roster/ng-common/roster_bootstrap.txt"
+              },
+              {
+                "Key": "ROSTER_LKR",
+                "Value": "ea_admin|OSDK_DOWN_ROST"
+              },
+              {
+                "Key": "ROSTER_URL",
+                "Value": "URL"
+              },
+              {
+                "Key": "ROSTER_VER",
+                "Value": "CRC"
+              },
+              {
+                "Key": "SV_CLIENT_CHANGELIST",
+                "Value": "0"
+              },
+              {
+                "Key": "SV_ENABLE_SERVER_VERSIONING",
+                "Value": "0"
+              },
+              {
+                "Key": "SV_SERVER_VERSION",
+                "Value": "0"
+              },
+              {
+                "Key": "TELE_TOGGLE_LIST",
+                "Value": "US,CA,MX"
+              },
+              {
+                "Key": "WEATHER_FEED_URL",
+                "Value": "http://madden20.service.easports.com/editorial/madden20/common/xml/twci_weather_xtags.jsp"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-07-23T01:09:12.575031Z",
+      "direction": "server_to_client",
+      "source": "5.60.70.116:15039",
+      "destination": "127.0.0.1:40002",
+      "component": 9,
+      "command": 1,
+      "errorCode": 0,
+      "messageType": 1,
+      "userIndex": 0,
+      "messageId": 3,
+      "options": 0,
+      "metadataSize": 0,
+      "payloadSize": 410,
+      "decodedFields": [
+        {
+          "Tag": "CONF",
+          "Type": 5,
+          "Value": {
+            "KeyType": 1,
+            "ValueType": 1,
+            "Entries": [
+              {
+                "Key": "TOSA_URL",
+                "Value": "https://madden20.service.easports.com/editorial/madden20/common/easoc/tos/cstos.jsp?style=view\u0026lang=$LANG$\u0026from=$FROM$\u0026webDir=madden\u0026platform=common\u0026blazeTos=true\u0026isUnderage=$IS_UNDERAGE$"
+              },
+              {
+                "Key": "TOSAC_URL",
+                "Value": "https://madden20.service.easports.com/editorial/madden20/common/easoc/tos/cstos.jsp?style=accept\u0026lang=$LANG$\u0026from=$FROM$\u0026webDir=madden\u0026platform=common\u0026blazeTos=true\u0026isUnderage=$IS_UNDERAGE$"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-07-23T01:09:12.575031Z",
+      "direction": "server_to_client",
+      "source": "5.60.70.116:15039",
+      "destination": "127.0.0.1:40002",
+      "component": 9,
+      "command": 1,
+      "errorCode": 0,
+      "messageType": 1,
+      "userIndex": 0,
+      "messageId": 4,
+      "options": 0,
+      "metadataSize": 0,
+      "payloadSize": 1390,
+      "decodedFields": [
+        {
+          "Tag": "CONF",
+          "Type": 5,
+          "Value": {
+            "KeyType": 1,
+            "ValueType": 1,
+            "Entries": [
+              {
+                "Key": "EA_SPAM_COUNTRIES_DEFAULT",
+                "Value": "US,CA"
+              },
+              {
+                "Key": "NUCLEUS_ACCOUNTS_HOST",
+                "Value": "https://accounts.ea.com"
+              },
+              {
+                "Key": "NUCLEUS_ADDED_URL",
+                "Value": "https://madden20.service.easports.com/editorial/madden20/common/easoc/nucleus/nucleus.jsp?msgType=welcome_added\u0026disclaimer=ESPN\u0026lang=$LANG$\u0026from=$FROM$\u0026game=madden\u0026platform=common"
+              },
+              {
+                "Key": "NUCLEUS_CREATE_INFO_URL",
+                "Value": "https://madden20.service.easports.com/editorial/madden20/common/easoc/nucleus/nucleus.jsp?msgType=create_moreinfo\u0026disclaimer=ESPN\u0026lang=$LANG$\u0026from=$FROM$\u0026game=madden\u0026platform=common"
+              },
+              {
+                "Key": "NUCLEUS_CREATE_URL",
+                "Value": "https://madden20.service.easports.com/editorial/madden20/common/easoc/nucleus/nucleus.jsp?msgType=welcome_create\u0026disclaimer=ESPN\u0026lang=$LANG$\u0026from=$FROM$\u0026game=madden\u0026platform=common"
+              },
+              {
+                "Key": "NUCLEUS_DEACTIVATED_INFO_URL",
+                "Value": "https://madden20.service.easports.com/editorial/madden20/common/easoc/nucleus/nucleus.jsp?msgType=deactivated_moreinfo\u0026disclaimer=ESPN\u0026lang=$LANG$\u0026from=$FROM$\u0026game=madden\u0026platform=common"
+              },
+              {
+                "Key": "NUCLEUS_DUPACCT_INFO_URL",
+                "Value": "https://madden20.service.easports.com/editorial/madden20/common/easoc/nucleus/nucleus.jsp?msgType=dupacct_moreinfo\u0026disclaimer=ESPN\u0026lang=$LANG$\u0026from=$FROM$\u0026game=madden\u0026platform=common"
+              },
+              {
+                "Key": "NUCLEUS_INCOMPLETE_URL",
+                "Value": "https://madden20.service.easports.com/editorial/madden20/common/easoc/nucleus/nucleus.jsp?msgType=welcome_incomplete\u0026disclaimer=ESPN\u0026lang=$LANG$\u0026from=$FROM$\u0026game=madden\u0026platform=common"
+              },
+              {
+                "Key": "PRODUCT_REGISTRATION_COUNTRIES_DEFAULT",
+                "Value": "US,CA"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-07-23T01:09:12.575031Z",
+      "direction": "server_to_client",
+      "source": "5.60.70.116:15039",
+      "destination": "127.0.0.1:40002",
+      "component": 9,
+      "command": 1,
+      "errorCode": 0,
+      "messageType": 1,
+      "userIndex": 0,
+      "messageId": 5,
+      "options": 0,
+      "metadataSize": 0,
+      "payloadSize": 3641,
+      "decodedFields": [
+        {
+          "Tag": "CONF",
+          "Type": 5,
+          "Value": {
+            "KeyType": 1,
+            "ValueType": 1,
+            "Entries": [
+              {
+                "Key": "OSDK_ABUSE_NUM_TYPES",
+                "Value": "19"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_CATEGORY_0",
+                "Value": "DEFAULT"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_CATEGORY_1",
+                "Value": "DEFAULT"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_CATEGORY_10",
+                "Value": "DCTEAMBUILDER"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_CATEGORY_11",
+                "Value": "DCTEAMBUILDER"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_CATEGORY_12",
+                "Value": "DCTEAMBUILDER"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_CATEGORY_13",
+                "Value": "DCTEAMBUILDER"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_CATEGORY_14",
+                "Value": "DCTEAMBUILDER"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_CATEGORY_15",
+                "Value": "DCTEAMBUILDER"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_CATEGORY_16",
+                "Value": "DCASSET"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_CATEGORY_17",
+                "Value": "DCASSET"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_CATEGORY_18",
+                "Value": "DCROSTER"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_CATEGORY_2",
+                "Value": "DEFAULT"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_CATEGORY_3",
+                "Value": "DEFAULT"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_CATEGORY_4",
+                "Value": "DEFAULT"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_CATEGORY_5",
+                "Value": "DEFAULT"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_CATEGORY_6",
+                "Value": "INGAME"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_CATEGORY_7",
+                "Value": "DEFAULT"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_CATEGORY_8",
+                "Value": "AVATAR"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_CATEGORY_9",
+                "Value": "DCTEAMBUILDER"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_DISPLAY_0",
+                "Value": "SDB_ABUSE_FORM_OPTION_VULGAR"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_DISPLAY_1",
+                "Value": "SDB_ABUSE_FORM_OPTION_SOLICITATION"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_DISPLAY_10",
+                "Value": "SDB_ABUSE_FORM_OPTION_COACHNAME"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_DISPLAY_11",
+                "Value": "SDB_ABUSE_FORM_OPTION_ROSTERNAME"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_DISPLAY_12",
+                "Value": "SDB_ABUSE_FORM_OPTION_TEAMLOGO"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_DISPLAY_13",
+                "Value": "SDB_ABUSE_FORM_OPTION_TEAMUNIFORM"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_DISPLAY_14",
+                "Value": "SDB_ABUSE_FORM_OPTION_TEAMFIELD"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_DISPLAY_15",
+                "Value": "SDB_ABUSE_FORM_OPTION_LICENSING"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_DISPLAY_16",
+                "Value": "SDB_ABUSE_FORM_OPTION_FILE"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_DISPLAY_17",
+                "Value": "SDB_ABUSE_FORM_OPTION_LICENSING"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_DISPLAY_18",
+                "Value": "SDB_ABUSE_FORM_OPTION_ROSTERNAME"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_DISPLAY_2",
+                "Value": "SDB_ABUSE_FORM_OPTION_HARASSMENT"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_DISPLAY_3",
+                "Value": "SDB_ABUSE_FORM_OPTION_OFFENSIVE"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_DISPLAY_4",
+                "Value": "SDB_ABUSE_FORM_OPTION_SPAM"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_DISPLAY_5",
+                "Value": "SDB_ABUSE_FORM_OPTION_FILE"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_DISPLAY_6",
+                "Value": "SDB_ABUSE_FORM_OPTION_TEAMNAME"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_DISPLAY_7",
+                "Value": "SDB_ABUSE_FORM_OPTION_LICENSING"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_DISPLAY_8",
+                "Value": "SDB_ABUSE_FORM_OPTION_AVATARNAME"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_DISPLAY_9",
+                "Value": "SDB_ABUSE_FORM_OPTION_NAME"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_ENABLED_0",
+                "Value": "0"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_ENABLED_1",
+                "Value": "0"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_ENABLED_10",
+                "Value": "0"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_ENABLED_11",
+                "Value": "1"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_ENABLED_12",
+                "Value": "1"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_ENABLED_13",
+                "Value": "1"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_ENABLED_14",
+                "Value": "1"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_ENABLED_15",
+                "Value": "0"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_ENABLED_16",
+                "Value": "1"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_ENABLED_17",
+                "Value": "0"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_ENABLED_18",
+                "Value": "1"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_ENABLED_2",
+                "Value": "0"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_ENABLED_3",
+                "Value": "1"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_ENABLED_4",
+                "Value": "0"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_ENABLED_5",
+                "Value": "1"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_ENABLED_6",
+                "Value": "1"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_ENABLED_7",
+                "Value": "0"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_ENABLED_8",
+                "Value": "1"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_ENABLED_9",
+                "Value": "1"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_VALUE_0",
+                "Value": "Vulgar"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_VALUE_1",
+                "Value": "ChildSolicitation"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_VALUE_10",
+                "Value": "DownloadCenterOffensiveCoachName"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_VALUE_11",
+                "Value": "DownloadCenterOffensiveRosterName"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_VALUE_12",
+                "Value": "DownloadCenterOffensiveLogo"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_VALUE_13",
+                "Value": "DownloadCenterOffensiveUniform"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_VALUE_14",
+                "Value": "DownloadCenterOffensiveField"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_VALUE_15",
+                "Value": "DownloadCenter Intellectual Property Violation"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_VALUE_16",
+                "Value": "DownloadCenterOffensiveName"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_VALUE_17",
+                "Value": "DownloadCenter Intellectual Property Violation"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_VALUE_18",
+                "Value": "DownloadCenterOffensiveRosterName"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_VALUE_2",
+                "Value": "Harassment"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_VALUE_3",
+                "Value": "OffensiveContent"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_VALUE_4",
+                "Value": "SPAM"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_VALUE_5",
+                "Value": "File"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_VALUE_6",
+                "Value": "TeamName"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_VALUE_7",
+                "Value": "Intellectual Property Violation"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_VALUE_8",
+                "Value": "AvatarName"
+              },
+              {
+                "Key": "OSDK_ABUSE_OPTION_VALUE_9",
+                "Value": "DownloadCenterOffensiveName"
+              },
+              {
+                "Key": "OSDK_ABUSE_REPORTING_ENABLED",
+                "Value": "1"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-07-23T01:09:12.575046Z",
+      "direction": "server_to_client",
+      "source": "5.60.70.116:15039",
+      "destination": "127.0.0.1:40002",
+      "component": 9,
+      "command": 1,
+      "errorCode": 0,
+      "messageType": 1,
+      "userIndex": 0,
+      "messageId": 6,
+      "options": 0,
+      "metadataSize": 0,
+      "payloadSize": 7185,
+      "decodedFields": [
+        {
+          "Tag": "CONF",
+          "Type": 5,
+          "Value": {
+            "KeyType": 1,
+            "ValueType": 1,
+            "Entries": [
+              {
+                "Key": "ABTEST_DEFAULT",
+                "Value": "1"
+              },
+              {
+                "Key": "ABTEST_ENABLE",
+                "Value": "1"
+              },
+              {
+                "Key": "ACH_POLL_TIME",
+                "Value": "300"
+              },
+              {
+                "Key": "AUDIBLES_ON_THE_FLY_ENABLE",
+                "Value": "1"
+              },
+              {
+                "Key": "BALL_HAWK",
+                "Value": "1"
+              },
+              {
+                "Key": "BASE_PRIVACY_URL",
+                "Value": "https://tos.ea.com/legalapp/webprivacy/"
+              },
+              {
+                "Key": "BASE_TOS_URL",
+                "Value": "https://tos.ea.com/legalapp/webterms/"
+              },
+              {
+                "Key": "CALL_COMPRESSED_GETPACKINFO",
+                "Value": "1"
+              },
+              {
+                "Key": "CALL_GPAD_ON_UTTRANSITION",
+                "Value": "0"
+              },
+              {
+                "Key": "CAREER_MAX_TEAMBUILDER_TEAMS",
+                "Value": "16"
+              },
+              {
+                "Key": "CB_MAX_JOINABLE",
+                "Value": "5"
+              },
+              {
+                "Key": "CB_MAXMEMBRESULTS",
+                "Value": "50"
+              },
+              {
+                "Key": "CB_MINMEMBSRCHLEN",
+                "Value": "3"
+              },
+              {
+                "Key": "CLOCK_ENABLE_TIMEOUT_TLM",
+                "Value": "1"
+              },
+              {
+                "Key": "CLOCK_ENABLE_WAITED_FOR_TLM",
+                "Value": "1"
+              },
+              {
+                "Key": "CLOCK_WAITED_FOR_TIME",
+                "Value": "750"
+              },
+              {
+                "Key": "COM_SRCHCNTDWN",
+                "Value": "20"
+              },
+              {
+                "Key": "COMSET_CNTDWN",
+                "Value": "60"
+              },
+              {
+                "Key": "CS_ABILITIES",
+                "Value": "1"
+              },
+              {
+                "Key": "CS_ANTGAMESTATES",
+                "Value": "1"
+              },
+              {
+                "Key": "CS_ANTRANDOM",
+                "Value": "-1"
+              },
+              {
+                "Key": "CS_ENBALLPOS",
+                "Value": "1"
+              },
+              {
+                "Key": "CS_ENCHARACTERS",
+                "Value": "0"
+              },
+              {
+                "Key": "CS_ENCHOSENPLAYS",
+                "Value": "1"
+              },
+              {
+                "Key": "CS_ENCLOCKS",
+                "Value": "1"
+              },
+              {
+                "Key": "CS_ENCTRLCTX",
+                "Value": "0"
+              },
+              {
+                "Key": "CS_ENDIRCAM",
+                "Value": "0"
+              },
+              {
+                "Key": "CS_ENGAMESTATE",
+                "Value": "1"
+              },
+              {
+                "Key": "CS_ENINJURIES",
+                "Value": "1"
+              },
+              {
+                "Key": "CS_ENPLAYBOOKS",
+                "Value": "0"
+              },
+              {
+                "Key": "CS_ENPLAYERS",
+                "Value": "1"
+              },
+              {
+                "Key": "CS_ENPLAYERSPOSI",
+                "Value": "0"
+              },
+              {
+                "Key": "CS_ENRAND",
+                "Value": "1"
+              },
+              {
+                "Key": "CS_ENSCRIPTINFO",
+                "Value": "0"
+              },
+              {
+                "Key": "CS_MOVEPLANS",
+                "Value": "0"
+              },
+              {
+                "Key": "CS_MUSE",
+                "Value": "0"
+              },
+              {
+                "Key": "CS_PEQ",
+                "Value": "1"
+              },
+              {
+                "Key": "CS_POSTPLAY",
+                "Value": "1"
+              },
+              {
+                "Key": "CS_RATE_H2H",
+                "Value": "1"
+              },
+              {
+                "Key": "CS_RATE_OTP",
+                "Value": "1"
+              },
+              {
+                "Key": "CS_TENDENCY",
+                "Value": "0"
+              },
+              {
+                "Key": "CS_TRAITS",
+                "Value": "1"
+              },
+              {
+                "Key": "CTRLPASSRATE_FAST",
+                "Value": "35"
+              },
+              {
+                "Key": "CTRLPASSRATE_SLOW",
+                "Value": "60"
+              },
+              {
+                "Key": "CUSTOMADJUSTMENTS_ENABLE",
+                "Value": "1"
+              },
+              {
+                "Key": "CUSTOMAUDIBLES_ENABLE",
+                "Value": "1"
+              },
+              {
+                "Key": "DC_SIM_ADJUST",
+                "Value": "1.0"
+              },
+              {
+                "Key": "DEFAULT_PLAYCLOCK",
+                "Value": "40"
+              },
+              {
+                "Key": "DIGITAL_UID",
+                "Value": "FF000914"
+              },
+              {
+                "Key": "DISPLAYNAME_RES",
+                "Value": "0"
+              },
+              {
+                "Key": "DP_BASE_URL",
+                "Value": "https://eaassets-a.akamaihd.net/gameplayservices/prod/CollegeFootball/2027/datapatch/G5/b3dffbfde577f4dcee3e4dfee9ea9611/"
+              },
+              {
+                "Key": "DP_CUSTRSTR_URL",
+                "Value": "roster/customroster.eaPatchInfo"
+              },
+              {
+                "Key": "DP_LCUBASE_URL",
+                "Value": "https://eaassets-a.akamaihd.net/gameplayservices/prod/CollegeFootball/2027/datapatch/"
+              },
+              {
+                "Key": "DP_LCUDIR_FILE",
+                "Value": "patches.eaPatchDir"
+              },
+              {
+                "Key": "DP_RSTR_URL",
+                "Value": "roster/roster.eaPatchInfo"
+              },
+              {
+                "Key": "DP_TUNING_URL",
+                "Value": "tuning/tuning.eaPatchInfo"
+              },
+              {
+                "Key": "EA_CHANNEL_ID",
+                "Value": "0"
+              },
+              {
+                "Key": "EA_SPORTS_DOT_COM_CLIENT_ID",
+                "Value": "EASPORTS-DOT-COM-Web-Client"
+              },
+              {
+                "Key": "EA_SPORTS_DOT_COM_REDIRECT_URL",
+                "Value": "https://www.easports.com"
+              },
+              {
+                "Key": "EA_SPORTS_DOT_COM_SCOPE",
+                "Value": "basic.identity basic.persona basic.identity.write basic.entitlement basic.entitlement.write basic.securityqa basic.billing.emailupdateadvice offline signin"
+              },
+              {
+                "Key": "EADP_CORE_STATS_CONTEXT",
+                "Value": "collegefb-27-prod"
+              },
+              {
+                "Key": "EADP_GROUPTYPE",
+                "Value": "CFBCrossplayTest"
+              },
+              {
+                "Key": "EADP_GS_CDN_BASE_URL",
+                "Value": "https://eaassets-a.akamaihd.net/gameplayservices/prod/CollegeFootball/2027/"
+              },
+              {
+                "Key": "EADP_UM_CDN_BASE_URL",
+                "Value": "https://eaassets-a.akamaihd.net/prm/em/um/"
+              },
+              {
+                "Key": "EADPSOCIAL_UPS_PROFILE_ENABLED",
+                "Value": "1"
+              },
+              {
+                "Key": "EADPSOCIAL_UPS_PROFILE_ENDPOINT",
+                "Value": "https://info.social.ea.com"
+              },
+              {
+                "Key": "ENABLE_FOOTBALL_PLAY_PIN",
+                "Value": "1"
+              },
+              {
+                "Key": "ENABLE_MIDRPT_CAREERMODE",
+                "Value": "0"
+              },
+              {
+                "Key": "ENABLE_MIDRPT_FUSE_CPU",
+                "Value": "0"
+              },
+              {
+                "Key": "ENABLE_MIDRPT_FUSE_H2H_FRIEND",
+                "Value": "0"
+              },
+              {
+                "Key": "ENABLE_MIDRPT_FUSE_H2H_RANKED",
+                "Value": "0"
+              },
+              {
+                "Key": "ENABLE_MIDRPT_FUSE_H2H_UNRANKED",
+                "Value": "1"
+              },
+              {
+                "Key": "ENABLE_MIDRPT_FUSE_SQUAD_VS_CPU",
+                "Value": "0"
+              },
+              {
+                "Key": "ENABLE_MIDRPT_FUSE_SQUADVSSQUAD",
+                "Value": "0"
+              },
+              {
+                "Key": "ENABLE_MIDRPT_KNOCKOUT",
+                "Value": "0"
+              },
+              {
+                "Key": "ENABLE_MIDRPT_RANKED",
+                "Value": "1"
+              },
+              {
+                "Key": "ENABLE_MIDRPT_SOLO",
+                "Value": "0"
+              },
+              {
+                "Key": "ENABLE_MIDRPT_UNRANKED",
+                "Value": "1"
+              },
+              {
+                "Key": "ENABLE_MIDRPT_YARD",
+                "Value": "0"
+              },
+              {
+                "Key": "ENABLE_MIDRPTS",
+                "Value": "1"
+              },
+              {
+                "Key": "ENABLE_ON_RESUME_BLOCKED_USERS",
+                "Value": "1"
+              },
+              {
+                "Key": "ENABLE_WIPES",
+                "Value": "1"
+              },
+              {
+                "Key": "ENABLE_XPLAY_0",
+                "Value": "1"
+              },
+              {
+                "Key": "ENABLE_XPLAY_1",
+                "Value": "1"
+              },
+              {
+                "Key": "ENABLE_XPLAY_14",
+                "Value": "1"
+              },
+              {
+                "Key": "ENABLE_XPLAY_34",
+                "Value": "1"
+              },
+              {
+                "Key": "ENABLE_XPLAY_35",
+                "Value": "1"
+              },
+              {
+                "Key": "ENABLE_XPLAY_36",
+                "Value": "1"
+              },
+              {
+                "Key": "ENABLE_XPLAY_37",
+                "Value": "1"
+              },
+              {
+                "Key": "ENABLE_XPLAY_38",
+                "Value": "1"
+              },
+              {
+                "Key": "ENABLE_XPLAY_39",
+                "Value": "1"
+              },
+              {
+                "Key": "ENABLE_XPLAY_40",
+                "Value": "1"
+              },
+              {
+                "Key": "ENABLE_XPLAY_41",
+                "Value": "1"
+              },
+              {
+                "Key": "ENABLE_XPLAY_42",
+                "Value": "1"
+              },
+              {
+                "Key": "ENABLE_XPLAY_43",
+                "Value": "1"
+              },
+              {
+                "Key": "ENABLE_XPLAY_PC",
+                "Value": "1"
+              },
+              {
+                "Key": "FLOW_CTRL_ALLOW_DURING_KICK",
+                "Value": "0"
+              },
+              {
+                "Key": "FLOW_CTRL_ALLOW_DURING_PLAY",
+                "Value": "0"
+              },
+              {
+                "Key": "FLOW_CTRL_AT_FAULT_TEXT",
+                "Value": "Your connection is currently experiencing network issues. Please wait while we try to reconnect you."
+              },
+              {
+                "Key": "FLOW_CTRL_ENABLE_LATENCY_ICON",
+                "Value": "1"
+              },
+              {
+                "Key": "FLOW_CTRL_ENABLED",
+                "Value": "1"
+              },
+              {
+                "Key": "FLOW_CTRL_H2H",
+                "Value": "1"
+              },
+              {
+                "Key": "FLOW_CTRL_MAX_DISABLE_TIME",
+                "Value": "8000"
+              },
+              {
+                "Key": "FLOW_CTRL_MAX_DSBL_PER_USER_H2H",
+                "Value": "5"
+              },
+              {
+                "Key": "FLOW_CTRL_MAX_DSBL_PER_USER_OTP",
+                "Value": "5"
+              },
+              {
+                "Key": "FLOW_CTRL_NO_FAULT_TEXT_H2H",
+                "Value": "Your opponent is experiencing network issues. Please wait while we try to reconnect."
+              },
+              {
+                "Key": "FLOW_CTRL_NO_FAULT_TEXT_OTP",
+                "Value": "Another player is experiencing network issues. Please wait while we try to reconnect."
+              },
+              {
+                "Key": "FLOW_CTRL_NOTIFY_AT_FAULT",
+                "Value": "1"
+              },
+              {
+                "Key": "FLOW_CTRL_OTP",
+                "Value": "1"
+              },
+              {
+                "Key": "FLOW_CTRL_PLAT_TO_DISABLE",
+                "Value": "62"
+              },
+              {
+                "Key": "FLOW_CTRL_TIME_B4_SHOW_AT_FAULT",
+                "Value": "1000"
+              },
+              {
+                "Key": "FLOW_CTRL_USER_PLAT_SEVERE",
+                "Value": "40"
+              },
+              {
+                "Key": "FLOW_CTRL_USER_PLAT_WARNING",
+                "Value": "20"
+              },
+              {
+                "Key": "FLOW_CTRL_VERSION",
+                "Value": "5"
+              },
+              {
+                "Key": "FORMSUBS_ENABLE",
+                "Value": "1"
+              },
+              {
+                "Key": "FRIENDS_PAGE_SIZE",
+                "Value": "20"
+              },
+              {
+                "Key": "GAMEREPORT_LEVEL",
+                "Value": "1023"
+              },
+              {
+                "Key": "GETUSERCAMPAIGN_TIMEOUT",
+                "Value": "600"
+              },
+              {
+                "Key": "HC_DELAYFORACC",
+                "Value": "250"
+              },
+              {
+                "Key": "HC_MAXNUMFAILS",
+                "Value": "5"
+              },
+              {
+                "Key": "HC_MAXPINGSPIKE",
+                "Value": "8000"
+              },
+              {
+                "Key": "HC_MAXTOTALDELAY",
+                "Value": "2500"
+              },
+              {
+                "Key": "HC_MINPINGDELAY",
+                "Value": "1000"
+              },
+              {
+                "Key": "HC_PINGINTERVAL",
+                "Value": "1500"
+              },
+              {
+                "Key": "HC_PINGTIMEOUT",
+                "Value": "1500"
+              },
+              {
+                "Key": "HC_SHOW_KICK_TEXT",
+                "Value": "1"
+              },
+              {
+                "Key": "HIGHLIGHT_AUTO_COUNT",
+                "Value": "5"
+              },
+              {
+                "Key": "HIGHLIGHT_COMPRESSION",
+                "Value": "80"
+              },
+              {
+                "Key": "HIGHLIGHT_MAX_PER_USER",
+                "Value": "100"
+              },
+              {
+                "Key": "ID_FUSE_CUSTOM_PLAYBOOKS",
+                "Value": "1"
+              },
+              {
+                "Key": "ID_HEARTBEAT_ENABLE",
+                "Value": "1"
+              },
+              {
+                "Key": "ID_HEARTBEAT_MAX_MILLISECS",
+                "Value": "20000"
+              },
+              {
+                "Key": "ID_HEARTBEAT_MIN_MILLISECS",
+                "Value": "5000"
+              },
+              {
+                "Key": "ID_HEARTBEAT_REPORT_BUGSENTRY",
+                "Value": "1"
+              },
+              {
+                "Key": "INPUT_DECOUPLING_DEBUG_ENABLED",
+                "Value": "0"
+              },
+              {
+                "Key": "INPUT_DECOUPLING_ENABLED",
+                "Value": "1"
+              },
+              {
+                "Key": "INPUT_SEQ_NUMBER_CRC_ENABLED",
+                "Value": "0"
+              },
+              {
+                "Key": "KICKMETER_DIF",
+                "Value": "1"
+              },
+              {
+                "Key": "KINECT_ONLINE",
+                "Value": "1"
+              },
+              {
+                "Key": "KM_COMP_PCT",
+                "Value": "0.75"
+              },
+              {
+                "Key": "KNOW_ME_MAX_STATS_COUNT",
+                "Value": "50"
+              },
+              {
+                "Key": "LATENCY_PIN_FRAMES",
+                "Value": "100"
+              },
+              {
+                "Key": "LATENCY_PIN_PERIOD",
+                "Value": "180"
+              },
+              {
+                "Key": "LB_CACHE_POLL_FREQ_SEC",
+                "Value": "30"
+              },
+              {
+                "Key": "MATCH_USE_ELO",
+                "Value": "1"
+              },
+              {
+                "Key": "MATCHMAKING_LCU_MIN_VERSION",
+                "Value": "0"
+              },
+              {
+                "Key": "MAX_USER_LOOKUP_SIZE",
+                "Value": "100"
+              },
+              {
+                "Key": "MCR_API_HOST",
+                "Value": "https://api.mcr.ea.com"
+              },
+              {
+                "Key": "MCR_ENABLED",
+                "Value": "1"
+              },
+              {
+                "Key": "MCR_MAX_TEAMBUILDER_TEAMS",
+                "Value": "16"
+              },
+              {
+                "Key": "MCR_QUERY_HOST",
+                "Value": "https://q.mcr.ea.com"
+              },
+              {
+                "Key": "MCR_SID_LEAGUE_TEAMBUILDER",
+                "Value": "267"
+              },
+              {
+                "Key": "MCR_SID_REPLAYS",
+                "Value": "-1"
+              },
+              {
+                "Key": "MCR_SID_RTG_TEAMBUILDER",
+                "Value": "287"
+              },
+              {
+                "Key": "MCR_SID_SNAPSHOTS",
+                "Value": "30"
+              },
+              {
+                "Key": "MCR_SNAPSHOTS_ENABLED",
+                "Value": "0"
+              },
+              {
+                "Key": "MENU_H2H_HUB",
+                "Value": "1"
+              },
+              {
+                "Key": "MMHB_LBBY_ID",
+                "Value": "3"
+              },
+              {
+                "Key": "MMHB_SQDLBBY_ID",
+                "Value": "4"
+              },
+              {
+                "Key": "MULT_GLOB",
+                "Value": "15000"
+              },
+              {
+                "Key": "MULT_LOGN",
+                "Value": "35000"
+              },
+              {
+                "Key": "MUT_ALLOW_MODIFY_AVATARENABLED",
+                "Value": "0"
+              },
+              {
+                "Key": "MUT_GATE_NOTIF",
+                "Value": "0"
+              },
+              {
+                "Key": "NETRESOURCE_DECODE_THREAD_COUNT",
+                "Value": "4"
+              },
+              {
+                "Key": "NETRESOURCE_FECACHESIZE",
+                "Value": "104857600"
+              },
+              {
+                "Key": "NETRESOURCE_HTTP_BUFFER_SIZE",
+                "Value": "32768"
+              },
+              {
+                "Key": "NETRESOURCE_HTTPUPDATEFREQ",
+                "Value": "30"
+              },
+              {
+                "Key": "NETRESOURCE_IGCACHESIZE",
+                "Value": "22020096"
+              },
+              {
+                "Key": "NETRESOURCE_IMAGE_BASE_URL",
+                "Value": "https://eaassets-a.akamaihd.net/gameplayservices/prod/CollegeFootball/2027/resource/pc/"
+              },
+              {
+                "Key": "NETRESOURCE_MAX_DOWNLOADS",
+                "Value": "4"
+              },
+              {
+                "Key": "NETRESOURCE_MAX_IMAGE_SIZE",
+                "Value": "10485760"
+              },
+              {
+                "Key": "NETRESOURCE_MIN_SIZE_TO_THREAD",
+                "Value": "0"
+              },
+              {
+                "Key": "OLCNT_THRESHOLD",
+                "Value": "50"
+              },
+              {
+                "Key": "ORIGIN_STORE_URL",
+                "Value": "https://www.origin.com/store/"
+              },
+              {
+                "Key": "OTP_AFKTIMER",
+                "Value": "120"
+              },
+              {
+                "Key": "OTP_CONSDELAYS",
+                "Value": "3"
+              },
+              {
+                "Key": "OTP_CONSOFFSIDES",
+                "Value": "3"
+              },
+              {
+                "Key": "OTP_TOTALDELAYS",
+                "Value": "5"
+              },
+              {
+                "Key": "OTP_TTLOFFSIDES",
+                "Value": "5"
+              },
+              {
+                "Key": "OTPSET_CNTDWN",
+                "Value": "30000"
+              },
+              {
+                "Key": "OTPSYNCDELAY",
+                "Value": "4"
+              },
+              {
+                "Key": "OTPSYNCRATE",
+                "Value": "0"
+              },
+              {
+                "Key": "PAUSE_NRM",
+                "Value": "2"
+              },
+              {
+                "Key": "PC_RANK_MODENAME_1002000",
+                "Value": "Showdown Ranked Solo"
+              },
+              {
+                "Key": "PC_RANK_MODENAME_1002001",
+                "Value": "Showdown Ranked Squads"
+              },
+              {
+                "Key": "PC_RANK_MODENAME_3000000",
+                "Value": "Online H2H"
+              },
+              {
+                "Key": "PC_RANK_MODENAME_800",
+                "Value": "MUT H2H Ranked"
+              },
+              {
+                "Key": "PROTOHTTPMGR2_MAX_POST_Q_SIZE",
+                "Value": "512"
+              },
+              {
+                "Key": "PROTOHTTPMGR2_MAX_RECV_Q_SIZE",
+                "Value": "512"
+              },
+              {
+                "Key": "PROTOHTTPMGR2_MAX_SEND_Q_SIZE",
+                "Value": "512"
+              },
+              {
+                "Key": "RANKINV_ALLOWED",
+                "Value": "0"
+              },
+              {
+                "Key": "REFRESH_TIME_BLOCKED_USERS_SEC",
+                "Value": "300"
+              },
+              {
+                "Key": "RP_CONSDELAYS",
+                "Value": "3"
+              },
+              {
+                "Key": "RP_CONSOFFSIDES",
+                "Value": "3"
+              },
+              {
+                "Key": "RP_TOTALDELAYS",
+                "Value": "5"
+              },
+              {
+                "Key": "RP_TTLOFFSIDES",
+                "Value": "5"
+              },
+              {
+                "Key": "SEASONS_PLAYCLOCK",
+                "Value": "30"
+              },
+              {
+                "Key": "SERVER_SLB_CONTEXT_REQUIRED",
+                "Value": "collegefb-2027-|-dlgen5|-ml-mtre-gen5|-mtre-gen5|-mtri-gen5|-gen5|-stress-gen5|-dlgen4|-gen4|-stress-gen4|-mtri|-mtre"
+              },
+              {
+                "Key": "SHOW_DESSYMS",
+                "Value": "1"
+              },
+              {
+                "Key": "SPAD_QUICKLINKS",
+                "Value": "1"
+              },
+              {
+                "Key": "SPEC_ENABLE",
+                "Value": "0"
+              },
+              {
+                "Key": "SPEC_VIP",
+                "Value": ""
+              },
+              {
+                "Key": "SSF_CONSECUTIVE_FRAMES_2_NORMAL",
+                "Value": "3"
+              },
+              {
+                "Key": "SSF_ENABLE_PERF_MARKERS",
+                "Value": "1"
+              },
+              {
+                "Key": "SSF_HITCH_FRAME_TIME",
+                "Value": "1750.0"
+              },
+              {
+                "Key": "SSF_LONG_FRAME_THRESHOLD",
+                "Value": "2.5"
+              },
+              {
+                "Key": "SSF_MAX_FRAMES_BEFORE_BAIL",
+                "Value": "1800"
+              },
+              {
+                "Key": "SSF_SHORT_FRAME_THRESHOLD",
+                "Value": "2.5"
+              },
+              {
+                "Key": "SSF_TELEMETRY_HOOK_INTERVAL",
+                "Value": "5000"
+              },
+              {
+                "Key": "STREAM_VIDEO_BASE",
+                "Value": "https://eaassets-a.akamaihd.net/gameplayservices/prod/CollegeFootball/2027/"
+              },
+              {
+                "Key": "TILE_CONFRAN",
+                "Value": "1"
+              },
+              {
+                "Key": "TILE_H2H",
+                "Value": "1"
+              },
+              {
+                "Key": "TILE_MUT",
+                "Value": "1"
+              },
+              {
+                "Key": "TILE_MYSHARE",
+                "Value": "1"
+              },
+              {
+                "Key": "TWITCH_APPID",
+                "Value": "1A63A07B"
+              },
+              {
+                "Key": "UNRANKED_ICON_1002000",
+                "Value": "fbimage:213:27"
+              },
+              {
+                "Key": "UNRANKED_ICON_1002001",
+                "Value": "fbimage:213:27"
+              },
+              {
+                "Key": "UNRANKED_ICON_3000000",
+                "Value": "fbimage:213:27"
+              },
+              {
+                "Key": "UNRANKED_ICON_800",
+                "Value": "fbimage:213:27"
+              },
+              {
+                "Key": "UPSELL_PRODUCT_ID",
+                "Value": "70ba7478-acd3-461b-9443-65b16e4d3102"
+              },
+              {
+                "Key": "USE_CONTROLLERID_FOR_SESSION",
+                "Value": "0"
+              },
+              {
+                "Key": "USE_PNR_ONLY_INSIDE_UT",
+                "Value": "1"
+              },
+              {
+                "Key": "USING_LOCAL_SERVER",
+                "Value": "0"
+              },
+              {
+                "Key": "VERB_MUSE_BS",
+                "Value": "0"
+              },
+              {
+                "Key": "WRAPPED_FILE_WARN_ENABLED",
+                "Value": "1"
+              },
+              {
+                "Key": "WRAPPED_FILE_WARN_START",
+                "Value": "204"
+              },
+              {
+                "Key": "WRAPPED_FILE_WARN_STEP",
+                "Value": "25"
+              },
+              {
+                "Key": "WRAPPED_SEMA_WARN_ENABLED",
+                "Value": "1"
+              },
+              {
+                "Key": "WRAPPED_SEMA_WARN_START",
+                "Value": "2000"
+              },
+              {
+                "Key": "WRAPPED_SEMA_WARN_STEP",
+                "Value": "500"
+              },
+              {
+                "Key": "XPLAY_PLATFORM_LIST",
+                "Value": "ps5,xbsx,pc,luna"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-07-23T01:09:13.576046Z",
+      "direction": "server_to_client",
+      "source": "5.60.70.116:15039",
+      "destination": "127.0.0.1:40002",
+      "component": 1,
+      "command": 10,
+      "errorCode": 1,
+      "messageType": 3,
+      "userIndex": 0,
+      "messageId": 7,
+      "options": 0,
+      "metadataSize": 12,
+      "payloadSize": 0
+    },
+    {
+      "timestamp": "2026-07-23T01:09:13.576062Z",
+      "direction": "server_to_client",
+      "source": "5.60.70.116:15039",
+      "destination": "127.0.0.1:40002",
+      "component": 1,
+      "command": 70,
+      "errorCode": 0,
+      "messageType": 3,
+      "userIndex": 0,
+      "messageId": 8,
+      "options": 0,
+      "metadataSize": 14,
+      "payloadSize": 0
+    }
+  ],
+  "skipped": {
+    "debug_http_match": 13,
+    "debug_http_stream": 13,
+    "partial_blaze_frame": 10
+  },
+  "routes": [
+    {
+      "direction": "client_to_server",
+      "component": 1,
+      "command": 10,
+      "messageType": 0,
+      "errorCode": 0,
+      "count": 1
+    },
+    {
+      "direction": "client_to_server",
+      "component": 1,
+      "command": 70,
+      "messageType": 0,
+      "errorCode": 0,
+      "count": 1
+    },
+    {
+      "direction": "client_to_server",
+      "component": 9,
+      "command": 1,
+      "messageType": 0,
+      "errorCode": 0,
+      "count": 5
+    },
+    {
+      "direction": "client_to_server",
+      "component": 9,
+      "command": 2,
+      "messageType": 0,
+      "errorCode": 0,
+      "count": 1
+    },
+    {
+      "direction": "client_to_server",
+      "component": 9,
+      "command": 7,
+      "messageType": 0,
+      "errorCode": 0,
+      "count": 1
+    },
+    {
+      "direction": "server_to_client",
+      "component": 0,
+      "command": 0,
+      "messageType": 0,
+      "errorCode": 0,
+      "count": 1
+    },
+    {
+      "direction": "server_to_client",
+      "component": 1,
+      "command": 10,
+      "messageType": 3,
+      "errorCode": 1,
+      "count": 1
+    },
+    {
+      "direction": "server_to_client",
+      "component": 1,
+      "command": 70,
+      "messageType": 3,
+      "errorCode": 0,
+      "count": 1
+    },
+    {
+      "direction": "server_to_client",
+      "component": 9,
+      "command": 1,
+      "messageType": 1,
+      "errorCode": 0,
+      "count": 5
+    },
+    {
+      "direction": "server_to_client",
+      "component": 9,
+      "command": 2,
+      "messageType": 1,
+      "errorCode": 0,
+      "count": 1
+    },
+    {
+      "direction": "server_to_client",
+      "component": 9,
+      "command": 7,
+      "messageType": 1,
+      "errorCode": 0,
+      "count": 1
+    }
+  ]
+}

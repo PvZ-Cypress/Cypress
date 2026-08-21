@@ -27,6 +27,7 @@ Desktop.ini
 
 # Python
 __pycache__/
+node_modules/
 
 # Debug/temp
 _debug_bundle.js
@@ -79,6 +80,15 @@ ipch/
 
 # CMake
 [Bb]uild*/
+
+# CFB27 launcher runtime: keep the verified bridge and private-stack binaries
+# in the Cypress tree so launches never depend on a developer Downloads folder.
+!Launcher/cypress_CFB27.dll
+!tools/cypress-servers/build/
+tools/cypress-servers/build/*
+!tools/cypress-servers/build/dynasty.exe
+!tools/cypress-servers/build/cfb27blaze.exe
+!tools/cypress-servers/build/cfb27blaze.next.exe
 __cmake_systeminformation
 .ninja_deps
 .ninja_lock

@@ -37,6 +37,24 @@ public partial class MessageHandler
 
 	private void OnCheckAuth()
 	{
+		// A prepared Private Online Dynasty run uses a local Cypress persona and must
+		// not validate or refresh an EA/master identity just to open the launcher.
+		// This startup-only flag is set by the repository preparation script; the
+		// game process has its own stricter PRIVATE_ONLINE_DYNASTY activation gate.
+		if (string.Equals(
+			Environment.GetEnvironmentVariable("CYPRESS_CFB27_PRIVATE_PREPARE"),
+			"1",
+			StringComparison.Ordinal))
+		{
+			Send(new JObject
+			{
+				["type"] = "authStatus",
+				["loggedIn"] = false,
+				["privateOnlineDynasty"] = true
+			});
+			return;
+		}
+
 		LoadAuthFromDisk();
 
 		if (m_authToken != null && m_authExpiresAt > DateTimeOffset.UtcNow.ToUnixTimeSeconds())
